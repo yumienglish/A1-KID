@@ -146,6 +146,12 @@ input.txt:disabled{opacity:1;-webkit-text-fill-color:currentColor}
 .prog .t{font-size:14px;font-weight:700;color:var(--muted)}
 .prog .track{height:10px;background:#e4e6f0;border-radius:99px;overflow:hidden;margin-top:3px}
 .prog .fill{height:100%;background:linear-gradient(90deg,#9b6bff,#6a3fd1);width:0;transition:width .3s}
+/* sau lần 1: thanh ghim đầu màn hình + chế độ chỉ hiện câu sai */
+.topbar{position:sticky;top:8px;z-index:45;display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;background:#fff4e6;border:2px solid var(--accent);border-radius:16px;padding:10px 14px;margin-bottom:16px;box-shadow:0 6px 18px rgba(0,0,0,.14)}
+.topbar .tt{flex:1;min-width:160px;font-weight:800;font-size:16.5px;line-height:1.35}
+.topbar .btn{padding:11px 18px}
+.rt-hide{display:none!important}
+body.retrying #summaryBox,body.retrying #whoBar,body.retrying .src,body.retrying .how{display:none}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -160,7 +166,7 @@ input.txt:disabled{opacity:1;-webkit-text-fill-color:currentColor}
   <!-- Màn hình nhập tên -->
   <section class="card start" id="start">
     <h2>👋 Chào em!</h2>
-    <p style="margin:0;color:var(--muted)">Điền tên và lớp rồi bắt đầu nha. Bài làm tự lưu, xong bấm <b>Nộp bài</b> là cô nhận được. Nhớ đeo tai nghe hoặc bật loa để nghe bài nhé 🎧</p>
+    <p style="margin:0;color:var(--muted)">Điền tên, lớp rồi bấm <b>Bắt đầu</b>. Nhớ đeo tai nghe 🎧</p>
     <div class="field"><label for="inName">Họ và tên</label><input id="inName" autocomplete="name" placeholder="VD: Nguyễn Minh Anh"></div>
     <div class="field"><label for="inCls">Lớp</label><input id="inCls" placeholder="VD: Movers 1"></div>
     <div class="err-msg" id="startErr"></div>
@@ -168,6 +174,7 @@ input.txt:disabled{opacity:1;-webkit-text-fill-color:currentColor}
   </section>
 
   <div id="work" hidden>
+    <div class="topbar" id="topbar" hidden></div>
     <div id="summaryBox"></div>
     <div class="card who" id="whoBar"></div>
     <div id="exList"></div>
@@ -274,9 +281,10 @@ const check = (ans, key) => alts(key).some(a => squash(a) === squash(ans));
 const ia = 'autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"';
 
 /* ============ TRẠNG THÁI ============ */
-// Nộp 2 lần: lần 1 chấm + gửi cô → câu sai tô đỏ kèm gợi ý, em sửa lại → nộp lần 2 → hiện đáp án.
+// Nộp 2 lần: lần 1 chấm + gửi cô → hiện đúng/sai (khoá) → bấm "Làm lại câu sai": chỉ còn câu sai + gợi ý
+// → nộp lần 2 → hiện đáp án.
 const blankState = () => ({name:'', cls:'', t:{}, tag:{}, submitted:false, sent:false, submittedAt:null, startedAt:null, leaves:0,
-  sid:null, r1:null, done:false, sent2:false, submittedAt2:null, leaves2:0});
+  sid:null, r1:null, done:false, sent2:false, submittedAt2:null, leaves2:0, retrying:false, retryAt:null});
 let S = (() => { try { return Object.assign(blankState(), JSON.parse(localStorage.getItem(STORE_KEY)) || {}); } catch (e) { return blankState(); } })();
 if (!S.tag || typeof S.tag !== 'object') S.tag = {};
 if (S.submitted && !S.r1) S.done = true; // bài đã nộp theo kiểu cũ (1 lần)
@@ -285,11 +293,51 @@ let RES = null;
 const selName = {}; // tên đang chọn ở mỗi bài nối tên
 
 /* ============ NỘP 2 LẦN ============ */
-const fixing = () => S.submitted && !S.done;
+const fixing = () => S.submitted && !S.done;          // đã nộp lần 1, chưa xong
+const retrying = () => fixing() && !!S.retrying;       // đang làm lại câu sai
 const r1ok = k => S.r1 ? S.r1.ok[k] : undefined;
 const tagKey = (e, n) => e.id + ':' + n;
-const nameLocked = (e, n) => S.submitted && (S.done || r1ok(tagKey(e, n)) === true);
-const markLocked = (e, m) => S.submitted && (S.done || (!!m.key && S.r1.tag[e.id + '-' + m.k] === m.key));
+const nameLocked = (e, n) => S.submitted && (!retrying() || r1ok(tagKey(e, n)) === true);
+const markLocked = (e, m) => S.submitted && (!retrying() || (!!m.key && S.r1.tag[e.id + '-' + m.k] === m.key));
+const wrongKeys = () => S.r1 ? Object.keys(S.r1.ok).filter(k => S.r1.ok[k] === false) : [];
+
+/* ============ LÀM LẠI: chỉ hiện câu sai ============ */
+const ITEM_SEL = '.cell, .row';
+const wrongEls = () => wrongKeys().map(k => k.includes(':') ? $('#pic-' + k.split(':')[0]) : $(`input.txt[data-k="${k}"]`)).filter(Boolean);
+function focusWrong(on){
+  document.body.classList.toggle('retrying', !!on);
+  document.querySelectorAll('.rt-hide').forEach(x => x.classList.remove('rt-hide'));
+  if (!on) return;
+  const els = wrongEls();
+  document.querySelectorAll('section.card.ex').forEach(sec => {
+    if (!els.some(el => sec.contains(el))){ sec.classList.add('rt-hide'); return; }
+    sec.querySelectorAll(ITEM_SEL).forEach(c => { if (!els.some(el => c.contains(el))) c.classList.add('rt-hide'); });
+  });
+}
+// Thanh ghim đầu màn hình (sau lần 1)
+function renderTop(){
+  const tb = $('#topbar');
+  if (!fixing()){ tb.hidden = true; return; }
+  const w = wrongKeys().length;
+  tb.hidden = false;
+  if (!retrying()){
+    tb.innerHTML = `<div class="tt">Lần 1: ${S.r1.score}/${S.r1.total} · ❌ Sai ${w} câu</div><button class="btn orange" type="button" id="retryBtn">✏️ Làm lại câu sai</button>`;
+    $('#retryBtn').onclick = startRetry;
+  } else {
+    tb.innerHTML = `<div class="tt" id="topT"></div><button class="btn orange" type="button" id="submit2Btn">Nộp lần 2 ✔</button>`;
+    $('#submit2Btn').onclick = submit2;
+    topProgress();
+  }
+}
+function topProgress(){
+  const el = $('#topT'); if (!el) return;
+  const R = grade(), w = wrongKeys(), changed = R.items.filter(i => w.includes(i.key) && i.ans !== S.r1.ans[i.key]).length;
+  el.textContent = `✏️ Đã sửa ${changed}/${w.length} câu`;
+}
+function startRetry(){
+  S.retrying = true; S.retryAt = new Date().toISOString(); save();
+  render(); window.scrollTo({top:0});
+}
 const makeSid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 const durSec = (a, b) => a && b ? Math.max(0, Math.round((new Date(b) - new Date(a)) / 1000)) : null;
 function lev(a, b){
@@ -302,15 +350,15 @@ function lev(a, b){
 // Gợi ý cho câu sai (không lộ đáp án)
 function hintFor(i){
   const e = WEEK.ex.find(x => x.id === i.sec);
-  if (e.type === 'picTag') return `Nghe lại Track ${e.track}, chú ý quần áo và việc mỗi người đang làm.`;
-  if (!i.ans) return `Em chưa làm câu này. Nghe lại Track ${e.track} rồi điền nhé.`;
+  if (e.type === 'picTag') return 'Nghe lại, chú ý quần áo và việc mỗi người đang làm.';
+  if (!i.ans) return 'Em chưa làm câu này.';
   const y = squash(i.ans);
   const near = alts(i.keyRaw).some(a => { const x = squash(a); return x.length >= 4 && lev(x, y) <= Math.max(1, Math.floor(x.length / 4)); });
-  if (near) return 'Gần đúng rồi! Em kiểm tra lại chính tả nhé.';
-  if (e.type === 'picWrite') return `Nghe lại Track ${e.track}: tên được đánh vần từng chữ cái, em chú ý nhé.`;
-  if (e.type === 'list' && e.numeric) return 'Chú ý số -teen (13–19) và số -ty (20, 30…), VD: fifteen = 15, fifty = 50.';
-  if (e.type === 'list') return `Nghe lại Track ${e.track}, viết từng chữ cái theo thứ tự em nghe.`;
-  return `Đọc lại câu, đoán xem cần điền tên, số hay đồ vật, rồi nghe lại Track ${e.track}.`;
+  if (near) return 'Gần đúng rồi! Xem lại chính tả.';
+  if (e.type === 'picWrite') return 'Nghe lại phần đánh vần tên.';
+  if (e.type === 'list' && e.numeric) return 'Chú ý: fifteen = 15, fifty = 50.';
+  if (e.type === 'list') return 'Nghe lại, viết đúng từng chữ cái.';
+  return 'Nghe lại đoạn có câu này.';
 }
 function snap(R){
   const ok = {}, ans = {}, hint = {};
@@ -409,8 +457,10 @@ function renderTags(e){
         cls += right ? ' ok' : ' bad';
         if (!right) html = (v ? `<s>${esc(v)}</s>` : '?') + (m.key ? `<span class="fx">→ ${esc(m.key)}</span>` : '');
       }
-    } else if (fixing() && markLocked(e, m)) cls += ' ok';
-    else if (v) cls += fixing() && S.r1.tag[k] === v ? ' bad' : ' on';
+    } else if (fixing()){
+      if (m.key && S.r1.tag[k] === m.key) cls += ' ok';
+      else if (v) cls += S.r1.tag[k] === v ? ' bad' : ' on';
+    } else if (v) cls += ' on';
     b.className = cls; b.innerHTML = html; b.disabled = markLocked(e, m);
   });
 }
@@ -431,10 +481,7 @@ function progress(){
     $('#progT').textContent = `Đã nộp${S.submittedAt2 ? ' lần 2' : ''} · ${RES.score}/${RES.total} câu đúng`;
     $('#progF').style.width = (RES.total ? RES.score / RES.total * 100 : 100) + '%';
   } else if (fixing()){
-    const wrong = S.r1.items.filter(i => i.ok === false).length;
-    const R = grade(), changed = R.items.filter(i => S.r1.ok[i.key] === false && i.ans !== S.r1.ans[i.key]).length;
-    $('#progT').textContent = `Lần 2 · đã sửa ${changed}/${wrong} câu sai`;
-    $('#progF').style.width = (wrong ? changed / wrong * 100 : 100) + '%';
+    topProgress();
   } else {
     const a = answeredList(), done = a.filter(Boolean).length;
     $('#progT').textContent = `Đã làm ${done}/${a.length} câu`;
@@ -467,14 +514,14 @@ function grade(){
 }
 
 /* ============ HIỂN THỊ KẾT QUẢ ============ */
-// Đang sửa (sau lần 1): câu đúng khoá xanh, câu sai tô đỏ + gợi ý, chưa hiện đáp án
+// Sau lần 1: câu đúng xanh, câu sai đỏ (khoá hết). Khi bấm "Làm lại": câu sai mở ra + 💡 gợi ý. Chưa hiện đáp án.
 function paintFixInput(el){
   const k = el.dataset.k, ok = r1ok(k), fix = $('#fix-' + k);
   el.classList.remove('ok', 'bad');
   if (ok === true){ el.classList.add('ok'); el.disabled = true; if (fix){ fix.className = 'fix'; fix.textContent = ''; } return; }
-  el.disabled = false;
+  el.disabled = !retrying();
   if ((S.t[k] || '').trim() === S.r1.ans[k]) el.classList.add('bad');
-  if (fix){ fix.className = 'fix hint'; fix.textContent = '💡 ' + (S.r1.hint[k] || ''); }
+  if (fix){ fix.className = 'fix hint'; fix.textContent = retrying() ? '💡 ' + (S.r1.hint[k] || '') : ''; }
 }
 function showFix(){
   document.querySelectorAll('input.txt').forEach(paintFixInput);
@@ -482,14 +529,17 @@ function showFix(){
     renderTags(e);
     const wrong = S.r1.items.filter(i => i.sec === e.id && i.ok === false).length, fb = $('#fb-' + e.id);
     fb.className = 'fb show ' + (wrong ? 'bad' : 'ok');
-    fb.innerHTML = wrong
-      ? `<b>❌ Còn ${wrong} tên nối chưa đúng.</b> Ô xanh đã đúng (khoá lại), ô đỏ là chỗ gắn sai. Em nối lại nhé.<br>💡 ${esc(hintFor({sec:e.id}))}`
-      : '<b>✅ Nối đúng hết rồi!</b>';
+    fb.innerHTML = !wrong ? '<b>✅ Nối đúng hết!</b>'
+      : retrying() ? `<b>Nối lại ${wrong} tên.</b> Ô đỏ là chỗ gắn sai.<br>💡 ${esc(hintFor({sec:e.id}))}`
+      : `<b>❌ Sai ${wrong} tên.</b>`;
   });
-  const sb = $('#submitBtn'); sb.hidden = false; sb.textContent = 'Nộp lần 2 ✔';
-  renderWho(); renderSummary(); progress();
+  $('#bar').hidden = true; // nút ở thanh ghim đầu màn hình
+  focusWrong(retrying());
+  renderTop(); renderWho(); renderSummary(); progress();
 }
 function showFinal(){
+  focusWrong(false); renderTop();
+  if (WEEK) $('#bar').hidden = false;
   RES = grade();
   RES.items.forEach(i => {
     if (!i.key || i.key.includes(':')) return;
@@ -501,7 +551,7 @@ function showFinal(){
     renderTags(e);
     const s = RES.sections.find(x => x.id === e.id), fb = $('#fb-' + e.id);
     fb.className = 'fb show ' + (s.score === s.total ? 'ok' : 'bad');
-    fb.innerHTML = s.score === s.total ? '<b>✅ Nối đúng hết rồi!</b>' : `<b>${s.score}/${s.total}</b> · Ô xanh là đúng, ô đỏ là sai (có ghi đáp án →).`;
+    fb.innerHTML = s.score === s.total ? '<b>✅ Nối đúng hết!</b>' : `<b>${s.score}/${s.total}</b> · Ô đỏ có ghi đáp án (→).`;
   });
   document.querySelectorAll('input.txt').forEach(el => el.disabled = true);
   $('#submitBtn').hidden = true;
@@ -512,13 +562,12 @@ function render(){ if (S.done) showFinal(); else if (fixing()) showFix(); }
 function renderSummary(){
   let html;
   if (fixing()){
-    const r = S.r1, wrong = r.items.filter(i => i.ok === false).length;
+    const r = S.r1;
     html = `<div class="card summary">
       <div class="score">${r.score}<span>/${r.total}</span></div>
       <div style="flex:1;min-width:220px">
-        <div style="font-weight:800;font-size:18px">🔁 Lần 1: em sai ${wrong} câu. Sửa lại nha!</div>
         <div class="secs">${r.sections.map((s, i) => `<span class="sec${s.score === s.total ? ' full' : ''}">Bài ${i + 1}: ${s.score}/${s.total}</span>`).join('')}</div>
-        <div style="font-size:14.5px;color:var(--muted)">Câu sai tô <b style="color:var(--bad)">đỏ</b>, có 💡 gợi ý. Câu đúng đã khoá. Sửa xong bấm <b>Nộp lần 2</b> (chỉ được sửa 1 lần). Đáp án sẽ hiện sau lần 2.</div>
+        <div style="font-size:14.5px;color:var(--muted)">Ô đỏ = câu sai.</div>
         <div class="status" id="sendStatus"></div>
       </div></div>`;
   } else {
@@ -526,10 +575,10 @@ function renderSummary(){
     html = `<div class="card summary">
       <div class="score">${RES.score}<span>/${RES.total}</span></div>
       <div style="flex:1;min-width:220px">
-        <div style="font-weight:800;font-size:18px">${RES.score === RES.total ? '🎉 Đúng hết luôn, giỏi quá!' : pct >= .8 ? '👏 Giỏi lắm!' : pct >= .5 ? '💪 Khá rồi, cố thêm chút nữa nhé!' : '📚 Xem lại đáp án bên dưới nha!'}</div>
+        <div style="font-weight:800;font-size:18px">${RES.score === RES.total ? '🎉 Đúng hết, giỏi quá!' : pct >= .8 ? '👏 Giỏi lắm!' : pct >= .5 ? '💪 Khá rồi!' : '📚 Cố lên nhé!'}</div>
         ${two ? `<div style="font-weight:700">Lần 1: ${S.r1.score}/${S.r1.total} → Lần 2: ${RES.score}/${RES.total}</div>` : ''}
         <div class="secs">${RES.sections.map((s, i) => `<span class="sec${s.score === s.total ? ' full' : ''}">Bài ${i + 1}: ${s.score}/${s.total}</span>`).join('')}</div>
-        <div style="font-size:14.5px;color:var(--muted)">Kéo xuống xem đáp án nhé, câu sai tô đỏ.</div>
+        <div style="font-size:14.5px;color:var(--muted)">Câu sai có đáp án (→) bên dưới.</div>
         <div class="status" id="sendStatus"></div>
       </div></div>`;
   }
@@ -561,7 +610,7 @@ function payload1(){
 function payload2(){
   const R = grade(), r = S.r1;
   return Object.assign(base(), {attempt:2,
-    submittedAt:S.submittedAt2, startedAt:S.submittedAt, leaves:S.leaves2 || 0, timeTakenSec:durSec(S.submittedAt, S.submittedAt2),
+    submittedAt:S.submittedAt2, startedAt:S.retryAt || S.submittedAt, leaves:S.leaves2 || 0, timeTakenSec:durSec(S.retryAt || S.submittedAt, S.submittedAt2),
     score:R.score, total:R.total,
     sections:R.sections.map(s => ({id:s.id, title:s.title, score:s.score, total:s.total, pending:false})),
     items:R.items.map(i => ({sec:i.sec, n:i.n, q:i.q, ans:i.ans, correct:i.correct, ok:i.ok})),
@@ -592,30 +641,36 @@ async function send(){
 
 /* ============ NỘP BÀI ============ */
 $('#submitBtn').addEventListener('click', () => {
-  if (S.done || !WEEK) return;
+  if (S.submitted || !WEEK) return;
+  const left = answeredList().filter(x => !x).length;
   muteAway = true;
-  let go;
-  if (fixing()) go = confirm('Nộp lần 2 nhé? Nộp xong trang sẽ hiện đáp án và không sửa được nữa.');
-  else {
-    const left = answeredList().filter(x => !x).length;
-    go = confirm((left ? `Còn ${left} câu chưa làm.\nEm vẫn nộp luôn hả?\n` : 'Nộp bài nhé?\n') + '(Nộp xong, câu nào sai em được sửa lại 1 lần.)');
-  }
+  const go = confirm(left ? `Còn ${left} câu chưa làm. Nộp luôn?` : 'Nộp bài nhé?');
   releaseAway();
   if (!go) return;
   document.querySelectorAll('audio').forEach(x => x.pause());
   Object.keys(selName).forEach(k => selName[k] = null);
-  const now = new Date().toISOString();
-  if (fixing()){ S.done = true; S.submittedAt2 = now; }
-  else {
-    S.submitted = true; S.submittedAt = now; S.sid = makeSid();
-    S.r1 = snap(grade());
-    if (!S.r1.items.some(i => i.ok === false)) S.done = true; // đúng hết thì không cần lần 2
-  }
+  S.submitted = true; S.submittedAt = new Date().toISOString(); S.sid = makeSid();
+  S.r1 = snap(grade());
+  if (!S.r1.items.some(i => i.ok === false)) S.done = true; // đúng hết thì không cần lần 2
   save();
   render();
   window.scrollTo({top:0, behavior:'smooth'});
   send();
 });
+function submit2(){
+  if (!retrying()) return;
+  muteAway = true;
+  const go = confirm('Nộp lần 2? Nộp xong sẽ hiện đáp án.');
+  releaseAway();
+  if (!go) return;
+  document.querySelectorAll('audio').forEach(x => x.pause());
+  Object.keys(selName).forEach(k => selName[k] = null);
+  S.done = true; S.submittedAt2 = new Date().toISOString();
+  save();
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+  send();
+}
 
 /* ============ TÊN HỌC SINH ============ */
 function renderWho(){
@@ -625,7 +680,7 @@ function renderWho(){
   const b = $('#editName'); if (b) b.onclick = () => { $('#work').hidden = true; $('#bar').hidden = true; $('#start').hidden = false; $('#inName').focus(); };
 }
 function showWork(){
-  $('#start').hidden = true; $('#work').hidden = false; $('#bar').hidden = !WEEK;
+  $('#start').hidden = true; $('#work').hidden = false; $('#bar').hidden = !WEEK || fixing();
   renderWho(); progress();
 }
 $('#inName').value = S.name; $('#inCls').value = S.cls;
@@ -642,10 +697,10 @@ $('#startBtn').addEventListener('click', () => {
 ['inName', 'inCls'].forEach(id => $('#' + id).addEventListener('keydown', e => { if (e.key === 'Enter') $('#startBtn').click(); }));
 
 /* ============ ĐẾM SỐ LẦN RỜI TRANG ============ */
-// Đếm riêng cho lần 1 (leaves) và lúc sửa bài lần 2 (leaves2)
+// Đếm riêng cho lần 1 (leaves) và lúc làm lại câu sai (leaves2)
 let away = false, muteAway = false;
 function releaseAway(){ setTimeout(() => { muteAway = false; away = false; }, 800); }
-const tracking = () => !!S.startedAt && !S.done && !$('#work').hidden;
+const tracking = () => !!S.startedAt && !S.done && (!S.submitted || !!S.retrying) && !$('#work').hidden;
 function goAway(){
   if (muteAway || away || !tracking()) return;
   away = true;
