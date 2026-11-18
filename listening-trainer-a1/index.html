@@ -136,6 +136,7 @@ input.txt:disabled{opacity:1;-webkit-text-fill-color:currentColor}
 .secs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
 .sec{background:#eceef6;border-radius:999px;padding:2px 10px;font-weight:700;font-size:14px}
 .sec.full{background:var(--ok-bg);color:var(--ok)}
+.meme{width:170px;max-width:42vw;height:auto;border-radius:14px;box-shadow:0 3px 10px rgba(0,0,0,.18);flex:none}
 .status{font-weight:700;font-size:15px;margin-top:4px}
 .status.ok{color:var(--ok)} .status.err,.status.warn{color:var(--bad)} .status.sending{color:var(--muted)}
 
@@ -403,8 +404,7 @@ function exHtml(e, i){
   }
   return `<section class="card ex" id="ex${e.id}">
     <div class="ex-head"><span class="badge">Bài ${i + 1}</span><h2>${esc(e.title)}</h2></div>
-    <div class="src">${esc(e.src)}</div>
-    <div class="listen"><div class="lt">🎧 Track ${e.track}</div><audio class="player" controls preload="none" src="audio/${e.track}.mp3"></audio></div>
+    <div class="listen"><div class="lt">🎧 Listen</div><audio class="player" controls preload="none" src="audio/${e.track}.mp3"></audio></div>
     <p class="how">${e.how}</p>
     ${body}
   </section>`;
@@ -559,11 +559,31 @@ function showFinal(){
 }
 function render(){ if (S.done) showFinal(); else if (fixing()) showFix(); }
 
+// GIF meme sau mỗi lần nộp, theo điểm của lần đó: img/meme/<mức>-<số>.gif (bộ ảnh giống KET/PET).
+// MEMES = số ảnh mỗi mức (thêm ảnh thì tăng số). Ưu tiên ảnh em chưa gặp; giữ cố định khi mở lại trang.
+const MEMES = {wow:7, good:8, ok:8, oops:6};
+const SEEN_KEY = 'a1kid-memes-seen';
+function memeOf(R, field){
+  const pct = R.total ? R.score / R.total : 1;
+  const tier = pct === 1 ? 'wow' : pct >= .8 ? 'good' : pct >= .5 ? 'ok' : 'oops';
+  if (!S[field] || !S[field].startsWith(tier + '-')){
+    const all = Array.from({length:MEMES[tier]}, (_, i) => tier + '-' + (i + 1));
+    let seen = []; try { seen = JSON.parse(localStorage.getItem(SEEN_KEY)) || []; } catch (e) {}
+    if (!Array.isArray(seen)) seen = [];
+    let pool = all.filter(m => !seen.includes(m));
+    if (!pool.length){ seen = seen.filter(m => !m.startsWith(tier + '-')); pool = all; }
+    S[field] = pool[Math.floor(Math.random() * pool.length)];
+    seen.push(S[field]); try { localStorage.setItem(SEEN_KEY, JSON.stringify(seen)); } catch (e) {}
+    save();
+  }
+  return `<img class="meme" src="img/meme/${S[field]}.gif" alt="">`;
+}
+
 function renderSummary(){
   let html;
   if (fixing()){
     const r = S.r1;
-    html = `<div class="card summary">
+    html = `<div class="card summary">${memeOf(r, 'meme')}
       <div class="score">${r.score}<span>/${r.total}</span></div>
       <div style="flex:1;min-width:220px">
         <div class="secs">${r.sections.map((s, i) => `<span class="sec${s.score === s.total ? ' full' : ''}">Bài ${i + 1}: ${s.score}/${s.total}</span>`).join('')}</div>
@@ -572,7 +592,7 @@ function renderSummary(){
       </div></div>`;
   } else {
     const pct = RES.total ? RES.score / RES.total : 0, two = S.r1 && S.submittedAt2;
-    html = `<div class="card summary">
+    html = `<div class="card summary">${two ? memeOf(RES, 'meme2') : memeOf(S.r1 || RES, 'meme')}
       <div class="score">${RES.score}<span>/${RES.total}</span></div>
       <div style="flex:1;min-width:220px">
         <div style="font-weight:800;font-size:18px">${RES.score === RES.total ? '🎉 Đúng hết, giỏi quá!' : pct >= .8 ? '👏 Giỏi lắm!' : pct >= .5 ? '💪 Khá rồi!' : '📚 Cố lên nhé!'}</div>
