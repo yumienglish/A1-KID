@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,12 +15,16 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.6}
-.hero{background:linear-gradient(135deg,#6a3fd1,#9b6bff);color:#fff;padding:26px 16px 44px;text-align:center}
+.hero{position:relative;background:linear-gradient(135deg,#6a3fd1,#9b6bff);color:#fff;padding:22px 16px 44px;text-align:center}
 .hero h1{margin:0;font-size:clamp(25px,5.5vw,36px);font-weight:800;letter-spacing:.2px}
 .hero p{margin:4px 0 0;opacity:.93;font-size:15.5px}
-.pack{display:inline-block;color:#fff;opacity:.9;font-size:14px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.18);border-radius:999px;padding:3px 12px;margin-bottom:8px}
-.pack:hover{opacity:1;background:rgba(255,255,255,.28)}
-main{max-width:880px;margin:-26px auto 0;padding:0 16px 130px}
+/* nút về trang chủ: to, rõ */
+.home{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--brand-dark);font-weight:800;font-size:18px;text-decoration:none;border-radius:999px;padding:10px 22px;box-shadow:0 4px 0 rgba(0,0,0,.2);margin-bottom:12px}
+.home:hover{background:#fff7d6}
+.home:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.2)}
+@media (min-width:900px){.home{position:absolute;left:clamp(12px,3vw,48px);top:20px;margin:0}}
+/* tràn màn hình: dùng hết bề ngang */
+main{max-width:none;margin:-26px auto 0;padding:0 clamp(12px,3vw,48px) 130px}
 .card{background:var(--card);border-radius:18px;box-shadow:0 4px 18px rgba(30,30,80,.07);padding:20px;margin-bottom:18px;border:1px solid var(--line)}
 @media (max-width:520px){.card{padding:16px 14px}}
 h2,h3{line-height:1.3}
@@ -163,7 +167,7 @@ input.txt:disabled{opacity:1;-webkit-text-fill-color:currentColor}
 
 /* bottom bar */
 .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:40;backdrop-filter:blur(6px)}
-.bar-in{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:14px}
+.bar-in{max-width:none;margin:0 auto;display:flex;align-items:center;gap:14px}
 .prog{flex:1;min-width:0}
 .prog .t{font-size:14px;font-weight:700;color:var(--muted)}
 .prog .track{height:10px;background:#e4e6f0;border-radius:99px;overflow:hidden;margin-top:3px}
@@ -173,13 +177,53 @@ input.txt:disabled{opacity:1;-webkit-text-fill-color:currentColor}
 .topbar .tt{flex:1;min-width:160px;font-weight:800;font-size:16.5px;line-height:1.35}
 .topbar .btn{padding:11px 18px}
 .rt-hide{display:none!important}
-body.retrying #summaryBox,body.retrying #whoBar,body.retrying .src,body.retrying .how{display:none}
+body.retrying #summaryBox,body.retrying #whoBar,body.retrying .src,body.retrying .how,body.retrying .words{display:none}
+
+/* nhiệm vụ + từ mới */
+.words h2{margin:0 0 6px;font-size:20px}
+.mission{margin:0 0 14px;padding-left:22px}
+.mission li{margin:2px 0}
+.note{background:#fff7d6;border:2px dashed #f0c419;border-radius:14px;padding:8px 14px;font-size:16px}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:4px 16px;margin-top:8px}
+.vi{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;border-bottom:1px solid var(--line);padding:4px 0}
+.vipa{font-size:13.5px;color:var(--muted)} .vmean{font-size:14.5px;flex-basis:100%}
+.aw{margin:14px 0 0;font-size:17px;color:var(--ok)}
+/* từ highlight: chạm xem nghĩa + máy đọc */
+.vw{font:inherit;font-weight:800;color:#5a4300;background:#fff1a6;border:none;border-bottom:2px solid #f0c419;border-radius:6px;padding:0 4px;margin:0 1px;cursor:pointer;line-height:1.35}
+.vw:hover{background:#ffe46b}
+.pop{position:absolute;z-index:60;background:#fff;border:2px solid #f0c419;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:10px 14px}
+.pop .pw{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:20px}
+.pop .say{font-size:20px;background:var(--brand-soft);border:none;border-radius:10px;padding:2px 8px;cursor:pointer}
+.pop .pi{color:var(--muted);font-size:14.5px}
+.pop .pv{font-weight:700;font-size:16.5px;color:var(--brand-dark)}
+.how .vn{display:block;margin-top:2px}
+
+/* bài nối tên: tranh bên trái, khung tên bên phải dính theo khi cuộn */
+.dz{display:flex;justify-content:center;align-items:flex-start;gap:18px}
+.dz-work{min-width:0;flex:0 1 auto}
+.dz .pic{margin-top:0}
+.dz-side{flex:0 0 190px;position:sticky;top:calc(var(--stick,8px) + var(--lh,84px) + 8px);z-index:5}
+.namebox{background:#fff7ec;border:2px solid #ffd2a8;border-radius:16px;padding:10px;box-shadow:0 6px 18px rgba(201,102,31,.15)}
+.namebox .nh{font-weight:800;font-size:14.5px;color:#c9661f;margin-bottom:8px;line-height:1.3}
+.dz-side .chips{flex-direction:column;align-items:stretch;margin:0}
+.dz-side .tip{margin:8px 0 0;font-size:13.5px;line-height:1.35}
+.dz-side .tip:empty{display:none}
+/* điện thoại: khung tên thành dải ngang dính ngay dưới thanh audio, tranh giữ đủ to */
+@media (max-width:700px){
+  .dz{flex-direction:column;align-items:stretch;gap:8px}
+  .dz-side{order:-1;flex:none;top:calc(var(--stick,8px) + var(--lh,84px) + 4px)}
+  .namebox{padding:6px 8px}
+  .namebox .nh{display:none}
+  .dz-side .chips{flex-direction:row;gap:6px}
+  .dz-side .chip{font-size:15px;padding:3px 11px}
+  .dz-side .tip{font-size:13px;margin-top:4px}
+}
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
 <header class="hero">
-  <a class="pack" href="../">← A1 KID</a>
+  <a class="home" href="../">⬅️ Home</a>
   <h1>🎧 Listening Trainer A1</h1>
   <p id="weekSub">A1 Movers</p>
 </header>
@@ -187,13 +231,13 @@ body.retrying #summaryBox,body.retrying #whoBar,body.retrying .src,body.retrying
 <main>
   <!-- Màn hình nhập tên -->
   <section class="card start" id="start">
-    <h2>👋 Chào em!</h2>
-    <p style="margin:0;color:var(--muted)">Điền tên, lớp rồi bấm <b>Bắt đầu</b>. Nhớ đeo tai nghe 🎧</p>
-    <div class="field"><label for="inName">Họ và tên</label><input id="inName" autocomplete="name" placeholder="VD: Nguyễn Minh Anh"></div>
-    <div class="field"><label for="inCls">Lớp</label><input id="inCls" placeholder="VD: Movers 1"></div>
-    <div class="field"><label>Chọn avatar của em</label><div id="avStart" class="avbox"></div></div>
+    <h2>👋 Hello!</h2>
+    <p style="margin:0;color:var(--muted)">Write your name and class, choose an avatar, then press <b>Start</b>. Put on your headphones 🎧</p>
+    <div class="field"><label for="inName">Your full name</label><input id="inName" autocomplete="name" placeholder="e.g. Nguyễn Minh Anh"></div>
+    <div class="field"><label for="inCls">Your class</label><input id="inCls" placeholder="e.g. Movers 1"></div>
+    <div class="field"><label>Choose your avatar</label><div id="avStart" class="avbox"></div></div>
     <div class="err-msg" id="startErr"></div>
-    <button class="btn" id="startBtn" type="button">Bắt đầu làm bài →</button>
+    <button class="btn" id="startBtn" type="button">Start ▶</button>
   </section>
 
   <div id="work" hidden>
@@ -206,10 +250,11 @@ body.retrying #summaryBox,body.retrying #whoBar,body.retrying .src,body.retrying
 
 <div class="bar" id="bar" hidden>
   <div class="bar-in">
-    <div class="prog"><div class="t" id="progT">Đã làm 0/0 câu</div><div class="track"><div class="fill" id="progF"></div></div></div>
-    <button class="btn orange" id="submitBtn" type="button">Nộp bài ✔</button>
+    <div class="prog"><div class="t" id="progT">Done 0/0</div><div class="track"><div class="fill" id="progF"></div></div></div>
+    <button class="btn orange" id="submitBtn" type="button">Submit ✔</button>
   </div>
 </div>
+<div class="pop" id="pop" hidden></div>
 
 <script>
 /* ============ CẤU HÌNH ============ */
@@ -222,14 +267,54 @@ const UNIT = 'Listening Trainer A1';
 /* ============ BÀI TẬP TỪNG TUẦN ============
    Đáp án: nhiều cách viết đúng thì ngăn bằng dấu |   VD: 'funfair|fun fair'
    Khi chấm: không phân biệt hoa/thường, bỏ qua dấu chấm, dấu nháy, gạch nối và khoảng trắng.
-   Toạ độ x, y của nhãn trên tranh tính theo % chiều ngang / chiều dọc của tranh. */
+   Toạ độ x, y của nhãn trên tranh tính theo % chiều ngang / chiều dọc của tranh.
+   Từ highlight (chạm xem nghĩa + máy đọc): {{khoá}} hoặc {{khoá|chữ hiển thị}}; khoá phải có trong VOCAB.
+   newWords = ô "New words" đầu bài (chép vở): từ trong bài nghe, lạ với HS A1; KHÔNG lấy từ ở câu hỏi (chỉ highlight).
+   newWordsAfter = từ là đáp án → chỉ hiện trong ô New words sau khi nộp xong. */
+const VOCAB = {
+  // ô New words (từ trong bài nghe)
+  cook:{w:'cook', ipa:'/kʊk/', vi:'đầu bếp; nấu ăn'},
+  glasses:{w:'glasses', ipa:'/ˈɡlɑːsɪz/', vi:'kính mắt'},
+  drop:{w:'drop', ipa:'/drɒp/', vi:'làm rơi (dropped = đã làm rơi)'},
+  cry:{w:'cry', ipa:'/kraɪ/', vi:'khóc'},
+  curly:{w:'curly', ipa:'/ˈkɜːli/', vi:'(tóc) xoăn'},
+  shorts:{w:'shorts', ipa:'/ʃɔːts/', vi:'quần soóc, quần đùi'},
+  helmet:{w:'helmet', ipa:'/ˈhelmɪt/', vi:'mũ bảo hiểm'},
+  racket:{w:'racket', ipa:'/ˈrækɪt/', vi:'cái vợt (tennis, cầu lông)'},
+  towel:{w:'towel', ipa:'/ˈtaʊəl/', vi:'khăn tắm'},
+  stairs:{w:'stairs', ipa:'/steəz/', vi:'cầu thang'},
+  parrot:{w:'parrot', ipa:'/ˈpærət/', vi:'con vẹt'},
+  nurse:{w:'nurse', ipa:'/nɜːs/', vi:'y tá'},
+  // từ là đáp án (hiện sau khi nộp xong)
+  pancake:{w:'pancake', ipa:'/ˈpænkeɪk/', vi:'bánh kếp'},
+  noodles:{w:'noodles', ipa:'/ˈnuːdlz/', vi:'mì, bún, phở (sợi)'},
+  circus:{w:'circus', ipa:'/ˈsɜːkəs/', vi:'rạp xiếc'},
+  penguin:{w:'penguin', ipa:'/ˈpeŋɡwɪn/', vi:'chim cánh cụt'},
+  funfair:{w:'funfair', ipa:'/ˈfʌnfeə/', vi:'khu vui chơi, hội chợ có trò chơi'},
+  snail:{w:'snail', ipa:'/sneɪl/', vi:'con ốc sên'},
+  tractor:{w:'tractor', ipa:'/ˈtræktə/', vi:'máy kéo'},
+  // chỉ highlight trong câu hỏi / hướng dẫn
+  description:{w:'description', ipa:'/dɪˈskrɪpʃn/', vi:'sự miêu tả'},
+  extra:{w:'extra', ipa:'/ˈekstrə/', vi:'thừa, thêm'},
+  spelling:{w:'spelling', ipa:'/ˈspelɪŋ/', vi:'cách đánh vần'},
+  sentence:{w:'sentence', ipa:'/ˈsentəns/', vi:'câu'},
+  visit:{w:'visit', ipa:'/ˈvɪzɪt/', vi:'đi thăm'},
+  hospital:{w:'hospital', ipa:'/ˈhɒspɪtl/', vi:'bệnh viện'},
+  ride:{w:'ride', ipa:'/raɪd/', vi:'trò chơi cảm giác (ở khu vui chơi)'},
+  hurt:{w:'hurt', ipa:'/hɜːt/', vi:'làm đau, bị đau'},
+  dinner:{w:'dinner', ipa:'/ˈdɪnə/', vi:'bữa tối'},
+  must:{w:'must', ipa:'/mʌst/', vi:'phải'},
+  story:{w:'story', ipa:'/ˈstɔːri/', vi:'câu chuyện'},
+};
 const WEEKS = {
   1: {
-    sub: 'Tuần 1 · Listening Part 1 & Part 2',
+    sub: 'Week 1 · Listening Part 1 & Part 2',
+    newWords: ['cook', 'glasses', 'drop', 'cry', 'curly', 'shorts', 'helmet', 'racket', 'towel', 'stairs', 'parrot', 'nurse'],
+    newWordsAfter: ['pancake', 'noodles', 'circus', 'penguin', 'funfair', 'snail', 'tractor'],
     ex: [
       { id:'1', type:'picWrite', track:'02', src:'Sách trang 4 · Exercise 3',
-        title:'Listening for names and descriptions of people',
-        how:'Listen to a man and a girl talking about a picture. Write the names.<br>👉 Nghe và viết <b>tên</b> của mỗi người <b>A–E</b> trong tranh. Ví dụ: người đầu bếp tên là <b>Fred</b>.',
+        title:'Listening for names and {{description|descriptions}} of people',
+        how:'Listen to a man and a girl talking about a picture. Write the names of people <b>A–E</b>. Example: <b>Fred</b>.',
         img:'cafe.jpg', example:{label:'Fred', x:32.1, y:27.4},
         marks:[
           {k:'A', x:5.4,  y:65.2, key:'Charlie'},
@@ -239,8 +324,8 @@ const WEEKS = {
           {k:'E', x:92.4, y:89.3, key:'Clare|Claire'},
         ]},
       { id:'2', type:'picTag', track:'03', src:'Sách trang 5 · Listening Part 1 (Exam practice)',
-        title:'Listen and draw lines',
-        how:'👉 Nghe và nối tên với người trong tranh: chạm vào <b>một tên</b>, rồi chạm vào <b>ô ? trên người đó</b>. Chạm lại ô đã gắn tên để gỡ ra. Có 1 tên thừa. Ví dụ: <b>Mary</b> là bạn gái đang ngồi.',
+        title:'Listen and match the names',
+        how:'Listen. Tap a <b>name</b>, then tap the <b>?</b> on that person. There is one {{extra}} name. Example: <b>Mary</b>.<span class="vn">👉 Chạm lại ô đã gắn tên để gỡ tên ra.</span>',
         img:'sports.jpg', names:['Sam', 'Sally', 'Jim', 'Charlie', 'Lily', 'Clare'],
         example:{label:'Mary', x:44.8, y:28.4},
         marks:[
@@ -254,34 +339,34 @@ const WEEKS = {
           {k:'m8', x:83.2, y:78.7, key:'Lily'},
         ]},
       { id:'3', type:'list', track:'04', src:'Sách trang 6 · Exercise 1',
-        title:'Vocabulary: spelling',
-        how:'Listen and write the words.<br>👉 Nghe đánh vần và viết lại từ. Ví dụ: S-W-I-M-S-U-I-T → <b>swimsuit</b>.',
+        title:'Vocabulary: {{spelling}}',
+        how:'Listen to the letters and write the words. Example: S-W-I-M-S-U-I-T → <b>swimsuit</b>.',
         example:'swimsuit',
         items:['pancake', 'building', 'noodles', 'circus', 'penguin', 'funfair|fun fair', 'snail', 'tractor']},
       { id:'4', type:'list', track:'05', src:'Sách trang 6 · Exercise 2', numeric:true,
         title:'Vocabulary: numbers',
-        how:'Listen and write the numbers.<br>👉 Nghe và viết <b>số</b> em nghe được vào từng câu (viết bằng chữ số, VD: 50).',
+        how:'Listen and write the numbers like this: <b>50</b>.',
         items:['28', '67', '13', '44', '96', '35', '52', '89', '63', '38', '72', '41']},
       { id:'5', type:'table', track:'06', src:'Sách trang 6 · Exercise 3',
         title:'Listening for names, words and numbers',
-        how:'Look at the sentences. Then listen and write the answers.<br>👉 Đọc các câu trước, rồi nghe và điền vào chỗ trống.',
-        img:'hospital.jpg', head:'Visiting hospital',
-        example:['The family are visiting …', '', 'Grandpa', '.'],
+        how:'Read the {{sentence|sentences}} first. Then listen and write the answers.',
+        img:'hospital.jpg', head:'{{visit|Visiting}} {{hospital}}',
+        example:['The family are {{visit|visiting}} …', '', 'Grandpa', '.'],
         rows:[
-          ['Fred wants to show photos of the …', '', 'Rainbow', 'ride.'],
-          ['Grandpa hurt his …', '', 'back', '.'],
+          ['Fred wants to show photos of the …', '', 'Rainbow', '{{ride}}.'],
+          ['Grandpa {{hurt}} his …', '', 'back', '.'],
           ['Grandpa is in room number …', '', '45|forty five', '.'],
           ['Fred wants to get some …', '', 'chocolates|chocolate', 'for Grandpa.'],
-          ['Dinner time at the hospital is at …', '', '6 o’clock|6.00|6:00|6|six|six o’clock|6 pm', '.'],
+          ['{{dinner|Dinner}} time at the {{hospital}} is at …', '', '6 o’clock|6.00|6:00|6|six|six o’clock|6 pm', '.'],
         ]},
       { id:'6', type:'table', form:true, track:'07', src:'Sách trang 7 · Listening Part 2 (Exam practice)',
         title:'Listen and write',
-        how:'👉 Nghe và viết câu trả lời vào chỗ trống. Ví dụ: Mr <b>Best</b>.',
+        how:'Listen and write the answers. Example: Mr <b>Best</b>.',
         img:'homework.jpg', head:'Homework',
         example:['Who is the homework for?', 'Mr', 'Best', ''],
         rows:[
-          ['Must write about:', 'A', 'party|birthday party', ''],
-          ['Name of story:', 'My', 'birthday', ''],
+          ['{{must|Must}} write about:', 'A', 'party|birthday party', ''],
+          ['Name of {{story}}:', 'My', 'birthday', ''],
           ['Write homework in:', '', 'English', 'book'],
           ['Number of words:', '', '300|three hundred', ''],
           ['Day to give homework to teacher:', '', 'Wednesday', ''],
@@ -302,6 +387,54 @@ const alts = k => String(k || '').split('|').map(x => x.trim()).filter(Boolean);
 const firstAlt = k => alts(k)[0] || '';
 const check = (ans, key) => alts(key).some(a => squash(a) === squash(ans));
 const ia = 'autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"';
+
+/* ============ TỪ MỚI: highlight → bong bóng nghĩa + máy đọc ============ */
+const VRE = /\{\{([^}|]+)(?:\|([^}]+))?\}\}/g;
+const vt = s => String(s || '').replace(VRE, (_, k, shown) =>
+  VOCAB[k] ? `<button type="button" class="vw" data-v="${esc(k)}">${esc(shown || k)}</button>` : esc(shown || k));
+const unv = s => String(s || '').replace(VRE, (_, k, shown) => shown || k);
+let VOICE = null;
+function pickVoice(){
+  try {
+    const vs = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang));
+    VOICE = vs.find(v => /^en[-_]GB/i.test(v.lang) && /female|libby|sonia|serena|kate|hazel|google uk english female/i.test(v.name)) ||
+      vs.find(v => /^en[-_]GB/i.test(v.lang)) || vs.find(v => /^en[-_]US/i.test(v.lang)) || vs[0] || null;
+  } catch (e) {}
+}
+if ('speechSynthesis' in window){ pickVoice(); try { speechSynthesis.onvoiceschanged = pickVoice; } catch (e) {} }
+function say(text){
+  try {
+    if (!('speechSynthesis' in window) || !text) return;
+    speechSynthesis.cancel(); try { speechSynthesis.resume(); } catch (e) {}
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = VOICE ? VOICE.lang : 'en-GB'; if (VOICE) u.voice = VOICE; u.rate = .85;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+function showPop(btn){
+  const v = VOCAB[btn.dataset.v]; if (!v) return;
+  const p = $('#pop');
+  p.innerHTML = `<div class="pw"><b>${esc(v.w)}</b> <button type="button" class="say" aria-label="Listen again">🔊</button></div>
+    <div class="pi">${esc(v.ipa || '')}</div><div class="pv">${esc(v.vi)}</div>`;
+  p.hidden = false;
+  const r = btn.getBoundingClientRect(), pw = Math.min(280, window.innerWidth - 24);
+  p.style.width = pw + 'px';
+  let left = r.left + r.width / 2 - pw / 2 + window.scrollX;
+  left = Math.max(12 + window.scrollX, Math.min(left, window.scrollX + window.innerWidth - pw - 12));
+  p.style.left = left + 'px';
+  const h = p.offsetHeight, below = r.bottom + 8 + h < window.innerHeight || r.top < h + 16;
+  p.style.top = (below ? r.bottom + 8 : r.top - h - 8) + window.scrollY + 'px';
+  $('.say', p).onclick = () => say(v.w);
+  say(v.w);
+}
+const hidePop = () => { const p = $('#pop'); if (p) p.hidden = true; };
+document.addEventListener('click', e => {
+  const b = e.target.closest('.vw');
+  if (b){ e.preventDefault(); e.stopPropagation(); showPop(b); return; }
+  if (!e.target.closest('#pop')) hidePop();
+}, true);
+window.addEventListener('resize', hidePop);
+const vRow = k => `<div class="vi">${vt('{{' + k + '}}')}<span class="vipa">${esc(VOCAB[k].ipa)}</span><span class="vmean">${esc(VOCAB[k].vi)}</span></div>`;
 
 /* ============ TRẠNG THÁI ============ */
 // Nộp 2 lần: lần 1 chấm + gửi cô → hiện đúng/sai (khoá) → bấm "Làm lại câu sai": chỉ còn câu sai + gợi ý
@@ -342,8 +475,12 @@ function focusWrong(on){
 function setStick(){
   const tb = $('#topbar');
   document.documentElement.style.setProperty('--stick', (tb && !tb.hidden ? tb.offsetHeight + 16 : 8) + 'px');
+  // khung tên bài 2 dính ngay dưới thanh audio
+  const l = document.querySelector('.listen');
+  if (l && l.offsetHeight) document.documentElement.style.setProperty('--lh', l.offsetHeight + 'px');
 }
-if (window.ResizeObserver) new ResizeObserver(setStick).observe(document.getElementById('topbar'));
+const RO = window.ResizeObserver ? new ResizeObserver(setStick) : null;
+if (RO) RO.observe(document.getElementById('topbar'));
 window.addEventListener('resize', setStick);
 function renderTop(){
   const tb = $('#topbar');
@@ -354,10 +491,10 @@ function renderTop0(tb){
   const w = wrongKeys().length;
   tb.hidden = false;
   if (!retrying()){
-    tb.innerHTML = `<div class="tt">Lần 1: ${S.r1.score}/${S.r1.total} · ❌ Sai ${w} câu</div><button class="btn orange" type="button" id="retryBtn">✏️ Làm lại câu sai</button>`;
+    tb.innerHTML = `<div class="tt">Try 1: ${S.r1.score}/${S.r1.total} · ❌ ${w} wrong</div><button class="btn orange" type="button" id="retryBtn">✏️ Fix wrong answers</button>`;
     $('#retryBtn').onclick = startRetry;
   } else {
-    tb.innerHTML = `<div class="tt" id="topT"></div><button class="btn orange" type="button" id="submit2Btn">Nộp lần 2 ✔</button>`;
+    tb.innerHTML = `<div class="tt" id="topT"></div><button class="btn orange" type="button" id="submit2Btn">Submit again ✔</button>`;
     $('#submit2Btn').onclick = submit2;
     topProgress();
   }
@@ -365,7 +502,7 @@ function renderTop0(tb){
 function topProgress(){
   const el = $('#topT'); if (!el) return;
   const R = grade(), w = wrongKeys(), changed = R.items.filter(i => w.includes(i.key) && i.ans !== S.r1.ans[i.key]).length;
-  el.textContent = `✏️ Đã sửa ${changed}/${w.length} câu`;
+  el.textContent = `✏️ Fixed ${changed}/${w.length}`;
 }
 function startRetry(){
   S.retrying = true; S.retryAt = new Date().toISOString(); save();
@@ -383,15 +520,15 @@ function lev(a, b){
 // Gợi ý cho câu sai (không lộ đáp án)
 function hintFor(i){
   const e = WEEK.ex.find(x => x.id === i.sec);
-  if (e.type === 'picTag') return 'Nghe lại, chú ý quần áo và việc mỗi người đang làm.';
-  if (!i.ans) return 'Em chưa làm câu này.';
+  if (e.type === 'picTag') return 'Listen again. Look at their clothes and what they are doing.';
+  if (!i.ans) return 'You didn’t answer this.';
   const y = squash(i.ans);
   const near = alts(i.keyRaw).some(a => { const x = squash(a); return x.length >= 4 && lev(x, y) <= Math.max(1, Math.floor(x.length / 4)); });
-  if (near) return 'Gần đúng rồi! Xem lại chính tả.';
-  if (e.type === 'picWrite') return 'Nghe lại phần đánh vần tên.';
-  if (e.type === 'list' && e.numeric) return 'Chú ý: fifteen = 15, fifty = 50.';
-  if (e.type === 'list') return 'Nghe lại, viết đúng từng chữ cái.';
-  return 'Nghe lại đoạn có câu này.';
+  if (near) return 'Almost! Check your spelling.';
+  if (e.type === 'picWrite') return 'Listen again to the spelling of the name.';
+  if (e.type === 'list' && e.numeric) return 'Careful: fifteen = 15, fifty = 50.';
+  if (e.type === 'list') return 'Listen again and write every letter.';
+  return 'Listen again to this part.';
 }
 function snap(R){
   const ok = {}, ans = {}, hint = {};
@@ -412,43 +549,65 @@ function exHtml(e, i){
         <span class="mk example" style="${pos(e.example)}">${esc(e.example.label)}</span>
         ${e.marks.map(m => `<span class="mk" style="${pos(m)}">${m.k}</span>`).join('')}</div>
       <div class="cells">${e.marks.map(m =>
-        `<label class="cell"><span class="cn mk2">${m.k}</span>${inp(e.id + '-' + m.k, 'Người ' + m.k)}<span class="fix" id="fix-${e.id}-${m.k}"></span></label>`).join('')}</div>`;
+        `<label class="cell"><span class="cn mk2">${m.k}</span>${inp(e.id + '-' + m.k, 'Person ' + m.k)}<span class="fix" id="fix-${e.id}-${m.k}"></span></label>`).join('')}</div>`;
   } else if (e.type === 'picTag'){
-    body = `<div class="chips" id="chips-${e.id}"></div><div class="tip" id="tip-${e.id}"></div>
-      <div class="pic" id="pic-${e.id}"><img src="img/${e.img}" alt="" loading="lazy">
-        <span class="mk example" style="${pos(e.example)}">${esc(e.example.label)}</span>
-        ${e.marks.map(m => `<button type="button" class="mk" data-ex="${e.id}" data-m="${m.k}" style="${pos(m)}">?</button>`).join('')}</div>
-      <div class="fb" id="fb-${e.id}"></div>`;
+    // tranh bên trái, khung tên bên phải (dính theo khi cuộn)
+    body = `<div class="dz"><div class="dz-work">
+        <div class="pic" id="pic-${e.id}"><img src="img/${e.img}" alt="" loading="lazy">
+          <span class="mk example" style="${pos(e.example)}">${esc(e.example.label)}</span>
+          ${e.marks.map(m => `<button type="button" class="mk" data-ex="${e.id}" data-m="${m.k}" style="${pos(m)}">?</button>`).join('')}</div>
+        <div class="fb" id="fb-${e.id}"></div></div>
+      <aside class="dz-side"><div class="namebox"><div class="nh">👆 Names</div><div class="chips" id="chips-${e.id}"></div><div class="tip" id="tip-${e.id}"></div></div></aside></div>`;
   } else if (e.type === 'list'){
     body = (e.bank ? `<div class="bank">${e.bank.map(n => `<span>${n}</span>`).join('')}</div>` : '') +
       `<div class="cells">${e.example ? `<div class="cell ex0"><span class="cn">0.</span><span class="exv">${esc(e.example)}</span></div>` : ''}
-      ${e.items.map((_, j) => `<label class="cell"><span class="cn">${j + 1}.</span>${inp(e.id + '-' + (j + 1), 'Câu ' + (j + 1), e.numeric ? 'inputmode="numeric" maxlength="3"' : '')}<span class="fix" id="fix-${e.id}-${j + 1}"></span></label>`).join('')}</div>`;
+      ${e.items.map((_, j) => `<label class="cell"><span class="cn">${j + 1}.</span>${inp(e.id + '-' + (j + 1), 'Question ' + (j + 1), e.numeric ? 'inputmode="numeric" maxlength="3"' : '')}<span class="fix" id="fix-${e.id}-${j + 1}"></span></label>`).join('')}</div>`;
   } else if (e.type === 'table'){
     const row = (n, r, isEx) => {
       const [q, pre, key, post] = r, k = e.id + '-' + n;
-      const ans = isEx ? `<span class="exv">${esc(key)}</span>` : inp(k, 'Câu ' + n);
-      return `<div class="row${isEx ? ' ex0' : ''}"><span class="rn">${isEx ? (e.form ? '' : '0') : n}</span><span class="rq">${esc(q)}</span>
-        <span class="ra">${pre ? `<span>${esc(pre)}</span>` : ''}${ans}${post ? `<span>${esc(post)}</span>` : ''}${isEx ? '' : `<span class="fix" id="fix-${k}"></span>`}</span></div>`;
+      const ans = isEx ? `<span class="exv">${esc(key)}</span>` : inp(k, 'Question ' + n);
+      return `<div class="row${isEx ? ' ex0' : ''}"><span class="rn">${isEx ? (e.form ? '' : '0') : n}</span><span class="rq">${vt(q)}</span>
+        <span class="ra">${pre ? `<span>${vt(pre)}</span>` : ''}${ans}${post ? `<span>${vt(post)}</span>` : ''}${isEx ? '' : `<span class="fix" id="fix-${k}"></span>`}</span></div>`;
     };
     body = `<div class="pic small"><img src="img/${e.img}" alt="" loading="lazy"></div>
-      <div class="tbl${e.form ? ' form' : ''}"><div class="tt">${esc(e.head)}</div>
+      <div class="tbl${e.form ? ' form' : ''}"><div class="tt">${vt(e.head)}</div>
         ${row(0, e.example, true)}${e.rows.map((r, j) => row(j + 1, r, false)).join('')}</div>`;
   }
   return `<section class="card ex" id="ex${e.id}">
-    <div class="ex-head"><span class="badge">Bài ${i + 1}</span><h2>${esc(e.title)}</h2></div>
+    <div class="ex-head"><span class="badge">Exercise ${i + 1}</span><h2>${vt(e.title)}</h2></div>
     <div class="listen"><div class="lt">🎧 Listen</div><audio class="player" controls preload="none" src="audio/${e.track}.mp3"></audio></div>
-    <p class="how">${e.how}</p>
+    <p class="how">${vt(e.how)}</p>
     ${body}
   </section>`;
+}
+
+// Đầu bài: nhiệm vụ ngắn + ô New words (chép vở)
+function wordsHtml(){
+  const ws = (WEEK.newWords || []).filter(k => VOCAB[k]);
+  return `<section class="card words" id="wordsCard">
+    <h2>🎯 Your mission</h2>
+    <ol class="mission"><li>Learn the <b>new words</b> 📒</li><li>Listen 🎧 and do <b>${WEEK.ex.length} exercises</b></li><li>Press <b>Submit ✔</b>, then fix the red answers ✏️</li></ol>
+    ${ws.length ? `<h2>📒 New words</h2>
+    <div class="note">✍️ Em nhớ chép từ mới vào vở nha! Chạm vào từ màu vàng để nghe đọc và xem nghĩa.</div>
+    <div class="vgrid">${ws.map(vRow).join('')}</div>` : ''}
+    <div id="afterWords"></div>
+  </section>`;
+}
+// Từ là đáp án: chỉ hiện sau khi nộp xong
+function paintAfterWords(){
+  const box = $('#afterWords'); if (!box) return;
+  const ws = (WEEK.newWordsAfter || []).filter(k => VOCAB[k]);
+  box.innerHTML = S.done && ws.length ? `<h3 class="aw">🔓 More new words from your answers</h3><div class="vgrid">${ws.map(vRow).join('')}</div>` : '';
 }
 
 function build(){
   $('#weekSub').textContent = WEEK ? WEEK.sub : 'A1 Movers';
   if (!WEEK){
-    $('#exList').innerHTML = '<div class="card closed">Chưa có bài cho tuần này, em quay lại sau nhé!</div>';
+    $('#exList').innerHTML = '<div class="card closed">No homework this week yet. Come back later! 😊</div>';
     return;
   }
-  $('#exList').innerHTML = WEEK.ex.map(exHtml).join('');
+  $('#exList').innerHTML = wordsHtml() + WEEK.ex.map(exHtml).join('');
+  if (RO) RO.observe(document.querySelector('.listen'));
   document.querySelectorAll('input.txt').forEach(el => {
     el.value = S.t[el.dataset.k] || '';
     el.addEventListener('input', () => { S.t[el.dataset.k] = el.value; save(); if (fixing()) paintFixInput(el); progress(); });
@@ -467,7 +626,7 @@ function build(){
         Object.keys(S.tag).forEach(x => { if (x.startsWith(e.id + '-') && S.tag[x] === n) delete S.tag[x]; });
         S.tag[k] = n; selName[e.id] = null;
       } else if (S.tag[k]) delete S.tag[k];
-      else { $('#tip-' + e.id).innerHTML = '👆 Chạm vào một <b>tên</b> ở trên trước nhé.'; return; }
+      else { $('#tip-' + e.id).innerHTML = '👆 Tap a <b>name</b> first.'; return; }
       save(); renderTags(e); progress();
     });
     renderTags(e);
@@ -479,7 +638,7 @@ function renderTags(e){
   const used = Object.keys(S.tag).filter(x => x.startsWith(e.id + '-')).map(x => S.tag[x]);
   $('#chips-' + e.id).innerHTML = `<button type="button" class="chip example" disabled>${esc(e.example.label)} ✓</button>` +
     e.names.map(n => `<button type="button" class="chip${selName[e.id] === n ? ' sel' : used.includes(n) ? ' used' : ''}" data-n="${esc(n)}" ${nameLocked(e, n) ? 'disabled' : ''}>${esc(n)}</button>`).join('');
-  $('#tip-' + e.id).innerHTML = S.done ? '' : selName[e.id] ? `Giờ chạm vào ô <b>?</b> trên người tên <b>${esc(selName[e.id])}</b>.` : '';
+  $('#tip-' + e.id).innerHTML = S.done ? '' : selName[e.id] ? `Now tap the <b>?</b> on <b>${esc(selName[e.id])}</b>.` : '';
   document.querySelectorAll(`#pic-${e.id} button.mk`).forEach(b => {
     const m = e.marks.find(x => x.k === b.dataset.m), k = e.id + '-' + m.k, v = S.tag[k] || '';
     let cls = 'mk', html = v ? esc(v) : '?';
@@ -510,13 +669,13 @@ function answeredList(){
 }
 function progress(){
   if (S.done && RES){
-    $('#progT').textContent = `Đã nộp${S.submittedAt2 ? ' lần 2' : ''} · ${RES.score}/${RES.total} câu đúng`;
+    $('#progT').textContent = `Submitted${S.submittedAt2 ? ' (Try 2)' : ''} · ${RES.score}/${RES.total} correct`;
     $('#progF').style.width = (RES.total ? RES.score / RES.total * 100 : 100) + '%';
   } else if (fixing()){
     topProgress();
   } else {
     const a = answeredList(), done = a.filter(Boolean).length;
-    $('#progT').textContent = `Đã làm ${done}/${a.length} câu`;
+    $('#progT').textContent = `Done ${done}/${a.length}`;
     $('#progF').style.width = (a.length ? done / a.length * 100 : 0) + '%';
   }
 }
@@ -531,7 +690,7 @@ function grade(){
   WEEK.ex.forEach(e => {
     if (e.type === 'picWrite') e.marks.forEach(m => text(e.id, e.id + '-' + m.k, m.k, 'Tên người ' + m.k + ' trong tranh', m.key));
     else if (e.type === 'list') e.items.forEach((key, j) => text(e.id, e.id + '-' + (j + 1), j + 1, (e.numeric ? 'Số câu ' : 'Từ câu ') + (j + 1), key));
-    else if (e.type === 'table') e.rows.forEach((r, j) => text(e.id, e.id + '-' + (j + 1), j + 1, [r[0], r[1], '_____', r[3]].filter(Boolean).join(' '), r[2]));
+    else if (e.type === 'table') e.rows.forEach((r, j) => text(e.id, e.id + '-' + (j + 1), j + 1, unv([r[0], r[1], '_____', r[3]].filter(Boolean).join(' ')), r[2]));
     else if (e.type === 'picTag') e.marks.filter(m => m.key).forEach(m => {
       const where = Object.keys(S.tag).find(x => x.startsWith(e.id + '-') && S.tag[x] === m.key);
       const ans = S.tag[e.id + '-' + m.k] || '';
@@ -540,7 +699,7 @@ function grade(){
   });
   const sections = WEEK.ex.map((e, i) => {
     const its = items.filter(x => x.sec === e.id);
-    return {id:e.id, title:`Bài ${i + 1} · Track ${e.track} · ${e.title}`, score:its.filter(x => x.ok).length, total:its.length, pending:false};
+    return {id:e.id, title:`Bài ${i + 1} · Track ${e.track} · ${unv(e.title)}`, score:its.filter(x => x.ok).length, total:its.length, pending:false};
   });
   return {items, sections, score:items.filter(x => x.ok).length, total:items.length};
 }
@@ -561,9 +720,9 @@ function showFix(){
     renderTags(e);
     const wrong = S.r1.items.filter(i => i.sec === e.id && i.ok === false).length, fb = $('#fb-' + e.id);
     fb.className = 'fb show ' + (wrong ? 'bad' : 'ok');
-    fb.innerHTML = !wrong ? '<b>✅ Nối đúng hết!</b>'
-      : retrying() ? `<b>Nối lại ${wrong} tên.</b> Ô đỏ là chỗ gắn sai.<br>💡 ${esc(hintFor({sec:e.id}))}`
-      : `<b>❌ Sai ${wrong} tên.</b>`;
+    fb.innerHTML = !wrong ? '<b>✅ All correct!</b>'
+      : retrying() ? `<b>Fix ${wrong} name${wrong > 1 ? 's' : ''}.</b> Red = wrong place.<br>💡 ${esc(hintFor({sec:e.id}))}`
+      : `<b>❌ ${wrong} wrong.</b>`;
   });
   $('#bar').hidden = true; // nút ở thanh ghim đầu màn hình
   focusWrong(retrying());
@@ -583,11 +742,11 @@ function showFinal(){
     renderTags(e);
     const s = RES.sections.find(x => x.id === e.id), fb = $('#fb-' + e.id);
     fb.className = 'fb show ' + (s.score === s.total ? 'ok' : 'bad');
-    fb.innerHTML = s.score === s.total ? '<b>✅ Nối đúng hết!</b>' : `<b>${s.score}/${s.total}</b> · Ô đỏ có ghi đáp án (→).`;
+    fb.innerHTML = s.score === s.total ? '<b>✅ All correct!</b>' : `<b>${s.score}/${s.total}</b> · Red boxes show the answer (→).`;
   });
   document.querySelectorAll('input.txt').forEach(el => el.disabled = true);
   $('#submitBtn').hidden = true;
-  renderWho(); renderSummary(); progress();
+  paintAfterWords(); renderWho(); renderSummary(); progress();
 }
 function render(){ if (S.done) showFinal(); else if (fixing()) showFix(); }
 
@@ -618,8 +777,8 @@ function renderSummary(){
     html = `<div class="card summary">${memeOf(r, 'meme')}
       <div class="score">${r.score}<span>/${r.total}</span></div>
       <div style="flex:1;min-width:220px">
-        <div class="secs">${r.sections.map((s, i) => `<span class="sec${s.score === s.total ? ' full' : ''}">Bài ${i + 1}: ${s.score}/${s.total}</span>`).join('')}</div>
-        <div style="font-size:14.5px;color:var(--muted)">Ô đỏ = câu sai.</div>
+        <div class="secs">${r.sections.map((s, i) => `<span class="sec${s.score === s.total ? ' full' : ''}">Ex ${i + 1}: ${s.score}/${s.total}</span>`).join('')}</div>
+        <div style="font-size:14.5px;color:var(--muted)">Red = wrong.</div>
         <div class="status" id="sendStatus"></div>
       </div></div>`;
   } else {
@@ -627,10 +786,10 @@ function renderSummary(){
     html = `<div class="card summary">${two ? memeOf(RES, 'meme2') : memeOf(S.r1 || RES, 'meme')}
       <div class="score">${RES.score}<span>/${RES.total}</span></div>
       <div style="flex:1;min-width:220px">
-        <div style="font-weight:800;font-size:18px">${RES.score === RES.total ? '🎉 Đúng hết, giỏi quá!' : pct >= .8 ? '👏 Giỏi lắm!' : pct >= .5 ? '💪 Khá rồi!' : '📚 Cố lên nhé!'}</div>
-        ${two ? `<div style="font-weight:700">Lần 1: ${S.r1.score}/${S.r1.total} → Lần 2: ${RES.score}/${RES.total}</div>` : ''}
-        <div class="secs">${RES.sections.map((s, i) => `<span class="sec${s.score === s.total ? ' full' : ''}">Bài ${i + 1}: ${s.score}/${s.total}</span>`).join('')}</div>
-        <div style="font-size:14.5px;color:var(--muted)">Câu sai có đáp án (→) bên dưới.</div>
+        <div style="font-weight:800;font-size:18px">${RES.score === RES.total ? '🎉 All correct! Amazing!' : pct >= .8 ? '👏 Great job!' : pct >= .5 ? '💪 Good work!' : '📚 Keep trying!'}</div>
+        ${two ? `<div style="font-weight:700">Try 1: ${S.r1.score}/${S.r1.total} → Try 2: ${RES.score}/${RES.total}</div>` : ''}
+        <div class="secs">${RES.sections.map((s, i) => `<span class="sec${s.score === s.total ? ' full' : ''}">Ex ${i + 1}: ${s.score}/${s.total}</span>`).join('')}</div>
+        <div style="font-size:14.5px;color:var(--muted)">Wrong answers show the right answer (→).</div>
         <div class="status" id="sendStatus"></div>
       </div></div>`;
   }
@@ -645,8 +804,8 @@ function updateStatus(){
   const allSent = S.sent && (!S.submittedAt2 || S.sent2);
   const st = allSent ? 'ok' : sendState;
   el.className = 'status ' + (st || '');
-  if (st === 'ok') el.innerHTML = fixing() ? '✅ Cô đã nhận bài lần 1.' : S.submittedAt2 ? '✅ Cô đã nhận được bài lần 2!' : '✅ Cô đã nhận được bài!';
-  else if (st === 'sending') el.innerHTML = '⏳ Đang gửi bài cho cô…';
+  if (st === 'ok') el.innerHTML = fixing() ? '✅ Your teacher got Try 1.' : S.submittedAt2 ? '✅ Your teacher got Try 2!' : '✅ Your teacher got your work!';
+  else if (st === 'sending') el.innerHTML = '⏳ Sending to your teacher…';
   else if (st === 'warn') el.innerHTML = '⚠️ Trang chưa được cài địa chỉ gửi bài (SCRIPT_URL), nên bài chưa được gửi cho cô.';
   else if (st === 'err') el.innerHTML = `⚠️ Chưa gửi được bài${sendErr ? ` (${esc(sendErr)})` : ''}. Em kiểm tra mạng rồi bấm: <button class="btn" type="button" id="resendBtn" style="padding:6px 14px;font-size:14px;margin-left:4px">Gửi lại</button>`;
   else el.innerHTML = '';
@@ -696,7 +855,7 @@ $('#submitBtn').addEventListener('click', () => {
   if (S.submitted || !WEEK) return;
   const left = answeredList().filter(x => !x).length;
   muteAway = true;
-  const go = confirm(left ? `Còn ${left} câu chưa làm. Nộp luôn?` : 'Nộp bài nhé?');
+  const go = confirm(left ? `${left} answer${left > 1 ? 's are' : ' is'} empty. Submit now?` : 'Submit now?');
   releaseAway();
   if (!go) return;
   document.querySelectorAll('audio').forEach(x => x.pause());
@@ -712,7 +871,7 @@ $('#submitBtn').addEventListener('click', () => {
 function submit2(){
   if (!retrying()) return;
   muteAway = true;
-  const go = confirm('Nộp lần 2? Nộp xong sẽ hiện đáp án.');
+  const go = confirm('Submit Try 2? Then you will see the answers.');
   releaseAway();
   if (!go) return;
   document.querySelectorAll('audio').forEach(x => x.pause());
@@ -738,7 +897,7 @@ function avHTML(){
 function avPicker(){
   const a = avGet() || {};
   return `<div class="avpick">
-      <label class="avopt photo${a.img ? ' on' : ''}" title="Ảnh trong máy">${a.img ? `<img src="${esc(a.img)}" alt="">` : '📷'}<small>Ảnh</small><input type="file" accept="image/*" hidden data-avfile></label>
+      <label class="avopt photo${a.img ? ' on' : ''}" title="Photo from your device">${a.img ? `<img src="${esc(a.img)}" alt="">` : '📷'}<small>Photo</small><input type="file" accept="image/*" hidden data-avfile></label>
       ${AVATARS.map(e => `<button type="button" class="avopt${a.e === e ? ' on' : ''}" data-av="${e}">${e}</button>`).join('')}
     </div>`;
 }
@@ -770,7 +929,7 @@ function bindAvPicker(box, onChange){
     try {
       if (!lsSet(AV_KEY, {img:await shrinkImg(f.files[0])}) || !avGet()) throw new Error('not saved');
       box.innerHTML = avPicker(); onChange();
-    } catch (e){ alert('Không mở được ảnh này, em chọn ảnh khác nhé.'); }
+    } catch (e){ alert('This photo can’t be opened. Please choose another one.'); }
     releaseAway();
   };
 }
@@ -780,9 +939,9 @@ document.addEventListener('click', ev => { if (ev.target.closest('.avopt.photo')
 /* ============ TÊN HỌC SINH ============ */
 function renderWho(){
   const t = d => new Date(d).toLocaleString('vi-VN');
-  $('#whoBar').innerHTML = `<span class="whoname"><button type="button" class="avbtn" id="avBtn" title="Đổi avatar">${avHTML()}<span class="avedit">✏️</span></button>
-      <span><b>${esc(S.name)}</b> · Lớp <b>${esc(S.cls)}</b></span></span>` +
-    (S.submitted ? `<span style="color:var(--muted);font-size:14px">Nộp${S.r1 ? ' lần 1' : ''} lúc ${t(S.submittedAt)}${S.submittedAt2 ? ` · lần 2 lúc ${t(S.submittedAt2)}` : ''}</span>` : `<button class="linkbtn" type="button" id="editName">Sửa tên / lớp</button>`) +
+  $('#whoBar').innerHTML = `<span class="whoname"><button type="button" class="avbtn" id="avBtn" title="Change avatar">${avHTML()}<span class="avedit">✏️</span></button>
+      <span><b>${esc(S.name)}</b> · Class <b>${esc(S.cls)}</b></span></span>` +
+    (S.submitted ? `<span style="color:var(--muted);font-size:14px">${S.r1 ? 'Try 1' : 'Submitted'}: ${t(S.submittedAt)}${S.submittedAt2 ? ` · Try 2: ${t(S.submittedAt2)}` : ''}</span>` : `<button class="linkbtn" type="button" id="editName">Edit name / class</button>`) +
     `<div class="avbox under" id="avBox" hidden></div>`;
   const b = $('#editName'); if (b) b.onclick = () => { $('#work').hidden = true; $('#bar').hidden = true; $('#start').hidden = false; bindAvPicker($('#avStart'), () => {}); $('#inName').focus(); };
   $('#avBtn').onclick = () => {
@@ -792,15 +951,15 @@ function renderWho(){
 }
 function showWork(){
   $('#start').hidden = true; $('#work').hidden = false; $('#bar').hidden = !WEEK || fixing();
-  renderWho(); progress();
+  renderWho(); progress(); setStick();
 }
 $('#inName').value = S.name; $('#inCls').value = S.cls;
 bindAvPicker($('#avStart'), () => { if ($('#startErr').textContent.includes('avatar')) $('#startErr').textContent = ''; });
 $('#startBtn').addEventListener('click', () => {
   const n = $('#inName').value.trim(), c = $('#inCls').value.trim();
-  if (n.length < 2){ $('#startErr').textContent = 'Em hãy nhập họ và tên.'; return; }
-  if (!c){ $('#startErr').textContent = 'Em hãy nhập lớp.'; return; }
-  if (!avGet()){ $('#startErr').textContent = 'Em hãy chọn avatar nhé.'; $('#avStart').scrollIntoView({behavior:'smooth', block:'center'}); return; }
+  if (n.length < 2){ $('#startErr').textContent = 'Please write your full name.'; return; }
+  if (!c){ $('#startErr').textContent = 'Please write your class.'; return; }
+  if (!avGet()){ $('#startErr').textContent = 'Please choose an avatar.'; $('#avStart').scrollIntoView({behavior:'smooth', block:'center'}); return; }
   $('#startErr').textContent = '';
   S.name = n.slice(0, 80); S.cls = c.slice(0, 30);
   if (!S.startedAt) S.startedAt = new Date().toISOString();
