@@ -387,8 +387,86 @@ img.deco{position:absolute;top:18px;transform:translateX(-50%);width:clamp(96px,
 .bdg.on b{color:#5a3fd6}
 @media (max-width:520px){.bgrid{grid-template-columns:1fr 1fr}}
 @media (min-width:700px){.bgrid{grid-template-columns:repeat(4,1fr)}}
+/* nút "bài tuần này" ở lời chào */
+.hwgo{display:inline-block;margin-top:14px;text-decoration:none;font-size:20px}
+/* thú cưng: trứng → nở → lớn (thức ăn = sao từ các trò ôn) */
+.pet{display:flex;align-items:center;gap:8px 18px;flex-wrap:wrap;background:linear-gradient(135deg,#fff6d6,#e3f7ea)}
+.petpic{position:relative;flex:none;width:160px;height:160px;margin:0 auto;display:flex;align-items:center;justify-content:center}
+.petpic img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 6px rgba(0,0,0,.15));animation:wob 2.6s ease-in-out infinite}
+.pemo{font-size:110px;line-height:1;animation:wob 2.6s ease-in-out infinite}
+.pemo.s1{font-size:118px} .pemo.s2{font-size:84px} .pemo.s3{font-size:124px}
+.petpic.hungry img,.petpic.hungry .pemo{filter:grayscale(.45);animation:none}
+.petpic .zz{position:absolute;right:4px;top:0;font-size:30px;animation:hop 1.8s infinite}
+@keyframes wob{25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
+.petinfo{flex:1;min-width:230px}
+.petinfo h2{margin:0;color:#5a3fd6;font-size:25px;line-height:1.25}
+.petsay{position:relative;display:inline-block;background:#fff;border-radius:16px;padding:7px 14px;font-weight:800;margin:8px 0 6px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.petsay .vn{display:block;font-size:15px;color:var(--muted);font-weight:700}
+.fbar{height:18px;border-radius:99px;background:#eee6d6;overflow:hidden;box-shadow:inset 0 2px 3px rgba(0,0,0,.1);margin:4px 0 2px}
+.fbar i{display:block;height:100%;min-width:8px;border-radius:99px;background:linear-gradient(90deg,#9be36a,#2bb673)}
+.fnum{font-weight:900;font-size:16px;color:#2c7a3f}
+.ftoday{font-weight:800;font-size:16px;margin-top:6px}
+.ftoday .off{filter:grayscale(1);opacity:.3}
+.eggs{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:12px 0 4px;width:100%}
+.egg{font:inherit;font-weight:900;font-size:17px;border:3px solid #f1e3b5;background:#fffdf3;border-radius:20px;padding:10px 8px;width:132px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 4px 0 #f1e3b5;transition:transform .12s}
+.egg img{width:96px;height:96px;object-fit:contain}
+.egg .pemo{font-size:70px;animation:none}
+.egg:hover{transform:scale(1.06)}
+.petname{font:inherit;font-size:21px;font-weight:800;text-align:center;padding:10px 14px;border:3px solid #d9cdfb;border-radius:14px;width:100%;margin:6px 0 4px;outline:none}
+.petname:focus{border-color:var(--brand)}
+.fxcard .petpic{width:190px;height:190px}
+/* các trò ôn bài */
+.games h2{margin:0;color:#5a3fd6}
+.games .gsub{margin:2px 0 0;font-weight:700;color:var(--muted)}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:12px;margin-top:12px}
+.gm{font:inherit;text-align:left;display:flex;align-items:center;gap:12px;border:3px solid #fff;border-radius:20px;padding:12px 14px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.1);color:var(--ink);transition:transform .1s}
+.gm .gi{font-size:46px;line-height:1;flex:none}
+.gm b{display:block;font-size:20px;line-height:1.25} .gm small{display:block;color:var(--muted);font-size:14.5px;line-height:1.3;font-weight:700}
+.gm .gbest{color:#b4531a}
+.gm:nth-child(4n+1){background:#fff3c4}.gm:nth-child(4n+2){background:#dff4ff}.gm:nth-child(4n+3){background:#ffe3f0}.gm:nth-child(4n+4){background:#e5f9e8}
+.gm:hover{transform:translateY(-2px)}
+.gm:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.1)}
+.gm:disabled{filter:grayscale(.8);opacity:.6;cursor:default;transform:none}
+/* hình của từ (ảnh hoặc emoji) */
+.wpic{display:inline-flex;align-items:center;justify-content:center;flex:none}
+.wpic img{width:100%;height:100%;object-fit:contain}
+.wpic .we{line-height:1}
+.vi .wpic{width:62px;height:62px;font-size:44px;background:#fff;border-radius:12px}
+.vtx{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;flex:1;min-width:0}
+.gpic{width:150px;height:150px;font-size:110px;margin:0 auto 4px;display:flex}
+.popts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.popt{font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:18px;border:3px solid #d7e0ea;background:#fff;cursor:pointer;box-shadow:0 4px 0 #d7e0ea;padding:8px;min-height:130px}
+.popt .wpic{width:100px;height:100px;font-size:72px}
+.popt small{font-weight:900;font-size:17px;color:var(--brand-dark);min-height:1.3em}
+.popt.ok{background:var(--ok-bg);border-color:var(--ok);box-shadow:0 4px 0 #9fd8b6;animation:popin .35s}
+.popt.bad{background:var(--bad-bg);border-color:var(--bad);animation:shake .35s}
+@media (max-width:420px){.popt{min-height:112px}.popt .wpic{width:80px;height:80px;font-size:58px}}
+.bigsay{display:block;margin:4px auto 12px;font:inherit;font-weight:900;font-size:22px;border:none;border-radius:999px;padding:12px 26px;background:linear-gradient(180deg,#5fb8ff,#2f6fe4);color:#fff;box-shadow:0 5px 0 #1f4fa8;cursor:pointer}
+.bigsay:active{transform:translateY(3px);box-shadow:0 2px 0 #1f4fa8}
+.gword{text-align:center;font-weight:900;font-size:24px;color:var(--ok);min-height:1.4em}
+/* xếp chữ / xếp câu */
+.slots{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:8px 0 16px}
+.slot{width:44px;height:54px;border-radius:12px;border:3px dashed #c9b8ff;background:#f6f2ff;font:inherit;font-size:27px;font-weight:900;color:var(--brand-dark);cursor:pointer;padding:0;text-transform:lowercase}
+.slot.f{border-style:solid;background:#fff}
+.slots.ok .slot,.sline.ok .tile{border-color:var(--ok);background:var(--ok-bg);color:var(--ok);box-shadow:none}
+.slots.bad,.sline.bad{animation:shake .35s}
+@media (max-width:420px){.slot{width:36px;height:48px;font-size:23px}}
+.tiles{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;min-height:56px}
+.tile{font:inherit;font-weight:900;font-size:25px;min-width:48px;height:54px;padding:0 12px;border-radius:12px;border:2px solid transparent;background:linear-gradient(180deg,#ffd76a,#ffb627);color:#5a3a00;box-shadow:0 4px 0 #d18f00;cursor:pointer}
+.tile:active{transform:translateY(2px);box-shadow:0 2px 0 #d18f00}
+.tile.gone{visibility:hidden}
+.tile.w{font-size:20px;height:48px;background:linear-gradient(180deg,#c6ecff,#86cdf7);color:#08355a;box-shadow:0 4px 0 #4a9ad0}
+.sline{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;min-height:66px;border:3px dashed #c9b8ff;border-radius:16px;background:#faf8ff;padding:8px;margin:6px 0 16px}
+.sline .tile.w{background:#fff;color:var(--brand-dark);border-color:#c9b8ff;box-shadow:0 3px 0 #d9cdfb}
+.sline .dot{font-size:24px;font-weight:900;color:var(--muted)}
+.gsent{font-size:clamp(21px,5.6vw,27px);font-weight:800;text-align:center;margin:6px 0 16px;line-height:1.45}
+.gsent u{display:inline-block;min-width:74px;border-bottom:4px solid var(--brand);text-decoration:none;color:var(--brand);padding:0 4px}
+.ghint{text-align:center;color:var(--wait);font-weight:800;min-height:1.4em;margin-top:8px}
+.gfood{font-weight:900;color:#2c7a3f;background:#e7f9ee;border-radius:14px;padding:8px 12px;display:inline-block}
+.gfood.full{color:#b4531a;background:#fff4e6}
 @media (prefers-reduced-motion:reduce){.hmas,.smas,img.deco,.st .me,.st.cur .node img{animation:none}}
 </style>
+<script src="../zalo-guard.js?v=1"></script>
 </head>
 <body>
 <header class="hero">
@@ -464,26 +542,27 @@ const RESET_CODE = 'yumi-lamlai';
    title = tên chặng trên bản đồ. Mỗi bài (ex) = 1 màn chơi. */
 const VOCAB = {
   // ô New words (từ trong bài nghe)
-  cook:{w:'cook', ipa:'/kʊk/', vi:'đầu bếp; nấu ăn'},
-  glasses:{w:'glasses', ipa:'/ˈɡlɑːsɪz/', vi:'kính mắt'},
+  cook:{w:'cook', e:'👨‍🍳', ipa:'/kʊk/', vi:'đầu bếp; nấu ăn'},
+  glasses:{w:'glasses', e:'👓', ipa:'/ˈɡlɑːsɪz/', vi:'kính mắt'},
   drop:{w:'drop', ipa:'/drɒp/', vi:'làm rơi (dropped = đã làm rơi)'},
-  cry:{w:'cry', ipa:'/kraɪ/', vi:'khóc'},
-  curly:{w:'curly', ipa:'/ˈkɜːli/', vi:'(tóc) xoăn'},
-  shorts:{w:'shorts', ipa:'/ʃɔːts/', vi:'quần soóc, quần đùi'},
-  helmet:{w:'helmet', ipa:'/ˈhelmɪt/', vi:'mũ bảo hiểm'},
-  racket:{w:'racket', ipa:'/ˈrækɪt/', vi:'cái vợt (tennis, cầu lông)'},
+  cry:{w:'cry', e:'😢', ipa:'/kraɪ/', vi:'khóc'},
+  curly:{w:'curly', e:'👩‍🦱', ipa:'/ˈkɜːli/', vi:'(tóc) xoăn'},
+  shorts:{w:'shorts', e:'🩳', ipa:'/ʃɔːts/', vi:'quần soóc, quần đùi'},
+  helmet:{w:'helmet', e:'⛑️', ipa:'/ˈhelmɪt/', vi:'mũ bảo hiểm'},
+  racket:{w:'racket', e:'🏸', ipa:'/ˈrækɪt/', vi:'cái vợt (tennis, cầu lông)'},
   towel:{w:'towel', ipa:'/ˈtaʊəl/', vi:'khăn tắm'},
   stairs:{w:'stairs', ipa:'/steəz/', vi:'cầu thang'},
-  parrot:{w:'parrot', ipa:'/ˈpærət/', vi:'con vẹt'},
-  nurse:{w:'nurse', ipa:'/nɜːs/', vi:'y tá'},
+  parrot:{w:'parrot', e:'🦜', ipa:'/ˈpærət/', vi:'con vẹt'},
+  nurse:{w:'nurse', e:'🧑‍⚕️', ipa:'/nɜːs/', vi:'y tá'},
   // từ là đáp án (hiện sau khi nộp xong)
-  pancake:{w:'pancake', ipa:'/ˈpænkeɪk/', vi:'bánh kếp'},
-  noodles:{w:'noodles', ipa:'/ˈnuːdlz/', vi:'mì, bún, phở (sợi)'},
-  circus:{w:'circus', ipa:'/ˈsɜːkəs/', vi:'rạp xiếc'},
-  penguin:{w:'penguin', ipa:'/ˈpeŋɡwɪn/', vi:'chim cánh cụt'},
-  funfair:{w:'funfair', ipa:'/ˈfʌnfeə/', vi:'khu vui chơi, hội chợ có trò chơi'},
-  snail:{w:'snail', ipa:'/sneɪl/', vi:'con ốc sên'},
-  tractor:{w:'tractor', ipa:'/ˈtræktə/', vi:'máy kéo'},
+  pancake:{w:'pancake', e:'🥞', ipa:'/ˈpænkeɪk/', vi:'bánh kếp'},
+  building:{w:'building', e:'🏢', ipa:'/ˈbɪldɪŋ/', vi:'tòa nhà'},
+  noodles:{w:'noodles', e:'🍜', ipa:'/ˈnuːdlz/', vi:'mì, bún, phở (sợi)'},
+  circus:{w:'circus', e:'🎪', ipa:'/ˈsɜːkəs/', vi:'rạp xiếc'},
+  penguin:{w:'penguin', e:'🐧', ipa:'/ˈpeŋɡwɪn/', vi:'chim cánh cụt'},
+  funfair:{w:'funfair', e:'🎡', ipa:'/ˈfʌnfeə/', vi:'khu vui chơi, hội chợ có trò chơi'},
+  snail:{w:'snail', e:'🐌', ipa:'/sneɪl/', vi:'con ốc sên'},
+  tractor:{w:'tractor', e:'🚜', ipa:'/ˈtræktə/', vi:'máy kéo'},
   // chỉ highlight trong câu hỏi / hướng dẫn
   description:{w:'description', ipa:'/dɪˈskrɪpʃn/', vi:'sự miêu tả'},
   extra:{w:'extra', ipa:'/ˈekstrə/', vi:'thừa, thêm'},
@@ -502,7 +581,30 @@ const WEEKS = {
     sub: 'Week 1 · Listening Part 1 & Part 2',
     title: 'Names, spelling & numbers',
     newWords: ['cook', 'glasses', 'drop', 'cry', 'curly', 'shorts', 'helmet', 'racket', 'towel', 'stairs', 'parrot', 'nurse'],
-    newWordsAfter: ['pancake', 'noodles', 'circus', 'penguin', 'funfair', 'snail', 'tractor'],
+    newWordsAfter: ['pancake', 'building', 'noodles', 'circus', 'penguin', 'funfair', 'snail', 'tractor'],
+    // Trò "Sentence Lab": câu lấy từ lời bài nghe. s = câu, g = từ bị che (trò chọn từ), x = 2 lựa chọn sai.
+    // after:true = câu lộ đáp án → chỉ mở sau khi em nộp xong bài tuần này.
+    gram: [
+      {s:'The little girl is crying.', g:'is', x:['are', 'am']},
+      {s:'He is playing a computer game.', g:'playing', x:['play', 'plays']},
+      {s:'She dropped her ice cream.', g:'dropped', x:['drop', 'drops']},
+      {s:'The woman with the glasses is drinking coffee.', g:'with', x:['has', 'on']},
+      {s:'There are lots of people in the café.', g:'are', x:['is', 'am']},
+      {s:'He has got a new basketball.', g:'got', x:['get', 'gets']},
+      {s:'He is wearing black shorts.', g:'wearing', x:['wear', 'wears']},
+      {s:'She is my funniest friend.', g:'funniest', x:['funny', 'funnier']},
+      {s:'He doesn’t like skipping.', g:'doesn’t', x:['don’t', 'isn’t']},
+      {s:'He fell down the stairs.', g:'fell', x:['falls', 'fall']},
+      {s:'Grandpa likes seeing my photos.', g:'seeing', x:['see', 'sees']},
+      {s:'Can we buy some flowers?', g:'Can', x:['Are', 'Does']},
+      {s:'You must do some writing.', g:'must', x:['are', 'does']},
+      {s:'He can go home tomorrow.', g:'can', x:['is', 'does']},
+      {s:'Grandpa hurt his back.', g:'hurt', x:['hurts', 'hurting'], after:true},
+      {s:'He is in room forty-five.', g:'in', x:['on', 'at'], after:true},
+      {s:'Dinner time is at six o’clock.', g:'at', x:['in', 'on'], after:true},
+      {s:'You only have to write three hundred words.', g:'have', x:['has', 'having'], after:true},
+      {s:'Give it to him on Wednesday.', g:'on', x:['in', 'at'], after:true},
+    ],
     ex: [
       { id:'1', type:'picWrite', track:'02', src:'Sách trang 4 · Exercise 3',
         title:'Listening for names and {{description|descriptions}} of people',
@@ -682,7 +784,12 @@ document.addEventListener('click', e => {
   if (!e.target.closest('#pop')) hidePop();
 }, true);
 window.addEventListener('resize', hidePop);
-const vRow = k => `<div class="vi">${vt('{{' + k + '}}')}<span class="vipa">${esc(VOCAB[k].ipa)}</span><span class="vmean">${esc(VOCAB[k].vi)}</span></div>`;
+// Hình của từ: ảnh img/words/<khoá>.webp nếu khoá có trong WORD_PICS, không thì emoji (e) trong VOCAB
+const WORD_PICS = ['cook', 'glasses', 'drop', 'cry', 'curly', 'shorts', 'helmet', 'racket', 'towel', 'stairs', 'parrot', 'nurse',
+  'pancake', 'noodles', 'circus', 'penguin', 'funfair', 'snail', 'tractor', 'building'];
+const hasPic = k => !!VOCAB[k] && (WORD_PICS.includes(k) || !!VOCAB[k].e);
+const wpic = (k, cls = '') => !hasPic(k) ? '' : `<span class="wpic ${cls}">${WORD_PICS.includes(k) ? `<img src="img/words/${k}.webp" alt="">` : `<span class="we">${VOCAB[k].e}</span>`}</span>`;
+const vRow = k => `<div class="vi" style="display:flex;align-items:center;gap:10px">${wpic(k)}<span class="vtx">${vt('{{' + k + '}}')}<span class="vipa">${esc(VOCAB[k].ipa)}</span><span class="vmean">${esc(VOCAB[k].vi)}</span></span></div>`;
 
 /* ============ HỌC SINH (tên, lớp dùng chung cho mọi tuần) ============ */
 const ME_KEY = 'a1kid-me';
@@ -915,7 +1022,7 @@ function exHtml(e, i){
   }
   return `<section class="card ex" id="ex${e.id}" data-s="${e.id}">
     <div class="ex-head"><span class="badge">Level ${i + 1}</span><h2>${vt(e.title)}</h2></div>
-    <div class="coach"><img src="img/ui/mascot-1.webp" alt=""><p class="how">${vt(e.how)}</p></div>
+    <div class="coach"><img src="img/ui/mascot-4.webp" alt=""><p class="how">${vt(e.how)}</p></div>
     <div class="listen"><div class="lt">🎧 Listen</div><audio class="player" controls preload="none" src="audio/${e.track}.mp3"></audio></div>
     ${body}
     <div class="lvnav"></div>
@@ -1460,14 +1567,21 @@ function gameData(){
   const weeks = Object.keys(WEEKS).map(Number).filter(w => w <= OPEN_WEEK).sort((a, b) => a - b);
   const states = weeks.map(w => ({w, W:WEEKS[w], s:lsGet(storeKey(w)) || {}}));
   const rev = Object.assign({plays:0, best:0, stars:0, days:{}}, lsGet(REV_KEY) || {});
+  const pet = petGet();
   let lessonStars = 0, done = 0, run = 0, maxStreak = 0;
-  const pool = [];
+  // pool = từ dùng trong trò chơi (từ New words mở ngay từ đầu tuần; từ là đáp án chỉ mở sau khi nộp xong)
+  // learned = từ của các tuần đã làm xong (đếm "new words", huy hiệu Word Hunter)
+  const pool = [], learned = [], gram = [];
+  const add = (arr, k) => { if (VOCAB[k] && !arr.includes(k)) arr.push(k); };
   states.forEach(x => {
     const n = starsOf(x.s); lessonStars += n;
-    if (isDone(x.s)){ done++; (x.W.newWords || []).concat(x.W.newWordsAfter || []).forEach(k => { if (VOCAB[k] && !pool.includes(k)) pool.push(k); }); }
+    (x.W.newWords || []).forEach(k => add(pool, k));
+    (x.W.gram || []).forEach(g => { if (!g.after || isDone(x.s)) gram.push(g); });
+    if (isDone(x.s)){ done++; (x.W.newWords || []).concat(x.W.newWordsAfter || []).forEach(k => { add(pool, k); add(learned, k); }); }
     run = isDone(x.s) ? run + 1 : 0; maxStreak = Math.max(maxStreak, run);
   });
-  return {weeks, states, rev, stars:lessonStars + rev.stars, words:pool.length, done, maxStreak, pool};
+  // sao = sao bài tuần + sao Quick review cũ (trước khi có thú cưng) + thức ăn đã cho thú cưng ăn
+  return {weeks, states, rev, pet, stars:lessonStars + (rev.stars || 0) + pet.food, words:learned.length, done, maxStreak, pool, gram};
 }
 /* huy hiệu */
 const BADGES = [
@@ -1536,15 +1650,162 @@ function drawMap(){
   svg.innerHTML = `<path d="${path(pts)}" class="pth"/>${doneN ? `<path d="${path(pts.slice(0, doneN + 1))}" class="pth done"/>` : ''}`;
 }
 window.addEventListener('resize', drawMap);
-/* Quick review: 10 từ / 90 giây */
-function reviewCard(d){
-  const ok = d.pool.length >= 4;
-  return `<section class="card qr${ok ? '' : ' off'}"><img class="qri" src="img/ui/qr-1.webp" alt="">
-    <div class="qrt"><b>⚡ Quick review</b><span>${ok ? `${Math.min(10, d.pool.length)} words · ${REV_SECS} seconds · win up to ⭐⭐⭐` : 'Làm xong 1 tuần để mở khoá trò chơi ôn từ nha!'}</span>
-    ${d.rev.plays ? `<small>Best: ${d.rev.best}/10 · Played ${d.rev.plays}×</small>` : ''}</div>
-    <button class="btn orange" id="qrBtn" type="button"${ok ? '' : ' disabled'}>Play ▶</button></section>`;
-}
 const today = () => new Date().toLocaleDateString('en-CA');
+/* ============ THÚ CƯNG: trứng → nở → lớn ============ */
+// Thức ăn 🍎 = sao kiếm được ở các trò ôn bài (ngoài bài cô giao). Mỗi ngày cho ăn tối đa FOOD_DAY.
+// Đủ CRACK: trứng nứt. Đủ HATCH: trứng nở → gửi mail báo cô. Đủ GROW: thú lớn.
+// HATCH 35 / 5 mỗi ngày = chơi đều khoảng 1 tuần thì nở.
+const PET_KEY = 'a1kid-pet', FOOD_DAY = 5, CRACK = 18, HATCH = 35, GROW = 80;
+const PETS = {p1:{name:'Dragon', emo:'🐲'}, p2:{name:'Unicorn', emo:'🦄'}, p3:{name:'Dino', emo:'🦖'}};
+const PET_IMG = true;  // true khi đã có hình img/pet/<p1|p2|p3>-<0..3>.webp (0 trứng, 1 trứng nứt, 2 thú con, 3 thú lớn)
+function petGet(){
+  const p = Object.assign({egg:null, name:'', food:0, day:'', today:0, fedDays:0, lastFed:'', plays:{}, startedAt:null, hatchedAt:null, sent:false}, lsGet(PET_KEY) || {});
+  if (!p.plays || typeof p.plays !== 'object') p.plays = {};
+  if (p.day !== today()){ p.day = today(); p.today = 0; }
+  return p;
+}
+const petStage = p => p.food >= GROW ? 3 : p.food >= HATCH ? 2 : p.food >= CRACK ? 1 : 0;
+const petKind = p => PETS[p.egg] || PETS.p1;
+const petLabel = p => p.name || (petStage(p) >= 2 ? 'your ' + petKind(p).name.toLowerCase() : 'your egg');
+const petPic = (egg, st) => PET_IMG ? `<img src="img/pet/${egg || 'p1'}-${st}.webp" alt="">`
+  : `<span class="pemo s${st}">${st >= 2 ? (PETS[egg] || PETS.p1).emo : st === 1 ? '🐣' : '🥚'}</span>`;
+const daysSince = d => d ? Math.round((new Date(today()) - new Date(d)) / 864e5) : 99;
+// cho thú cưng ăn sau mỗi lượt chơi: số sao (0–3) = số 🍎, mỗi ngày tối đa FOOD_DAY
+function feedPet(gid, score, total){
+  const p = petGet(), t = today(), pct = total ? score / total : 0;
+  const st = pct >= .9 ? 3 : pct >= .7 ? 2 : pct >= .4 ? 1 : 0;
+  const gain = Math.max(0, Math.min(st, FOOD_DAY - p.today)), before = p.food;
+  p.plays[gid] = (p.plays[gid] || 0) + 1;
+  if (!p.startedAt) p.startedAt = new Date().toISOString();
+  if (gain){ if (p.lastFed !== t){ p.fedDays++; p.lastFed = t; } p.today += gain; p.food += gain; }
+  const hatched = before < HATCH && p.food >= HATCH, grew = before < GROW && p.food >= GROW;
+  if (hatched){ if (!p.egg) p.egg = 'p1'; p.hatchedAt = new Date().toISOString(); p.sent = false; }
+  lsSet(PET_KEY, p);
+  return {st, gain, full:st > gain, hatched, grew, p};
+}
+function petHtml(d){
+  const p = d.pet;
+  if (!p.egg) return `<section class="card pet" id="petCard"><div class="petinfo" style="text-align:center">
+      <h2>🥚 Choose your magic egg!</h2>
+      <div class="petsay">Play the games to feed it. It hatches in about 1 week!<span class="vn">Chọn 1 quả trứng, chơi trò ôn bài mỗi ngày để ấp trứng nha. Mỗi ngày cho ăn tối đa ${FOOD_DAY} 🍎.</span></div>
+      <div class="eggs">${Object.keys(PETS).map(id => `<button class="egg" type="button" data-egg="${id}">${petPic(id, 0)}<span>${PETS[id].name} egg</span></button>`).join('')}</div>
+    </div></section>`;
+  const st = petStage(p), hungry = p.food > 0 && daysSince(p.lastFed) >= 2 && !p.today;
+  const line = hungry ? ['I’m hungry! 🥺 Play a game to feed me.', 'Lâu rồi em chưa cho ăn đó, chơi 1 trò nha!']
+    : p.today >= FOOD_DAY ? ['Yummy! I’m full today 😋 See you tomorrow!', 'Hôm nay ăn no rồi, mai quay lại cho ăn tiếp nha!']
+    : st === 0 ? (p.food ? ['The egg is getting warm… 🔥', 'Trứng đang ấm dần lên, cho ăn tiếp nha!'] : ['Play a game to feed your egg! 🍎', 'Chơi trò ôn bài bên dưới để ấp trứng nha!'])
+    : st === 1 ? ['Crack… crack! Something is moving inside! 👀', 'Trứng sắp nở rồi! Cho ăn tiếp nha!']
+    : st === 2 ? ['Thank you for feeding me! I want to grow big! 💪', 'Cho tớ ăn tiếp để tớ lớn nha!']
+    : ['I’m big and strong thanks to you! 🏆', 'Tớ lớn rồi nè, nhờ em chăm chỉ đó!'];
+  const title = st < 2 ? `🥚 Your ${petKind(p).name} egg` : `${petKind(p).emo} ${esc(p.name || petKind(p).name)}`;
+  const goal = st < 2 ? HATCH : GROW, bar = st >= 3 ? 100 : Math.round(p.food / goal * 100);
+  const num = st < 2 ? `🍎 ${p.food}/${HATCH} to hatch` : st < 3 ? `🍎 ${p.food}/${GROW} to grow big` : `🍎 ${p.food} food eaten`;
+  return `<section class="card pet" id="petCard">
+      <div class="petpic${hungry ? ' hungry' : ''}">${petPic(p.egg, st)}${hungry ? '<span class="zz">💤</span>' : ''}</div>
+      <div class="petinfo"><h2>${title}</h2>
+        <div class="petsay">${line[0]}<span class="vn">${line[1]}</span></div>
+        <div class="fbar"><i style="width:${bar}%"></i></div><div class="fnum">${num}</div>
+        <div class="ftoday">Today: ${Array.from({length:FOOD_DAY}, (_, i) => `<span class="${i < p.today ? '' : 'off'}">🍎</span>`).join('')} ${p.today}/${FOOD_DAY}</div>
+      </div></section>`;
+}
+// trứng nở: chúc mừng + đặt tên → gửi mail báo cô
+function showHatch(){
+  if ($('.fxov.hatch')) return;
+  const p = petGet(), k = petKind(p);
+  const ov = document.createElement('div'); ov.className = 'fxov hatch';
+  ov.innerHTML = `<div class="fxcard"><div class="fxt">🎉 Your egg hatched!</div>
+      <div class="petpic">${petPic(p.egg, 2)}</div>
+      <p style="font-weight:800;margin:6px 0 10px">It’s a baby ${k.name.toLowerCase()}! ${k.emo}<br><span class="muted small">Cô sẽ nhận được tin vui này qua email nha! 💌</span></p>
+      <label for="petName" style="font-weight:900">Give your pet a name:</label>
+      <input class="petname" id="petName" maxlength="20" autocomplete="off" placeholder="${k.name}" value="${esc(p.name)}">
+      <button class="btn orange" type="button" id="petOk">OK 🎉</button></div>`;
+  document.body.appendChild(ov); confetti(); sfx('badge');
+  const ok = () => {
+    const q = petGet(); q.name = ($('#petName', ov).value.trim() || k.name).slice(0, 20); lsSet(PET_KEY, q);
+    ov.remove(); sendPet(); if (!$('#home').hidden) renderHome();
+  };
+  $('#petOk', ov).onclick = ok;
+  $('#petName', ov).addEventListener('keydown', e => { if (e.key === 'Enter') ok(); });
+}
+let petSending = false;
+async function sendPet(){
+  const p = petGet();
+  if (!p.hatchedAt || p.sent || petSending || !SCRIPT_URL || !ME.name) return;
+  petSending = true;
+  try {
+    await post({app:'a1pet', unit:UNIT, name:ME.name, cls:ME.cls || '', pet:petKind(p).name, petName:p.name || petKind(p).name,
+      food:p.food, fedDays:p.fedDays, plays:p.plays, startedAt:p.startedAt, hatchedAt:p.hatchedAt});
+    const q = petGet(); q.sent = true; lsSet(PET_KEY, q);
+  } catch (e) {}
+  petSending = false;
+}
+
+/* ============ CÁC TRÒ ÔN BÀI (từ + ngữ pháp của các tuần đã mở) ============ */
+const GKEY = 'a1kid-games';
+const TTS = 'speechSynthesis' in window;
+const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const spellable = k => /^[a-z]{3,9}$/.test(VOCAB[k] ? VOCAB[k].w : '');
+const GAMES = [
+  {id:'listen', icon:'👂', name:'Listen & Tap', vi:'Nghe từ, chạm đúng hình', ok:d => d.pool.filter(hasPic).length >= 4, run:() => startListen()},
+  {id:'spell', icon:'🔤', name:'Spelling Bee', vi:'Nghe từ, xếp chữ cái thành từ', ok:d => d.pool.filter(spellable).length >= 3, run:() => startSpell()},
+  {id:'gram', icon:'🧩', name:'Sentence Lab', vi:'Xếp câu và chọn từ đúng', ok:d => d.gram.length >= 4, run:() => startGram()},
+  {id:'review', icon:'⚡', name:'Quick review', vi:'Từ ↔ nghĩa trong 90 giây', ok:d => d.pool.length >= 4, run:() => startReview()},
+];
+function gamesHtml(d){
+  const g = lsGet(GKEY) || {};
+  return `<section class="card games" id="games"><h2>🎮 Games: feed your pet!</h2>
+    <p class="gsub">Win ⭐ = 🍎 for your pet · ${FOOD_DAY} 🍎 a day</p>
+    <div class="ggrid">${GAMES.map(x => {
+      const r = x.id === 'review' ? d.rev : g[x.id];
+      const best = r && r.plays ? (x.id === 'review' ? `Best ${r.best}/10` : `Best ${r.best}%`) + ` · Played ${r.plays}×` : '';
+      return `<button class="gm" type="button" data-g="${x.id}"${x.ok(d) ? '' : ' disabled'}><span class="gi">${x.icon}</span><span><b>${x.name}</b><small>${x.vi}</small>${best ? `<small class="gbest">${best}</small>` : ''}</span></button>`;
+    }).join('')}</div></section>`;
+}
+// khung chung của các trò: tiêu đề, số câu đúng, thanh tiến độ, nút đóng
+function gameShell(title){
+  const ov = document.createElement('div'); ov.className = 'fxov game';
+  ov.innerHTML = `<div class="gcard"><div class="ghead"><b>${title}</b><span class="gsc" id="gSc">0</span><button class="gx" type="button" aria-label="Close">✕</button></div>
+    <div class="gtime"><i id="gT" style="width:0"></i></div><div id="gBody"></div></div>`;
+  document.body.appendChild(ov);
+  const G = {ov, body:$('#gBody', ov), score:0, over:false, done:false, timers:[], timer:null, hatched:false};
+  G.later = (fn, ms) => G.timers.push(setTimeout(() => { if (!G.over) fn(); }, ms));
+  G.setScore = n => { G.score = n; $('#gSc', ov).textContent = n; };
+  G.prog = (i, n) => { $('#gT', ov).style.width = Math.round(i / n * 100) + '%'; };
+  const onKey = ev => { if (ev.key === 'Escape') G.close(); };
+  G.close = () => {
+    if (G.over) return; G.over = true;
+    G.timers.forEach(clearTimeout); clearInterval(G.timer); ov.remove(); document.removeEventListener('keydown', onKey);
+    try { speechSynthesis.cancel(); } catch (e) {}
+    if (!$('#home').hidden) renderHome();
+    if (G.hatched) showHatch();
+  };
+  document.addEventListener('keydown', onKey);
+  $('.gx', ov).onclick = () => G.close();
+  return G;
+}
+// màn kết thúc chung: sao, thức ăn cho thú cưng, chơi lại
+function gameEnd(G, gid, total, again){
+  if (G.done || G.over) return; G.done = true;
+  G.timers.forEach(clearTimeout); clearInterval(G.timer);
+  const score = G.score, pct = total ? score / total : 0, r = feedPet(gid, score, total);
+  if (gid !== 'review'){ const g = lsGet(GKEY) || {}, x = g[gid] || {plays:0, best:0}; x.plays++; x.best = Math.max(x.best || 0, Math.round(pct * 100)); g[gid] = x; lsSet(GKEY, g); }
+  G.hatched = r.hatched;
+  const food = r.gain ? `<span class="gfood">🍎 +${r.gain} for ${esc(petLabel(r.p))}!</span>`
+    : r.st ? `<span class="gfood full">😋 Your pet is full today (${FOOD_DAY} 🍎). Come back tomorrow!<br><small>Hôm nay đủ ${FOOD_DAY} 🍎 rồi, mai cho ăn tiếp nha. Em vẫn chơi được để nhớ bài!</small></span>`
+    : '<span class="gfood full">Win ⭐ to feed your pet! Try again 💪</span>';
+  G.body.innerHTML = `<div class="gend"><img class="gmas" src="img/ui/mascot-${r.st >= 2 ? 2 : 3}.webp" alt=""><div class="gbig">${score} / ${total}</div>
+    <div class="gst">${[1, 2, 3].map(i => `<span class="${i <= r.st ? '' : 'off'}">⭐</span>`).join('')}</div>
+    <p>${score === total ? 'Amazing! All correct! 🏆' : pct >= .7 ? 'Great job! Keep it up! 💪' : 'Good try! Play again to remember more. 🌱'}</p>
+    <p>${food}</p>
+    ${r.hatched ? '<p style="font-weight:900;font-size:20px;color:#d0631a">🥚💥 Something is happening to your egg…!</p>' : r.grew ? '<p style="font-weight:900;color:#2c7a3f">🎉 Your pet grew big and strong!</p>' : ''}
+    <div class="gbtns">${r.hatched ? '<button class="btn orange" type="button" id="gSee">See my egg! 🥚</button>'
+      : '<button class="btn" type="button" id="gAgain">Play again 🔁</button><button class="btn lite" type="button" id="gClose">Close</button>'}</div></div>`;
+  if (r.st === 3 || r.hatched){ confetti(); sfx('win'); } else sfx('ok');
+  const a = $('#gAgain', G.body); if (a) a.onclick = () => { G.close(); again(); };
+  const c = $('#gClose', G.body) || $('#gSee', G.body); c.onclick = () => G.close();
+}
+
+/* Quick review: từ ↔ nghĩa, 10 từ / 90 giây */
 const viShort = v => (v.vi.replace(/\s*\([^)]*\)/g, '').trim() || v.vi);
 function startReview(){
   const d = gameData(); if (d.pool.length < 4) return;
@@ -1555,64 +1816,207 @@ function startReview(){
     const wrong = shuffle(d.pool.filter(x => x !== k)).concat(others).filter(x => viShort(VOCAB[x]) !== viShort(VOCAB[k]) && VOCAB[x].w !== VOCAB[k].w);
     return {k, mode, opts:shuffle([k].concat(wrong.slice(0, 3)))};
   });
-  const G = {i:0, score:0, left:REV_SECS, lock:false, timer:null, over:false};
-  const ov = document.createElement('div'); ov.className = 'fxov game';
-  ov.innerHTML = `<div class="gcard"><div class="ghead"><b>⚡ Quick review</b><span class="gsc" id="gSc">0</span><button class="gx" type="button" aria-label="Close">✕</button></div>
-    <div class="gtime"><i id="gT"></i></div><div id="gBody"></div></div>`;
-  document.body.appendChild(ov);
-  const body = $('#gBody', ov);
-  const close = () => { G.over = true; clearInterval(G.timer); ov.remove(); document.removeEventListener('keydown', onKey); renderHome(); };
-  const onKey = ev => { if (ev.key === 'Escape') close(); };
-  document.addEventListener('keydown', onKey);
-  $('.gx', ov).onclick = close;
+  const G = gameShell('⚡ Quick review'), body = G.body;
+  let i = 0, lock = false, left = REV_SECS;
+  $('#gT', G.ov).style.width = '100%';
   function show(){
-    const q = Q[G.i], v = VOCAB[q.k];
-    body.innerHTML = `<div class="gno">${G.i + 1} / ${Q.length}</div>
+    const q = Q[i], v = VOCAB[q.k];
+    body.innerHTML = `<div class="gno">${i + 1} / ${Q.length}</div>
       ${q.mode === 'en' ? `<div class="gq"><button class="gsay" type="button" aria-label="Listen">🔊</button> ${esc(v.w)}</div><div class="gh">What does it mean?</div>`
         : `<div class="gq vi">${esc(viShort(v))}</div><div class="gh">Which English word?</div>`}
       <div class="gopts">${q.opts.map(o => `<button class="gopt" type="button" data-k="${esc(o)}">${esc(q.mode === 'en' ? viShort(VOCAB[o]) : VOCAB[o].w)}</button>`).join('')}</div>`;
     if (q.mode === 'en') say(v.w);
     const s = $('.gsay', body); if (s) s.onclick = () => say(v.w);
-    G.lock = false;
+    lock = false;
   }
   body.addEventListener('click', ev => {
-    const b = ev.target.closest('.gopt'); if (!b || G.lock) return;
-    G.lock = true;
-    const q = Q[G.i], right = b.dataset.k === q.k;
+    const b = ev.target.closest('.gopt'); if (!b || lock || G.done) return;
+    lock = true;
+    const q = Q[i], right = b.dataset.k === q.k;
     $$('.gopt', body).forEach(x => { if (x.dataset.k === q.k) x.classList.add('ok'); });
-    if (right){ G.score++; sfx('ok'); $('#gSc', ov).textContent = G.score; }
-    else { b.classList.add('bad'); sfx('bad'); }
+    if (right){ G.setScore(G.score + 1); sfx('ok'); } else { b.classList.add('bad'); sfx('bad'); }
     if (q.mode === 'vi') say(VOCAB[q.k].w);
-    setTimeout(() => { if (G.over) return; G.i++; G.i < Q.length ? show() : end(); }, right ? 800 : 1600);
+    G.later(() => { i++; i < Q.length ? show() : end(); }, right ? 800 : 1600);
   });
   function end(){
-    if (G.over) return; G.over = true;
-    clearInterval(G.timer);
-    const st = G.score >= Q.length ? 3 : G.score >= Q.length * .7 ? 2 : G.score >= Q.length * .4 ? 1 : 0;
-    const r = Object.assign({plays:0, best:0, stars:0, days:{}}, lsGet(REV_KEY) || {});
-    const t = today(), n = r.days[t] || 0, gain = n < 3 ? st : 0; // mỗi ngày tính sao 3 lượt đầu
-    r.plays++; r.best = Math.max(r.best, Q.length >= 10 ? G.score : 0); r.stars += gain; r.days = {[t]:n + 1};
-    lsSet(REV_KEY, r);
-    body.innerHTML = `<div class="gend"><img class="gmas" src="img/ui/mascot-${st >= 2 ? 2 : 3}.webp" alt=""><div class="gbig">${G.score} / ${Q.length}</div>
-      <div class="gst">${[1, 2, 3].map(i => `<span class="${i <= st ? '' : 'off'}">⭐</span>`).join('')}</div>
-      <p>${G.score === Q.length ? 'Amazing! You know them all! 🏆' : G.score >= Q.length * .7 ? 'Great job! Keep it up! 💪' : 'Good try! Play again to remember more. 🌱'}</p>
-      <p class="muted small">${gain ? `+${gain} ⭐ added to your stars` : st ? 'Hôm nay em đã nhận đủ sao ôn từ (3 lượt). Vẫn chơi tiếp để nhớ từ nha!' : ''}</p>
-      <div class="gbtns"><button class="btn" type="button" id="gAgain">Play again 🔁</button><button class="btn lite" type="button" id="gClose">Close</button></div></div>`;
-    if (st === 3){ confetti(); sfx('win'); } else sfx('ok');
-    $('#gAgain', body).onclick = () => { ov.remove(); document.removeEventListener('keydown', onKey); startReview(); };
-    $('#gClose', body).onclick = close;
+    if (G.done) return;
+    const r = Object.assign({plays:0, best:0, stars:0}, lsGet(REV_KEY) || {});
+    r.plays++; r.best = Math.max(r.best, Q.length >= 10 ? G.score : 0); delete r.days; lsSet(REV_KEY, r);
+    gameEnd(G, 'review', Q.length, startReview);
   }
-  const bar = $('#gT', ov);
+  const bar = $('#gT', G.ov);
   G.timer = setInterval(() => {
-    G.left -= .25; bar.style.width = Math.max(0, G.left / REV_SECS * 100) + '%';
-    bar.classList.toggle('low', G.left <= 15);
-    if (G.left <= 0){ G.lock = true; end(); }
+    left -= .25; bar.style.width = Math.max(0, left / REV_SECS * 100) + '%';
+    bar.classList.toggle('low', left <= 15);
+    if (left <= 0){ lock = true; end(); }
   }, 250);
   show();
 }
+
+/* Listen & Tap: nghe từ, chạm đúng hình */
+function startListen(){
+  const pool = gameData().pool.filter(hasPic); if (pool.length < 4) return;
+  const Q = shuffle(pool).slice(0, 8).map(k => ({k, opts:shuffle([k].concat(shuffle(pool.filter(x => x !== k)).slice(0, 3)))}));
+  const G = gameShell('👂 Listen & Tap'), body = G.body;
+  let i = 0, lock = false;
+  const next = () => { i++; i < Q.length ? show() : gameEnd(G, 'listen', Q.length, startListen); };
+  function show(){
+    const q = Q[i]; G.prog(i, Q.length); lock = false;
+    body.innerHTML = `<div class="gno">${i + 1} / ${Q.length}</div>
+      <button class="bigsay" type="button" id="gSay">🔊 Listen</button>
+      ${TTS ? '' : `<div class="gword" style="color:var(--brand)">${esc(VOCAB[q.k].w)}</div>`}
+      <div class="gh">Tap the right picture!</div>
+      <div class="popts">${q.opts.map(o => `<button class="popt" type="button" data-k="${o}">${wpic(o)}<small></small></button>`).join('')}</div>`;
+    $('#gSay', body).onclick = () => say(VOCAB[q.k].w);
+    G.later(() => say(VOCAB[q.k].w), 350);
+  }
+  body.addEventListener('click', ev => {
+    const b = ev.target.closest('.popt'); if (!b || lock || G.done) return;
+    lock = true;
+    const q = Q[i], right = b.dataset.k === q.k;
+    $$('.popt', body).forEach(x => { $('small', x).textContent = VOCAB[x.dataset.k].w; if (x.dataset.k === q.k) x.classList.add('ok'); });
+    if (right){ G.setScore(G.score + 1); sfx('ok'); } else { b.classList.add('bad'); sfx('bad'); }
+    G.later(() => say(VOCAB[q.k].w), 250);
+    G.later(next, right ? 1400 : 2300);
+  });
+  show();
+}
+
+/* Spelling Bee: nghe từ, xếp chữ cái */
+function startSpell(){
+  const pool = gameData().pool.filter(spellable); if (pool.length < 3) return;
+  const Q = shuffle(pool).slice(0, 6);
+  const G = gameShell('🔤 Spelling Bee'), body = G.body;
+  let i = 0, miss = 0, lock = false, fill = [];
+  const next = () => { i++; i < Q.length ? show() : gameEnd(G, 'spell', Q.length, startSpell); };
+  const tileC = t => $(`.tile[data-t="${t}"]`, body);
+  function show(){
+    const w = VOCAB[Q[i]].w; G.prog(i, Q.length); miss = 0; lock = false; fill = Array(w.length).fill(null);
+    let letters; do { letters = shuffle(w.split('')); } while (letters.join('') === w && new Set(w).size > 1);
+    body.innerHTML = `<div class="gno">${i + 1} / ${Q.length}</div>
+      ${wpic(Q[i], 'gpic')}
+      <button class="bigsay" type="button" id="gSay">🔊 Listen</button>
+      <div class="slots" id="gSl">${fill.map((_, j) => `<button class="slot" type="button" data-j="${j}"></button>`).join('')}</div>
+      <div class="tiles">${letters.map((c, j) => `<button class="tile" type="button" data-t="${j}" data-c="${c}">${c}</button>`).join('')}</div>
+      <div class="ghint" id="gHint"></div>`;
+    $('#gSay', body).onclick = () => say(w);
+    G.later(() => say(w), 350);
+  }
+  function paint(){ $$('.slot', body).forEach((s, j) => { s.textContent = fill[j] === null ? '' : tileC(fill[j]).dataset.c; s.classList.toggle('f', fill[j] !== null); }); }
+  body.addEventListener('click', ev => {
+    if (lock || G.done) return;
+    const t = ev.target.closest('.tile'), s = ev.target.closest('.slot');
+    if (t && !t.classList.contains('gone')){
+      const j = fill.indexOf(null); if (j < 0) return;
+      fill[j] = t.dataset.t; t.classList.add('gone'); sfx('tick'); paint();
+      if (!fill.includes(null)) check();
+    } else if (s && fill[+s.dataset.j] !== null){
+      tileC(fill[+s.dataset.j]).classList.remove('gone'); fill[+s.dataset.j] = null; paint();
+    }
+  });
+  function check(){
+    const w = VOCAB[Q[i]].w, got = fill.map(t => tileC(t).dataset.c).join(''), sl = $('#gSl', body);
+    lock = true;
+    if (got === w){
+      sl.classList.add('ok'); sfx('ok'); say(w);
+      if (!miss) G.setScore(G.score + 1);
+      G.later(next, 1400); return;
+    }
+    miss++; sfx('bad'); sl.classList.remove('bad'); void sl.offsetWidth; sl.classList.add('bad');
+    if (miss >= 3){ $('#gHint', body).textContent = '👉 ' + w; say(w); G.later(next, 2400); return; }
+    G.later(() => { // trả lại các chữ sai chỗ, giữ chữ đúng
+      fill.forEach((t, j) => { if (tileC(t).dataset.c !== w[j]){ tileC(t).classList.remove('gone'); fill[j] = null; } });
+      paint(); sl.classList.remove('bad'); lock = false;
+      $('#gHint', body).textContent = miss === 1 ? 'Almost! Try again 💪' : 'Listen again 🔊 and try!';
+      if (miss === 2) say(w);
+    }, 650);
+  }
+  show();
+}
+
+/* Sentence Lab: xếp câu (nghe rồi xếp thẻ từ) xen kẽ chọn từ đúng điền vào câu */
+function startGram(){
+  const d = gameData(); if (d.gram.length < 4) return;
+  const Q = shuffle(d.gram).slice(0, 8).map((g, j) => {
+    const words = g.s.replace(/[.?!]$/, '').split(' ');
+    return Object.assign({}, g, {words, end:(g.s.match(/[.?!]$/) || [''])[0], mode:j % 2 === 0 && words.length <= 8 ? 'build' : 'choose'});
+  });
+  const G = gameShell('🧩 Sentence Lab'), body = G.body;
+  let i = 0, miss = 0, lock = false, picked = [];
+  const next = () => { i++; i < Q.length ? show() : gameEnd(G, 'gram', Q.length, startGram); };
+  const head = () => `<div class="gno">${i + 1} / ${Q.length}</div>`;
+  function show(){
+    const q = Q[i]; G.prog(i, Q.length); miss = 0; lock = false; picked = [];
+    if (q.mode === 'build'){
+      let order; do { order = shuffle(q.words.map((_, j) => j)); } while (order.every((v, j) => q.words[v] === q.words[j]) && q.words.length > 1);
+      body.innerHTML = `${head()}<button class="bigsay" type="button" id="gSay">🔊 Listen</button>
+        <div class="gh">Listen and put the words in order.</div>
+        <div class="sline" id="gLine"></div>
+        <div class="tiles">${order.map(j => `<button class="tile w" type="button" data-t="${j}">${esc(q.words[j])}</button>`).join('')}</div>
+        <div class="ghint" id="gHint"></div>`;
+      paintLine();
+      $('#gSay', body).onclick = () => say(q.s);
+      G.later(() => say(q.s), 350);
+    } else {
+      const blank = q.s.replace(new RegExp('(^|[^\\w’\'])' + reEsc(q.g) + '(?![\\w’\'])'), '$1\u0000');
+      body.innerHTML = `${head()}<div class="gh">Choose the right word.</div>
+        <div class="gsent">${esc(blank).replace('\u0000', '<u>&nbsp;?&nbsp;</u>')}</div>
+        <div class="gopts" style="grid-template-columns:repeat(auto-fit,minmax(110px,1fr))">${shuffle([q.g].concat(q.x)).map(o => `<button class="gopt" type="button" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>
+        <div class="ghint" id="gHint"></div>`;
+    }
+  }
+  function paintLine(){
+    const q = Q[i];
+    $('#gLine', body).innerHTML = picked.map(j => `<button class="tile w" type="button" data-t="${j}">${esc(q.words[j])}</button>`).join('') + `<span class="dot">${q.end}</span>`;
+  }
+  body.addEventListener('click', ev => {
+    if (lock || G.done) return;
+    const q = Q[i];
+    if (q.mode === 'build'){
+      const t = ev.target.closest('.tiles .tile'), p = ev.target.closest('.sline .tile');
+      if (t && !t.classList.contains('gone')){
+        picked.push(+t.dataset.t); t.classList.add('gone'); sfx('tick'); paintLine();
+        if (picked.length === q.words.length) checkBuild();
+      } else if (p){
+        const j = +p.dataset.t; picked = picked.filter(x => x !== j);
+        $(`.tiles .tile[data-t="${j}"]`, body).classList.remove('gone'); paintLine();
+      }
+      return;
+    }
+    const b = ev.target.closest('.gopt'); if (!b) return;
+    lock = true;
+    const right = b.dataset.o === q.g;
+    $$('.gopt', body).forEach(x => { if (x.dataset.o === q.g) x.classList.add('ok'); });
+    $('.gsent u', body).textContent = q.g;
+    if (right){ G.setScore(G.score + 1); sfx('ok'); } else { b.classList.add('bad'); sfx('bad'); $('#gHint', body).textContent = '👉 ' + q.s; }
+    G.later(() => say(q.s), 300);
+    G.later(next, right ? 1900 : 3000);
+  });
+  function checkBuild(){
+    const q = Q[i], line = $('#gLine', body);
+    lock = true;
+    if (picked.every((j, n) => q.words[j] === q.words[n])){
+      line.classList.add('ok'); sfx('ok'); say(q.s);
+      if (!miss) G.setScore(G.score + 1);
+      G.later(next, 1900); return;
+    }
+    miss++; sfx('bad'); line.classList.remove('bad'); void line.offsetWidth; line.classList.add('bad');
+    if (miss >= 3){ $('#gHint', body).textContent = '👉 ' + q.s; say(q.s); G.later(next, 3400); return; }
+    G.later(() => { // giữ các từ đầu đã đúng, trả lại phần sau
+      let k = 0; while (k < picked.length && q.words[picked[k]] === q.words[k]) k++;
+      picked.slice(k).forEach(j => $(`.tiles .tile[data-t="${j}"]`, body).classList.remove('gone'));
+      picked = picked.slice(0, k); paintLine(); lock = false;
+      $('#gHint', body).textContent = k ? `Almost! The first ${k > 1 ? k + ' words are' : 'word is'} right 👍 Try again!` : 'Listen again 🔊 and try!';
+      if (miss === 2) say(q.s);
+    }, 700);
+  }
+  show();
+}
+
 function renderHome(){
   const first = String(ME.name || '').trim().split(/\s+/).pop();
   const d = gameData(), lv = 1 + Math.floor(d.stars / 6), xp = d.stars % 6;
+  const cur = d.states.find(x => !isDone(x.s));
   $('#home').innerHTML = `<section class="card hi">
       <img class="hmas" src="img/ui/mascot-1.webp" alt="">
       <div class="hiav">${avHTML('av big')}</div>
@@ -1624,14 +2028,19 @@ function renderHome(){
         <div class="stat"><b>🏁 ${d.done}</b><span>weeks done</span></div>
       </div>
       <div class="lvl"><span class="lvn">🏆 Level ${lv}</span><div class="lvbar"><i style="width:${Math.round(xp / 6 * 100)}%"></i></div><span class="lvx">⭐ ${xp}/6</span></div>
-      ${d.stars ? '' : '<p class="muted small" style="margin:10px 0 0">Your first stars are waiting for you! ⭐</p>'}
+      ${cur ? `<a class="btn orange hwgo" href="?w=${cur.w}">📒 Week ${cur.w} homework ▶</a>` : ''}
       <div class="hiedit"><button class="linkbtn" type="button" id="hiEdit">✏️ Change name / avatar</button></div>
     </section>
+    ${petHtml(d)}
+    ${gamesHtml(d)}
     ${mapHtml(d)}
-    ${reviewCard(d)}
     ${badgesHtml(d)}`;
   $('#hiEdit').onclick = showStart;
-  const b = $('#qrBtn'); if (b) b.onclick = () => { sfx('tick'); startReview(); };
+  $$('#petCard [data-egg]').forEach(b => b.onclick = () => {
+    const p = petGet(); p.egg = b.dataset.egg; lsSet(PET_KEY, p); sfx('badge'); confetti(60); renderHome();
+    toast(`🥚 Your ${PETS[p.egg].name} egg! Play a game to feed it 🍎`);
+  });
+  $$('#games [data-g]').forEach(b => b.onclick = () => { sfx('tick'); GAMES.find(x => x.id === b.dataset.g).run(); });
   drawMap(); setTimeout(drawMap, 300); // vẽ lại khi font / ảnh tải xong
   $$('#map img').forEach(im => { if (!im.complete) im.addEventListener('load', drawMap, {once:true}); });
 }
@@ -1640,7 +2049,9 @@ function showHome(){
   ['start', 'work', 'bar'].forEach(id => $('#' + id).hidden = true);
   $('#home').hidden = false;
   renderHome();
-  setTimeout(checkBadges, 700);
+  const p = petGet();
+  if (p.hatchedAt && !p.name) setTimeout(showHatch, 600); // trứng đã nở mà em chưa đặt tên
+  else { sendPet(); setTimeout(checkBadges, 700); }
 }
 
 /* ============ ĐẾM SỐ LẦN RỜI TRANG ============ */
