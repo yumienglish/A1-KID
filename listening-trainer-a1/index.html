@@ -2051,7 +2051,7 @@ function startGram(){
 }
 
 function renderHome(){
-  const first = String(ME.name || '').trim().split(/\s+/).pop();
+  const first = (typeof YA !== 'undefined' && YA && YA.me()) ? YA.me().name : String(ME.name || '').trim().split(/\s+/).pop(); // đăng nhập → nguyên nickname
   const d = gameData(), lv = 1 + Math.floor(d.stars / 6), xp = d.stars % 6;
   const cur = d.states.find(x => !isDone(x.s));
   $('#home').innerHTML = `<section class="card hi">
