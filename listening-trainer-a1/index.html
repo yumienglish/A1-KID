@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Listening Trainer A1 🎧</title>
+<title>A1 KID Trainer 🌟</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -134,7 +134,7 @@ main{position:relative;max-width:none;margin:-46px auto 0;padding:0 clamp(12px,3
   background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);white-space:nowrap}
 .mk.example{background:#0fb5c9}
 button.mk{cursor:pointer;background:#fff;color:var(--brand);border:2.5px dashed var(--brand)}
-button.mk.on{background:var(--brand);color:#fff;border-style:solid;animation:popin .35s}
+button.mk.on{background:var(--brand);color:#fff;border-style:solid;animation:popmk .35s}
 button.mk.ok{background:var(--ok);color:#fff;border:2px solid #fff}
 button.mk.bad{background:var(--bad);color:#fff;border:2px solid #fff}
 button.mk:disabled{cursor:default}
@@ -169,6 +169,41 @@ input.txt:disabled{opacity:1;-webkit-text-fill-color:currentColor}
 .fix:empty{display:none}
 .cell .fix{flex-basis:100%;padding-left:32px;line-height:1.3}
 .fix.hint{color:var(--wait);font-weight:700}
+/* bài viết: chữ xáo trộn trước ô gõ */
+.cell .cq{font-weight:800;font-size:18px}
+.cell .cq b{color:#c9661f;letter-spacing:.5px}
+.cell .cq.wide{flex-basis:100%;padding-left:32px}
+/* bài đánh ✓ / ✗ */
+.tks{grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr))}
+.cell.tk{background:#f7f8fc;border-radius:14px;padding:6px 8px 6px 12px;justify-content:space-between}
+.cell.tk .tw{font-weight:800;font-size:18px}
+.tb{display:flex;gap:6px}
+.tb button{font:inherit;font-weight:900;font-size:21px;width:46px;height:42px;border-radius:12px;border:2.5px solid #d9dcec;background:#fff;color:#8a90a8;cursor:pointer;box-shadow:0 3px 0 #d9dcec}
+.tb button.on[data-v="yes"]{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:none}
+.tb button.on[data-v="no"]{background:#6b7190;border-color:#6b7190;color:#fff;box-shadow:none}
+.cell.tk.ex0 .tb button{cursor:default}
+.cell.tk.ex0 .tb button.on{background:#0fb5c9;border-color:#0fb5c9}
+input.txt:disabled + .tb button{cursor:default;pointer-events:none}
+input.txt.ok + .tb button.on{background:var(--ok)!important;border-color:var(--ok)!important}
+input.txt.bad + .tb button.on{background:var(--bad)!important;border-color:var(--bad)!important}
+.cell.tk .fix{padding-left:0}
+/* danh sách mô tả dưới tranh (bài gắn số) */
+.dlist{list-style:none;margin:0 0 6px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:4px 14px}
+.dlist li{font-size:17px;line-height:1.35;display:flex;gap:8px;align-items:baseline}
+.dlist li b{background:var(--brand);color:#fff;border-radius:999px;min-width:28px;text-align:center;font-size:15px;padding:1px 6px;flex:none}
+.dlist li.ex0 b{background:#0fb5c9}
+/* bài nối 2 nửa câu */
+.mlist{display:flex;flex-direction:column;gap:12px}
+.mline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:18px;font-weight:700;line-height:1.35}
+.mline .rn{font-weight:900;color:var(--brand);min-width:24px}
+.mline.ex0 .rn{color:#0b8a99}
+.mlist .mk{position:static;transform:none;font-size:17px;padding:5px 14px;white-space:normal;text-align:left;box-shadow:none}
+.mlist .mk.example{border-radius:999px;color:#fff}
+.dz.mt{flex-direction:column;align-items:stretch;gap:12px;max-width:860px;margin:0 auto}
+.dz.mt .dz-side{position:static;flex:none;order:0}
+.dz.mt .namebox .nh{display:block}
+.dz.mt .dz-side .chips{flex-direction:row;flex-wrap:wrap;gap:8px}
+.dz.mt .dz-side .chip{font-size:17px;padding:5px 14px}
 
 /* bảng câu / phiếu */
 .tbl{border:3px solid #b8e05a;border-radius:16px;overflow:hidden}
@@ -187,6 +222,10 @@ input.txt:disabled{opacity:1;-webkit-text-fill-color:currentColor}
 .row .ra .exv{font-weight:900;color:#0b8a99;border-bottom:3px solid #9fdde5;padding:2px 8px;flex:1}
 .row .ra .fix{flex-basis:100%}
 .row.ex0 .rn{color:#0b8a99}
+/* bảng câu hoàn chỉnh (bài viết): bỏ cột câu hỏi */
+.tbl.sent .row{grid-template-columns:38px 1fr}
+.tbl.sent .row .rq{display:none}
+.tbl.sent .row .ra{background:#fffbea;font-size:18px;font-weight:700;padding:10px 12px;grid-column:auto}
 @media (max-width:560px){
   .row{grid-template-columns:32px 1fr}
   .row .rq{padding-bottom:2px}
@@ -279,6 +318,8 @@ body.retrying #summaryBox,body.retrying #whoBar,body.retrying .words{display:non
 
 /* ===================== GAME ===================== */
 @keyframes popin{0%{transform:scale(.7)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes popmk{0%{transform:translate(-50%,-50%) scale(.7)}60%{transform:translate(-50%,-50%) scale(1.15)}100%{transform:translate(-50%,-50%) scale(1)}}
+.mlist button.mk.on{animation:popin .35s}
 @keyframes bounce{0%{transform:scale(.6)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
 @keyframes hop{50%{transform:translateY(-6px)}}
 @keyframes fade{from{opacity:0}}
@@ -475,8 +516,8 @@ img.deco{position:absolute;top:18px;transform:translateX(-50%);width:clamp(96px,
 <header class="hero">
   <a class="home" id="homeBtn" href="../">⬅️ Home</a>
   <button class="snd" id="sndBtn" type="button">🔊</button>
-  <h1>🎧 Listening Trainer A1</h1>
-  <p id="weekSub">Listen · Play · Level up ✨</p>
+  <h1>🌟 A1 KID Trainer</h1>
+  <p id="weekSub">Listen · Write · Level up ✨</p>
 </header>
 
 <main>
@@ -522,7 +563,7 @@ img.deco{position:absolute;top:18px;transform:translateX(-50%);width:clamp(96px,
 /* ============ CẤU HÌNH ============ */
 // Tuần đang mở cho học sinh. Mỗi tuần đổi số này (và thêm bài của tuần đó vào WEEKS bên dưới).
 // Các tuần trước vẫn mở lại được từ bản đồ (?w=1, ?w=2…).
-const OPEN_WEEK = 1;
+const OPEN_WEEK = 2;
 // URL Web App của Google Apps Script (dùng chung với các trang BTVN khác)
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAom9bBpL0ms0VD7_bz5w691011llkFzttYSjKDyRyMCjLLeUZ4EZGGJLtLMFWuiV4sA/exec';
 const UNIT = 'Listening Trainer A1';
@@ -578,6 +619,22 @@ const VOCAB = {
   dinner:{w:'dinner', ipa:'/ˈdɪnə/', vi:'bữa tối'},
   must:{w:'must', ipa:'/mʌst/', vi:'phải'},
   story:{w:'story', ipa:'/ˈstɔːri/', vi:'câu chuyện'},
+  // tuần 2 (Movers Writing): ô New words
+  island:{w:'island', e:'🏝️', ipa:'/ˈaɪlənd/', vi:'hòn đảo'},
+  sand:{w:'sand', e:'🏖️', ipa:'/sænd/', vi:'cát'},
+  rock:{w:'rock', e:'🪨', ipa:'/rɒk/', vi:'tảng đá (rocks = những tảng đá)'},
+  dolphin:{w:'dolphin', e:'🐬', ipa:'/ˈdɒlfɪn/', vi:'cá heo'},
+  ship:{w:'ship', e:'🚢', ipa:'/ʃɪp/', vi:'tàu thủy (to hơn thuyền)'},
+  sail:{w:'sail', e:'⛵', ipa:'/seɪl/', vi:'cánh buồm'},
+  shoulder:{w:'shoulder', ipa:'/ˈʃəʊldə/', vi:'vai'},
+  blond:{w:'blond', e:'👱', ipa:'/blɒnd/', vi:'(tóc) vàng hoe'},
+  above:{w:'above', e:'⬆️', ipa:'/əˈbʌv/', vi:'ở phía trên'},
+  // tuần 2: từ là đáp án (hiện sau khi nộp xong)
+  cloud:{w:'cloud', e:'☁️', ipa:'/klaʊd/', vi:'đám mây'},
+  window:{w:'window', e:'🪟', ipa:'/ˈwɪndəʊ/', vi:'cửa sổ'},
+  women:{w:'women', e:'👭', ipa:'/ˈwɪmɪn/', vi:'những người phụ nữ (1 người = woman)'},
+  // tuần 2: chỉ highlight
+  scrambled:{w:'mixed up', ipa:'/mɪkst ʌp/', vi:'bị xáo trộn'},
 };
 const WEEKS = {
   1: {
@@ -670,6 +727,98 @@ const WEEKS = {
         ]},
     ],
   },
+  // Tuần 2: sách Movers Writing Skills Booklet trang 2–3 (không có audio; sách không có đáp án → đáp án tự làm theo tranh)
+  2: {
+    sub: 'Week 2 · Writing: What can you see?',
+    title: 'What can you see?',
+    skill: 'Writing',
+    book: 'Movers Writing tr.2–3',
+    newWords: ['island', 'sand', 'rock', 'dolphin', 'ship', 'sail', 'shoulder', 'blond', 'above'],
+    newWordsAfter: ['cloud', 'window', 'women'],
+    gram: [
+      {s:'I can see an island.', g:'an', x:['a', 'some']},
+      {s:'She has got an orange T-shirt.', g:'an', x:['a', 'some']},
+      {s:'He is eating an egg.', g:'an', x:['a', 'two']},
+      {s:'There are three clouds in the sky.', g:'are', x:['is', 'am']},
+      {s:'I can see two women.', g:'women', x:['woman', 'womans']},
+      {s:'There are two boys in the boat.', g:'boys', x:['boy', 'boyes']},
+      {s:'The man has got grey hair.', g:'has', x:['have', 'is']},
+      {s:'The parrot is on the rock.', g:'on', x:['in', 'at']},
+      {s:'The woman with long hair is waving.', g:'with', x:['has', 'on']},
+      {s:'The parrot which is on the boat is red.', g:'which', x:['who', 'what']},
+      {s:'The boys are sitting in the boat.', g:'sitting', x:['siting', 'sit']},
+      {s:'The old man is waving.', g:'waving', x:['waveing', 'wave']},
+      {s:'This is the smallest cloud.', g:'smallest', x:['smaller', 'small']},
+      {s:'The biggest cloud is grey.', g:'biggest', x:['bigger', 'big'], after:true},
+      {s:'The taller boy is wearing a yellow T-shirt.', g:'taller', x:['tall', 'tallest'], after:true},
+      {s:'The shorter boy’s T-shirt is orange.', g:'shorter', x:['short', 'shortest'], after:true},
+      {s:'Two parrots are flying above the house.', g:'above', x:['on', 'in'], after:true},
+      {s:'The parrot with a flower is standing on the boat.', g:'with', x:['has', 'of'], after:true},
+    ],
+    ex: [
+      { id:'1', type:'tick', src:'Sách trang 2 · A',
+        title:'What can you see?',
+        how:'Look at the picture. Can you see it? Tap <b>✓</b> (yes) or <b>✗</b> (no).',
+        hint:'Look at the picture again carefully.',
+        img:'island.jpg',
+        examples:[['an island', 'yes'], ['a plane', 'no']],
+        items:[['some sand', 'yes'], ['some rocks', 'yes'], ['two dolphins', 'no'], ['six parrots', 'yes'], ['a man', 'yes'],
+               ['a girl', 'no'], ['the sea', 'yes'], ['two ships', 'no'], ['an egg', 'no'], ['the sky', 'yes']]},
+      { id:'2', type:'list', src:'Sách trang 2 · B',
+        title:'Six more things in the picture',
+        how:'The letters are {{scrambled|mixed up}}. Write the words. Example: a <b>seuho</b> → <b>a house</b>.',
+        hint:'Use all the letters. Look at the picture!',
+        img:'island.jpg', exq:'a <b>seuho</b>', example:'a house',
+        qs:['two <b>ndowiws</b>', 'three <b>locusd</b>', 'two <b>mwone</b>', 'two <b>aotsb</b>', 'two <b>ysbo</b>'],
+        items:['windows|two windows', 'clouds|three clouds', 'women|two women', 'boats|two boats', 'boys|two boys']},
+      { id:'3', type:'picTag', src:'Sách trang 3 · A',
+        title:'Which person, which thing?',
+        how:'Read the words under the picture. Tap a <b>number</b>, then tap the <b>?</b> in the picture. Example: <b>1</b>.<span class="vn">👉 Chạm lại ô đã gắn số để gỡ ra.</span>',
+        hint:'Read the words again and look carefully at the picture.',
+        box:'👆 Numbers', img:'island.jpg', names:['2', '3', '4', '5', '6', '7', '8', '9', '10'],
+        example:{label:'1', x:5.4, y:66.0},
+        desc:{'1':'the woman with long hair', '2':'the woman with a parrot on her shoulder', '3':'the boy in an orange T-shirt',
+              '4':'the taller boy', '5':'the parrot on the boat', '6':'the parrot which is on the rock', '7':'the biggest cloud',
+              '8':'the smallest cloud', '9':'the boat with a sail', '10':'the boat which has the boys in it'},
+        marks:[
+          {k:'c1', x:55.7, y:5.0,  key:'7'},
+          {k:'c2', x:7.2,  y:19.8, key:'8'},
+          {k:'c3', x:44.6, y:27.2, key:'6'},
+          {k:'c4', x:58.1, y:54.5, key:'2'},
+          {k:'c5', x:35.2, y:69.0, key:'4'},
+          {k:'c6', x:41.1, y:74.0, key:'5'},
+          {k:'c7', x:69.0, y:74.0, key:'9'},
+          {k:'c8', x:23.1, y:82.0, key:'3'},
+          {k:'c9', x:38.8, y:82.0, key:'10'},
+        ]},
+      { id:'4', type:'match', src:'Sách trang 3 · B',
+        title:'Match the two parts',
+        how:'Tap an <b>ending</b>, then tap the <b>?</b> in the sentence. Look at the picture! There are extra endings.',
+        hint:'Look at the picture again. Is it true?',
+        box:'👆 Endings', img:'island.jpg',
+        example:{q:'The woman with a parrot on her shoulder has', label:'short grey hair.'},
+        names:['yellow T-shirt.', 'long blond hair.', 'orange T-shirt.', 'grey.', 'not got any people in it.', 'black.', 'holding a flower.', 'three people in it.', 'looking at the boat.'],
+        marks:[
+          {k:'s1', q:'The taller boy is wearing a', key:'yellow T-shirt.'},
+          {k:'s2', q:'The parrot which is on the rock is', key:'looking at the boat.'},
+          {k:'s3', q:'The biggest cloud is', key:'grey.'},
+          {k:'s4', q:'The boat with a sail has', key:'not got any people in it.'},
+        ]},
+      { id:'5', type:'table', sent:true, src:'Sách trang 3 · C',
+        title:'Complete the sentences',
+        how:'Look at the picture. Write <b>one or two words</b>.',
+        hint:'Look at the picture again. Write one or two words.',
+        img:'island.jpg', head:'Write one or two words ✏️',
+        example:['', 'In the sky, there are three', 'clouds', '.'],
+        rows:[
+          ['', 'The woman with grey hair has', 'a parrot|parrot|a red parrot|red parrot|one parrot', 'on her shoulder.'],
+          ['', 'Two parrots are flying above', 'the house|house|the trees|trees|the tree|the palm trees|palm trees|the island|island|the beach', '.'],
+          ['', 'The parrot with', 'a flower|flower|the flower|a pink flower|pink flower', 'is standing on the boat.'],
+          ['', 'The shorter boy’s', 'T-shirt|shirt|T-shirt colour', 'is orange.'],
+          ['', 'The boat which is going to', 'the island|island|the beach|the house|the man', 'doesn’t have a sail.'],
+        ]},
+    ],
+  },
 };
 
 /* ============ ĐANG XEM TRANG NÀO ============ */
@@ -681,7 +830,12 @@ const WEEK_NO = WEEKS[qW] && qW <= OPEN_WEEK ? qW : OPEN_WEEK;
 const WEEK = WEEKS[WEEK_NO];
 const storeKey = w => 'btvn-listening-trainer-a1-w' + w;
 const STORE_KEY = storeKey(WEEK_NO);
-const TITLE = 'Listening Trainer A1 – Tuần ' + WEEK_NO + (WEEK ? ' (Track ' + WEEK.ex.map(e => e.track).join(', ') + ')' : '');
+// Tên bài trong email / Sheet (giữ "Listening Trainer A1" để Sheet + bảng XP không đổi; bài viết ghi tên sách thay cho Track)
+const TITLE = 'Listening Trainer A1 – Tuần ' + WEEK_NO + (!WEEK ? '' : WEEK.book ? ' (' + WEEK.book + ')' : ' (Track ' + WEEK.ex.map(e => e.track).join(', ') + ')');
+const isTag = e => e.type === 'picTag' || e.type === 'match';
+// câu hỏi ghi trong email cho cô
+const tagQ = (e, m) => e.type === 'match' ? 'Nối câu: ' + m.q + ' …' : e.desc ? 'Số ' + m.key + ' – ' + (e.desc[m.key] || '') : 'Nối tên ' + m.key;
+const showAns = v => v === 'yes' ? '✓' : v === 'no' ? '✗' : v;
 
 /* ============ TIỆN ÍCH ============ */
 const $ = (s, r = document) => r.querySelector(s);
@@ -942,7 +1096,7 @@ function setStick(){
   document.documentElement.style.setProperty('--stick', (tb && !tb.hidden ? tb.offsetHeight + 16 : 8) + 'px');
   // khung tên bài nối tên dính ngay dưới thanh audio
   const l = $$('.listen').find(x => x.offsetHeight);
-  if (l) document.documentElement.style.setProperty('--lh', l.offsetHeight + 'px');
+  document.documentElement.style.setProperty('--lh', (l ? l.offsetHeight : 0) + 'px');
 }
 const RO = window.ResizeObserver ? new ResizeObserver(setStick) : null;
 if (RO) RO.observe($('#topbar'));
@@ -995,11 +1149,12 @@ function lev(a, b){
 // Gợi ý cho câu sai (không lộ đáp án)
 function hintFor(i){
   const e = WEEK.ex.find(x => x.id === i.sec);
-  if (e.type === 'picTag') return 'Listen again. Look at their clothes and what they are doing.';
+  if (isTag(e)) return e.hint || 'Listen again. Look at their clothes and what they are doing.';
   if (!i.ans) return 'You didn’t answer this.';
   const y = squash(i.ans);
   const near = alts(i.keyRaw).some(a => { const x = squash(a); return x.length >= 4 && lev(x, y) <= Math.max(1, Math.floor(x.length / 4)); });
   if (near) return 'Almost! Check your spelling.';
+  if (e.hint) return e.hint;
   if (e.type === 'picWrite') return 'Listen again to the spelling of the name.';
   if (e.type === 'list' && e.numeric) return 'Careful: fifteen = 15, fifty = 50.';
   if (e.type === 'list') return 'Listen again and write every letter.';
@@ -1031,12 +1186,31 @@ function exHtml(e, i){
         <div class="pic" id="pic-${e.id}"><img src="img/${e.img}" alt="" loading="lazy">
           <span class="mk example" style="${pos(e.example)}">${esc(e.example.label)}</span>
           ${e.marks.map(m => `<button type="button" class="mk" data-ex="${e.id}" data-m="${m.k}" style="${pos(m)}">?</button>`).join('')}</div>
+        ${e.desc ? `<ol class="dlist">${Object.keys(e.desc).map(n => `<li${n === e.example.label ? ' class="ex0"' : ''}><b>${esc(n)}</b><span>${esc(e.desc[n])}</span></li>`).join('')}</ol>` : ''}
         <div class="fb" id="fb-${e.id}"></div></div>
-      <aside class="dz-side"><div class="namebox"><div class="nh">👆 Names</div><div class="chips" id="chips-${e.id}"></div><div class="tip" id="tip-${e.id}"></div></div></aside></div>`;
+      <aside class="dz-side"><div class="namebox"><div class="nh">${e.box || '👆 Names'}</div><div class="chips" id="chips-${e.id}"></div><div class="tip" id="tip-${e.id}"></div></div></aside></div>`;
+  } else if (e.type === 'match'){
+    // nối 2 nửa câu: chạm phần cuối (bên phải) rồi chạm ? trong câu
+    body = `${e.img ? `<div class="pic small"><img src="img/${e.img}" alt="" loading="lazy"></div>` : ''}
+      <div class="dz mt"><div class="dz-work">
+        <div class="mlist" id="pic-${e.id}">
+          <div class="mline ex0"><span class="rn">0</span><span>${vt(e.example.q)}</span><span class="mk example">${esc(e.example.label)}</span></div>
+          ${e.marks.map((m, j) => `<div class="mline"><span class="rn">${j + 1}</span><span>${vt(m.q)}</span><button type="button" class="mk" data-ex="${e.id}" data-m="${m.k}">?</button></div>`).join('')}</div>
+        <div class="fb" id="fb-${e.id}"></div></div>
+      <aside class="dz-side"><div class="namebox"><div class="nh">${e.box || '👆 Endings'}</div><div class="chips" id="chips-${e.id}"></div><div class="tip" id="tip-${e.id}"></div></div></aside></div>`;
+  } else if (e.type === 'tick'){
+    // ✓ / ✗: ô input ẩn giữ giá trị yes/no để dùng chung cách chấm + làm lại của ô gõ chữ
+    const tb = (v, ex) => `<span class="tb">${['yes', 'no'].map(o => `<button type="button" data-v="${o}"${ex ? (v === o ? ' class="on" disabled' : ' disabled') : ''} aria-label="${o}">${o === 'yes' ? '✓' : '✗'}</button>`).join('')}</span>`;
+    body = `<div class="pic"><img src="img/${e.img}" alt="" loading="lazy"></div>
+      <div class="cells tks">${e.examples.map(([w, v]) => `<div class="cell tk ex0"><span class="tw">${esc(w)}</span>${tb(v, true)}</div>`).join('')}
+      ${e.items.map(([w], j) => { const k = e.id + '-' + (j + 1);
+        return `<div class="cell tk"><span class="tw">${esc(w)}</span><input type="hidden" class="txt" data-k="${k}">${tb('', false)}<span class="fix" id="fix-${k}"></span></div>`; }).join('')}</div>`;
   } else if (e.type === 'list'){
-    body = (e.bank ? `<div class="bank">${e.bank.map(n => `<span>${n}</span>`).join('')}</div>` : '') +
-      `<div class="cells">${e.example ? `<div class="cell ex0"><span class="cn">0.</span><span class="exv">${esc(e.example)}</span></div>` : ''}
-      ${e.items.map((_, j) => `<label class="cell"><span class="cn">${j + 1}.</span>${inp(e.id + '-' + (j + 1), 'Question ' + (j + 1), e.numeric ? 'inputmode="numeric" maxlength="3"' : '')}<span class="fix" id="fix-${e.id}-${j + 1}"></span></label>`).join('')}</div>`;
+    const q = j => e.qs && e.qs[j] ? `<span class="cq">${e.qs[j]} →</span>` : '';
+    body = (e.img ? `<div class="pic small"><img src="img/${e.img}" alt="" loading="lazy"></div>` : '') +
+      (e.bank ? `<div class="bank">${e.bank.map(n => `<span>${n}</span>`).join('')}</div>` : '') +
+      `<div class="cells${e.qs ? ' tks' : ''}">${e.example ? `<div class="cell ex0"><span class="cn">0.</span>${e.exq ? `<span class="cq">${e.exq} →</span>` : ''}<span class="exv">${esc(e.example)}</span></div>` : ''}
+      ${e.items.map((_, j) => `<label class="cell"><span class="cn">${j + 1}.</span>${q(j)}${inp(e.id + '-' + (j + 1), 'Question ' + (j + 1), e.numeric ? 'inputmode="numeric" maxlength="3"' : '')}<span class="fix" id="fix-${e.id}-${j + 1}"></span></label>`).join('')}</div>`;
   } else if (e.type === 'table'){
     const row = (n, r, isEx) => {
       const [q, pre, key, post] = r, k = e.id + '-' + n;
@@ -1045,13 +1219,13 @@ function exHtml(e, i){
         <span class="ra">${pre ? `<span>${vt(pre)}</span>` : ''}${ans}${post ? `<span>${vt(post)}</span>` : ''}${isEx ? '' : `<span class="fix" id="fix-${k}"></span>`}</span></div>`;
     };
     body = `<div class="pic small"><img src="img/${e.img}" alt="" loading="lazy"></div>
-      <div class="tbl${e.form ? ' form' : ''}"><div class="tt">${vt(e.head)}</div>
+      <div class="tbl${e.form ? ' form' : ''}${e.sent ? ' sent' : ''}"><div class="tt">${vt(e.head)}</div>
         ${row(0, e.example, true)}${e.rows.map((r, j) => row(j + 1, r, false)).join('')}</div>`;
   }
   return `<section class="card ex" id="ex${e.id}" data-s="${e.id}">
     <div class="ex-head"><span class="badge">Level ${i + 1}</span><h2>${vt(e.title)}</h2></div>
     <div class="coach"><img src="img/ui/mascot-4.webp" alt=""><p class="how">${vt(e.how)}</p></div>
-    <div class="listen"><div class="lt">🎧 Listen</div><audio class="player" controls preload="none" src="audio/${e.track}.mp3"></audio></div>
+    ${e.track ? `<div class="listen"><div class="lt">🎧 Listen</div><audio class="player" controls preload="none" src="audio/${e.track}.mp3"></audio></div>` : ''}
     ${body}
     <div class="lvnav"></div>
   </section>`;
@@ -1062,7 +1236,7 @@ function wordsHtml(){
   const ws = (WEEK.newWords || []).filter(k => VOCAB[k]);
   return `<section class="card words" id="wordsCard" data-s="w">
     <h2>🎯 Your mission</h2>
-    <ol class="mission"><li>Learn the <b>new words</b> 📒</li><li>Listen 🎧 and play <b>${WEEK.ex.length} levels</b> 🎮</li><li>Press <b>Submit ✔</b>, then fix the red answers ✏️</li></ol>
+    <ol class="mission"><li>Learn the <b>new words</b> 📒</li><li>${WEEK.ex.some(e => e.track) ? 'Listen 🎧 and play' : 'Look 👀, read 📖, write ✏️ and play'} <b>${WEEK.ex.length} levels</b> 🎮</li><li>Press <b>Submit ✔</b>, then fix the red answers ✏️</li></ol>
     ${ws.length ? `<h2>📒 New words</h2>
     <div class="note">✍️ Em nhớ chép từ mới vào vở nha! Chạm vào từ màu vàng để nghe đọc và xem nghĩa.</div>
     <div class="vgrid">${ws.map(vRow).join('')}</div>` : ''}
@@ -1089,9 +1263,17 @@ function build(){
   if (RO) $$('.listen').forEach(l => RO.observe(l));
   $$('input.txt').forEach(el => {
     el.value = S.t[el.dataset.k] || '';
-    el.addEventListener('input', () => { S.t[el.dataset.k] = el.value; save(); if (fixing()) paintFixInput(el); progress(); });
+    el.addEventListener('input', () => { S.t[el.dataset.k] = el.value; save(); if (fixing()) paintFixInput(el); paintTick(el); progress(); });
+    paintTick(el);
   });
-  WEEK.ex.filter(e => e.type === 'picTag').forEach(e => {
+  // bài ✓ / ✗: chạm nút → ghi vào ô input ẩn bên cạnh
+  $('#exList').addEventListener('click', ev => {
+    const b = ev.target.closest('.cell.tk:not(.ex0) .tb button'); if (!b) return;
+    const el = b.closest('.cell').querySelector('input.txt'); if (!el || el.disabled || S.done) return;
+    el.value = el.value === b.dataset.v ? '' : b.dataset.v; sfx('tick');
+    el.dispatchEvent(new Event('input'));
+  });
+  WEEK.ex.filter(isTag).forEach(e => {
     $('#chips-' + e.id).addEventListener('click', ev => {
       const b = ev.target.closest('.chip'); if (!b || S.done || b.classList.contains('example') || nameLocked(e, b.dataset.n)) return;
       selName[e.id] = selName[e.id] === b.dataset.n ? null : b.dataset.n;
@@ -1116,11 +1298,19 @@ function build(){
   document.addEventListener('play', ev => $$('audio').forEach(a => { if (a !== ev.target) a.pause(); }), true);
 }
 
+function paintTick(el){
+  const tb = el.type === 'hidden' && el.nextElementSibling; if (!tb || !tb.classList.contains('tb')) return;
+  $$('button', tb).forEach(b => b.classList.toggle('on', b.dataset.v === el.value));
+}
 function renderTags(e){
   const used = Object.keys(S.tag).filter(x => x.startsWith(e.id + '-')).map(x => S.tag[x]);
   $('#chips-' + e.id).innerHTML = `<button type="button" class="chip example" disabled>${esc(e.example.label)} ✓</button>` +
     e.names.map(n => `<button type="button" class="chip${selName[e.id] === n ? ' sel' : used.includes(n) ? ' used' : ''}" data-n="${esc(n)}" ${nameLocked(e, n) ? 'disabled' : ''}>${esc(n)}</button>`).join('');
-  $('#tip-' + e.id).innerHTML = S.done ? '' : selName[e.id] ? `Now tap the <b>?</b> on <b>${esc(selName[e.id])}</b>.` : '';
+  const sel = selName[e.id];
+  $('#tip-' + e.id).innerHTML = S.done || !sel ? ''
+    : e.type === 'match' ? `Now tap the <b>?</b> in the right sentence.`
+    : e.desc ? `Now tap the <b>?</b> on <b>${esc(sel)}</b>: ${esc(e.desc[sel] || '')}.`
+    : `Now tap the <b>?</b> on <b>${esc(sel)}</b>.`;
   $$(`#pic-${e.id} button.mk`).forEach(b => {
     const m = e.marks.find(x => x.k === b.dataset.m), k = e.id + '-' + m.k, v = S.tag[k] || '';
     let cls = 'mk', html = v ? esc(v) : '?';
@@ -1150,7 +1340,7 @@ const curStep = () => { const ids = stepIds(); return ids.includes(S.lv) ? S.lv 
 const exNo = id => WEEK.ex.findIndex(e => e.id === id) + 1;
 // các câu của 1 bài đã làm chưa
 function answeredOf(e){
-  if (e.type === 'picTag'){
+  if (isTag(e)){
     const n = Object.keys(S.tag).filter(x => x.startsWith(e.id + '-')).length, need = e.marks.filter(m => m.key).length;
     return Array.from({length:need}, (_, i) => i < n);
   }
@@ -1233,17 +1423,18 @@ function grade(){
   };
   WEEK.ex.forEach(e => {
     if (e.type === 'picWrite') e.marks.forEach(m => text(e.id, e.id + '-' + m.k, m.k, 'Tên người ' + m.k + ' trong tranh', m.key));
-    else if (e.type === 'list') e.items.forEach((key, j) => text(e.id, e.id + '-' + (j + 1), j + 1, (e.numeric ? 'Số câu ' : 'Từ câu ') + (j + 1), key));
+    else if (e.type === 'list') e.items.forEach((key, j) => text(e.id, e.id + '-' + (j + 1), j + 1, e.qs ? 'Viết lại: ' + unv(e.qs[j]).replace(/<[^>]+>/g, '') : (e.numeric ? 'Số câu ' : 'Từ câu ') + (j + 1), key));
+    else if (e.type === 'tick') e.items.forEach(([w, key], j) => text(e.id, e.id + '-' + (j + 1), j + 1, 'Có thấy "' + w + '" trong tranh? (yes/no)', key));
     else if (e.type === 'table') e.rows.forEach((r, j) => text(e.id, e.id + '-' + (j + 1), j + 1, unv([r[0], r[1], '_____', r[3]].filter(Boolean).join(' ')), r[2]));
-    else if (e.type === 'picTag') e.marks.filter(m => m.key).forEach(m => {
+    else if (isTag(e)) e.marks.filter(m => m.key).forEach(m => {
       const where = Object.keys(S.tag).find(x => x.startsWith(e.id + '-') && S.tag[x] === m.key);
       const ans = S.tag[e.id + '-' + m.k] || '';
-      items.push({sec:e.id, key:tagKey(e, m.key), n:m.key, q:'Nối tên ' + m.key, ans:ans ? 'gắn ' + ans : (where ? 'gắn nhầm chỗ' : '(chưa nối)'), correct:m.key, ok:ans === m.key});
+      items.push({sec:e.id, key:tagKey(e, m.key), n:m.key, q:tagQ(e, m), ans:ans ? (e.type === 'match' ? ans : 'gắn ' + ans) : (where ? 'gắn nhầm chỗ' : '(chưa nối)'), correct:m.key, ok:ans === m.key});
     });
   });
   const sections = WEEK.ex.map((e, i) => {
     const its = items.filter(x => x.sec === e.id);
-    return {id:e.id, title:`Bài ${i + 1} · Track ${e.track} · ${unv(e.title)}`, score:its.filter(x => x.ok).length, total:its.length, pending:false};
+    return {id:e.id, title:`Bài ${i + 1} · ${e.track ? 'Track ' + e.track : e.src} · ${unv(e.title)}`, score:its.filter(x => x.ok).length, total:its.length, pending:false};
   });
   return {items, sections, score:items.filter(x => x.ok).length, total:items.length};
 }
@@ -1260,12 +1451,12 @@ function paintFixInput(el){
 }
 function showFix(){
   $$('input.txt').forEach(paintFixInput);
-  WEEK.ex.filter(e => e.type === 'picTag').forEach(e => {
+  WEEK.ex.filter(isTag).forEach(e => {
     renderTags(e);
     const wrong = S.r1.items.filter(i => i.sec === e.id && i.ok === false).length, fb = $('#fb-' + e.id);
     fb.className = 'fb show ' + (wrong ? 'bad' : 'ok');
     fb.innerHTML = !wrong ? '<b>✅ All correct!</b>'
-      : retrying() ? `<b>Fix ${wrong} name${wrong > 1 ? 's' : ''}.</b> Red = wrong place.<br>💡 ${esc(hintFor({sec:e.id}))}`
+      : retrying() ? `<b>Fix ${wrong} ${e.type === 'match' ? 'ending' : e.desc ? 'number' : 'name'}${wrong > 1 ? 's' : ''}.</b> Red = wrong place.<br>💡 ${esc(hintFor({sec:e.id}))}`
       : `<b>❌ ${wrong} wrong.</b>`;
   });
   $('#bar').hidden = true; // nút ở thanh ghim đầu màn hình
@@ -1281,9 +1472,9 @@ function showFinal(){
     if (!i.key || i.key.includes(':')) return;
     const el = $(`input.txt[data-k="${i.key}"]`), fix = $('#fix-' + i.key);
     if (el){ el.disabled = true; el.classList.remove('ok', 'bad'); el.classList.add(i.ok ? 'ok' : 'bad'); }
-    if (fix){ fix.className = 'fix'; fix.textContent = i.ok ? '' : '→ ' + i.correct; }
+    if (fix){ fix.className = 'fix'; fix.textContent = i.ok ? '' : '→ ' + showAns(i.correct); }
   });
-  WEEK.ex.filter(e => e.type === 'picTag').forEach(e => {
+  WEEK.ex.filter(isTag).forEach(e => {
     renderTags(e);
     const s = RES.sections.find(x => x.id === e.id), fb = $('#fb-' + e.id);
     fb.className = 'fb show ' + (s.score === s.total ? 'ok' : 'bad');
@@ -1583,7 +1774,7 @@ function showWork(){
 /* ============ TRANG CHỦ: lời chào, sao, bản đồ, huy hiệu, ôn từ ============ */
 const BADGE_KEY = 'a1kid-badges', REV_KEY = 'a1kid-review', REV_SECS = 90;
 const HI_LINES = [
-  'Ready for a listening adventure? 🎧',
+  'Ready for an English adventure? 🌟',
   'Every new word is a new superpower! 💪',
   'Small steps every week = BIG English! 🚀',
   'Mistakes help you learn. Keep going! 🌱',
@@ -1673,7 +1864,7 @@ function mapHtml(d){
       return `<div class="mrow">${deco}<a class="st${isDone(s) ? ' done' : ''}${cur === r.x ? ' cur' : ''}" style="left:${X}%" href="?w=${w}">
         ${here === r.x ? `<span class="me">${avHTML()}</span>` : ''}
         <span class="node"><img src="img/ui/node-${w % 2 ? 2 : 1}.webp" alt="">${cur === r.x ? '<em class="go">▶ Play</em>' : ''}</span>
-        <span class="slab"><b>Week ${w} · Listening</b><span>${esc(W.title || W.sub)}</span>${tag}</span></a></div>`;
+        <span class="slab"><b>Week ${w} · ${W.skill || 'Listening'}</b><span>${esc(W.title || W.sub)}</span>${tag}</span></a></div>`;
     }).join('')}</section>`;
 }
 // vẽ đường đi nối các chặng (sau khi trang đã hiện)
