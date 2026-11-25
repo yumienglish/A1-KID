@@ -1547,10 +1547,24 @@ function renderSummary(){
         <div style="font-size:15px;color:var(--muted)">Wrong answers show the right answer (→).</div>
         <div class="status" id="sendStatus"></div>
         <a class="btn lite" href="./" style="display:inline-block;margin-top:12px;text-decoration:none">🗺️ Back to the map</a>
+        ${canRestart() ? '<button class="btn" type="button" id="restartBtn" style="margin-top:12px">🔄 Start again</button>' : ''}
       </div></div>`;
   }
   $('#summaryBox').innerHTML = html;
+  const rb = $('#restartBtn'); if (rb) rb.onclick = restartLesson;
   updateStatus();
+}
+/* ============ EM TỰ LÀM LẠI BÀI TỪ ĐẦU (chỉ tuần trong RESTART_WEEKS, sau khi xong cả 2 lần nộp) ============ */
+// Bài làm lại vẫn nộp 2 lần + gửi cô như thường, tiêu đề có "– LÀM LẠI" (không cộng thêm 🪙/XP, điểm chính vẫn là lần đầu).
+const RESTART_WEEKS = [1];
+const canRestart = () => RESTART_WEEKS.includes(WEEK_NO) && S.done && S.sent && (!S.submittedAt2 || S.sent2); // bài cũ đã gửi xong mới cho xoá
+async function restartLesson(){
+  const ok = await modal('Em muốn <b>làm lại bài Week ' + WEEK_NO + ' từ đầu</b>?<br>Bài cũ sẽ được xoá trên máy (cô vẫn giữ điểm lần đầu). Bài làm lại em vẫn nộp 2 lần như bình thường nha.', 'Làm lại từ đầu', 'Thôi, để sau');
+  if (!ok || !canRestart()) return;
+  S = Object.assign(blankState(), {name:S.name, cls:S.cls, redo:(S.redo || 0) + 1});
+  save();
+  try { sessionStorage.setItem('a1kid-restarted', '1'); } catch (e) {}
+  location.reload();
 }
 
 /* ============ GỬI BÀI ============ */
@@ -1714,8 +1728,9 @@ document.addEventListener('click', ev => { if (ev.target.closest('.avopt.photo')
 /* ============ CÁC MÀN HÌNH: nhập tên / bản đồ / bài ============ */
 function setHero(lesson){
   const h = $('#homeBtn');
+  h.hidden = !lesson; // trang chủ bản đồ là trang gốc của A1 KID → không cần nút về mục lục
   if (lesson){ h.href = './'; h.textContent = '🗺️ Map'; $('#weekSub').textContent = WEEK ? WEEK.sub : 'A1 Movers'; }
-  else { h.href = '../'; h.textContent = '⬅️ Home'; $('#weekSub').textContent = 'Listen · Play · Level up ✨'; }
+  else { $('#weekSub').textContent = 'Listen · Play · Level up ✨'; }
 }
 function showStart(){
   ['home', 'work', 'bar'].forEach(id => $('#' + id).hidden = true);
@@ -1766,6 +1781,8 @@ function showWork(){
   if (WEEK && !S.startedAt && !S.submitted) S.startedAt = new Date().toISOString();
   save();
   if (justReset) $('#redoMsg').hidden = false; // vừa mở link làm lại của cô
+  else { let r = null; try { r = sessionStorage.getItem('a1kid-restarted'); sessionStorage.removeItem('a1kid-restarted'); } catch (e) {}
+    if (r){ $('#redoMsg').innerHTML = '🔄 A fresh start! Do the lesson again from Level 1 💪<span class="vn" style="display:block;font-size:13px;font-weight:600;opacity:.8">Bài đã được làm mới, em làm lại từ đầu nhé!</span>'; $('#redoMsg').hidden = false; } }
   renderWho();
   if (S.submitted && WEEK) render(); else { progress(); showLevel(curStep(), false); }
   setStick();
@@ -2250,11 +2267,6 @@ function renderHome(){
       <div class="hiav">${avHTML('av big')}</div>
       <h2>Hi ${first ? esc(first) : 'superstar'}! 🌟</h2>
       <p class="hiline">${hiLine()}</p>
-      <div class="stats">
-        <div class="stat"><b>⭐ ${d.stars}</b><span>stars</span></div>
-        <div class="stat"><b>📒 ${d.words}</b><span>new words</span></div>
-        <div class="stat"><b>🏁 ${d.done}</b><span>weeks done</span></div>
-      </div>
       <div class="lvl"><span class="lvn">🏆 Level ${lv}</span><div class="lvbar"><i style="width:${Math.round(xp / 6 * 100)}%"></i></div><span class="lvx">⭐ ${xp}/6</span></div>
       ${cur ? `<a class="btn orange hwgo" href="?w=${cur.w}">📒 Week ${cur.w} homework ▶</a>` : ''}
       <div class="hiedit"><button class="linkbtn" type="button" id="hiEdit">✏️ ${YA ? 'Change avatar' : 'Change name / avatar'}</button></div>
