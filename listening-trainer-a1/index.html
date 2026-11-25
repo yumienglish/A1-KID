@@ -508,9 +508,12 @@ img.deco{position:absolute;top:18px;transform:translateX(-50%);width:clamp(96px,
 /* Tài khoản Yumi: nút 🏆 + Log out ở trang chủ */
 .yarow{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:12px}
 @media (prefers-reduced-motion:reduce){.hmas,.smas,img.deco,.st .me,.st.cur .node img{animation:none}}
+/* nhân vật tủ đồ (đầu) thay cho avatar con vật */
+.avchar{padding:0;background:radial-gradient(circle,#fff,#e3f7ef)}.avchar .yav{width:100%}
 </style>
 <script src="../zalo-guard.js?v=1"></script>
 <script src="/yumi-auth.js?v=1"></script>
+<script src="/avatar/avatar.js?v=1"></script>
 </head>
 <body>
 <header class="hero">
@@ -965,8 +968,13 @@ function yaSync(){ // tên + lớp lấy theo tài khoản
   const m = YA && YA.me(); if (!m) return;
   ME = Object.assign(lsGet(ME_KEY) || {}, {name:m.fullName || m.name, cls:m.cls || ''}); lsSet(ME_KEY, ME);
 }
-function yaAvatar(){ // gửi avatar lên bảng xếp hạng (ảnh tự chụp thì không gửi)
-  const a = avGet(); if (!YA || !a || a.img) return;
+const yaChar = () => { const m = YA && YA.me(); return !!(m && /^a1:\{/.test(m.avatar || '')); }; // đã có nhân vật tủ đồ A1
+const useChar = () => !!(YA && YA.me() && window.YumiAvatar); // đăng nhập → dùng nhân vật tủ đồ, không cần avatar con vật
+const needAv = () => !avGet() && !useChar();
+const AV_STYLE = {style:'a1', theme:YA_OPTS.theme};
+function wardrobe(){ if (window.YumiAvatar) YumiAvatar.open(AV_STYLE).then(() => { if (!$('#home').hidden) renderHome(); else renderWho(); }); }
+function yaAvatar(){ // gửi avatar lên bảng xếp hạng (ảnh tự chụp thì không gửi; đã có nhân vật thì bảng hiện nhân vật)
+  const a = avGet(); if (!YA || !a || a.img || yaChar()) return;
   YA.setAvatar(a.a ? new URL(`img/ui/av-${a.a.slice(1)}.webp`, location.href).pathname : a.e);
 }
 function yaHome(){
@@ -976,8 +984,13 @@ function yaHome(){
   row.appendChild(YA.trophy({theme:YA_OPTS.theme}));
   const out = document.createElement('button'); out.type = 'button'; out.className = 'linkbtn'; out.textContent = 'Log out';
   out.onclick = () => YA.logout();
+  if (window.YumiAvatar) row.appendChild(YumiAvatar.button(Object.assign({onSave:() => renderHome()}, AV_STYLE)));
   row.appendChild(out); card.appendChild(row);
-  yaAvatar(); YA.autoBoard({theme:YA_OPTS.theme});
+  yaAvatar();
+  // lần đầu: tạo nhân vật (+ hướng dẫn tân thủ) → vẽ lại trang chủ, rồi mới hiện bảng xếp hạng
+  const done = () => YA.autoBoard({theme:YA_OPTS.theme});
+  if (window.YumiAvatar) YumiAvatar.ensure(AV_STYLE).then(v => { if (v) renderHome(); else done(); }).catch(done);
+  else done();
 }
 
 /* ============ TRẠNG THÁI BÀI CỦA TUẦN ĐANG XEM ============ */
@@ -1681,7 +1694,9 @@ const AV_IMGS = Array.from({length:16}, (_, i) => 'a' + (i + 1));
 const AVATARS = ['🦊', '🐼', '🐯', '🐨', '🦄', '🐸', '🐱', '🐶', '🐵', '🦁', '🐰', '🐧'];
 const avGet = () => { const a = lsGet(AV_KEY); return a && (a.e || /^a\d+$/.test(a.a || '') || (typeof a.img === 'string' && a.img.startsWith('data:image/'))) ? a : null; };
 const avInner = a => a && a.img ? `<img src="${esc(a.img)}" alt="">` : a && a.a ? `<img src="img/ui/av-${a.a.slice(1)}.webp" alt="">` : a ? esc(a.e) : '🙂';
-const avHTML = (cls = 'av') => `<span class="${cls}">${avInner(avGet())}</span>`;
+const avHTML = (cls = 'av') => yaChar() && window.YumiAvatar
+  ? `<span class="${cls} avchar">${YumiAvatar.html(YA.me().avatar, {crop:'head'})}</span>` // nhân vật tủ đồ
+  : `<span class="${cls}">${avInner(avGet())}</span>`;
 function avPicker(){
   const a = avGet() || {};
   return `<div class="avpick">
@@ -1745,13 +1760,16 @@ function showStart(){
     $('#start h2').textContent = `👋 Hi ${m.name}!`;
     $('#start h2 + p').innerHTML = 'Choose an avatar, then press <b>Let’s go!</b> Put on your headphones 🎧';
   }
+  const hasChar = useChar(); // có tủ đồ → không cần chọn avatar con vật
+  $('#avStart').closest('.field').hidden = hasChar;
+  if (hasChar) $('#start h2 + p').innerHTML = 'Press <b>Let’s go!</b> Put on your headphones 🎧';
   window.scrollTo({top:0});
 }
 $('#startBtn').addEventListener('click', () => {
   const n = $('#inName').value.trim(), c = $('#inCls').value.trim();
   if (n.length < 2){ $('#startErr').textContent = 'Please write your full name.'; return; }
   if (!c){ $('#startErr').textContent = 'Please write your class.'; return; }
-  if (!avGet()){ $('#startErr').textContent = 'Please choose an avatar.'; $('#avStart').scrollIntoView({behavior:'smooth', block:'center'}); return; }
+  if (needAv()){ $('#startErr').textContent = 'Please choose an avatar.'; $('#avStart').scrollIntoView({behavior:'smooth', block:'center'}); return; }
   $('#startErr').textContent = '';
   ME = {name:n.slice(0, 80), cls:c.slice(0, 30)}; lsSet(ME_KEY, ME);
   sfx('pop');
@@ -1768,6 +1786,7 @@ function renderWho(){
     `<div class="avbox under" id="avBox" hidden></div>`;
   const b = $('#editName'); if (b) b.onclick = showStart;
   $('#avBtn').onclick = () => {
+    if (useChar()) return wardrobe(); // có tủ đồ → mở tủ đồ (chưa có nhân vật thì tạo luôn)
     const box = $('#avBox'); box.hidden = !box.hidden;
     if (!box.hidden) bindAvPicker(box, () => { $('#avBtn .av').outerHTML = avHTML(); yaAvatar(); });
   };
@@ -1999,7 +2018,7 @@ const GAMES = [
 function gamesHtml(d){
   const g = lsGet(GKEY) || {};
   return `<section class="card games" id="games"><h2>🎮 Games: feed your pet!</h2>
-    <p class="gsub">Win ⭐ = 🍎 for your pet · ${FOOD_DAY} 🍎 a day</p>
+    <p class="gsub">Win ⭐ = 🍎 for your pet · ${FOOD_DAY} 🍎 a day${useChar() ? ' · 5+ right = 🪙 +5 (3 times a day)' : ''}</p>
     <div class="ggrid">${GAMES.map(x => {
       const r = x.id === 'review' ? d.rev : g[x.id];
       const best = r && r.plays ? (x.id === 'review' ? `Best ${r.best}/10` : `Best ${r.best}%`) + ` · Played ${r.plays}×` : '';
@@ -2035,6 +2054,7 @@ function gameEnd(G, gid, total, again){
   const score = G.score, pct = total ? score / total : 0, r = feedPet(gid, score, total);
   if (gid !== 'review'){ const g = lsGet(GKEY) || {}, x = g[gid] || {plays:0, best:0}; x.plays++; x.best = Math.max(x.best || 0, Math.round(pct * 100)); g[gid] = x; lsSet(GKEY, g); }
   G.hatched = r.hatched;
+  if (useChar() && score >= Math.min(5, total)) YumiAvatar.gamePlayed('a1-' + gid); // +5 🪙 (≥5 câu đúng, máy chủ giới hạn 3 lượt/ngày)
   const food = r.gain ? `<span class="gfood">🍎 +${r.gain} for ${esc(petLabel(r.p))}!</span>`
     : r.st ? `<span class="gfood full">😋 Your pet is full today (${FOOD_DAY} 🍎). Come back tomorrow!<br><small>Hôm nay đủ ${FOOD_DAY} 🍎 rồi, mai cho ăn tiếp nha. Em vẫn chơi được để nhớ bài!</small></span>`
     : '<span class="gfood full">Win ⭐ to feed your pet! Try again 💪</span>';
@@ -2269,13 +2289,14 @@ function renderHome(){
       <p class="hiline">${hiLine()}</p>
       <div class="lvl"><span class="lvn">🏆 Level ${lv}</span><div class="lvbar"><i style="width:${Math.round(xp / 6 * 100)}%"></i></div><span class="lvx">⭐ ${xp}/6</span></div>
       ${cur ? `<a class="btn orange hwgo" href="?w=${cur.w}">📒 Week ${cur.w} homework ▶</a>` : ''}
-      <div class="hiedit"><button class="linkbtn" type="button" id="hiEdit">✏️ ${YA ? 'Change avatar' : 'Change name / avatar'}</button></div>
+      ${useChar() ? '' : `<div class="hiedit"><button class="linkbtn" type="button" id="hiEdit">✏️ ${YA ? 'Change avatar' : 'Change name / avatar'}</button></div>`}
     </section>
     ${petHtml(d)}
     ${gamesHtml(d)}
     ${mapHtml(d)}
     ${badgesHtml(d)}`;
-  $('#hiEdit').onclick = showStart;
+  if ($('#hiEdit')) $('#hiEdit').onclick = showStart;
+  const hav = $('#home .hiav .avchar'); if (hav){ hav.style.cursor = 'pointer'; hav.title = 'Wardrobe'; hav.onclick = wardrobe; }
   $$('#petCard [data-egg]').forEach(b => b.onclick = () => {
     const p = petGet(); p.egg = b.dataset.egg; lsSet(PET_KEY, p); sfx('badge'); confetti(60); renderHome();
     toast(`🥚 Your ${PETS[p.egg].name} egg! Play a game to feed it 🍎`);
@@ -2321,7 +2342,7 @@ paintSnd();
 function boot(){
   if (YA && !YA.me()){ YA.require(YA_OPTS).then(() => { yaSync(); boot(); }); return; } // bắt đăng nhập trước
   yaSync();
-  if (!ME.name || !avGet()) showStart();
+  if (!ME.name || needAv()) showStart();
   else if (IN_LESSON) showWork();
   else showHome();
   if (S.submitted && WEEK && (!S.sent || (S.submittedAt2 && !S.sent2))) send(); // lần trước gửi chưa xong → gửi tiếp
