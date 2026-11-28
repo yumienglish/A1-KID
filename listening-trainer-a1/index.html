@@ -187,6 +187,29 @@ input.txt:disabled + .tb button{cursor:default;pointer-events:none}
 input.txt.ok + .tb button.on{background:var(--ok)!important;border-color:var(--ok)!important}
 input.txt.bad + .tb button.on{background:var(--bad)!important;border-color:var(--bad)!important}
 .cell.tk .fix{padding-left:0}
+/* ô từ gợi ý (word bank) */
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:10px 12px;border:2.5px dashed #c9b8ff;border-radius:16px;background:#faf7ff}
+.bank span{font-weight:800;font-size:18px;background:#fff;border:2px solid #e3dcff;border-radius:999px;padding:3px 12px;color:var(--brand)}
+/* bài viết từ theo tranh */
+.cells.lpics{grid-template-columns:repeat(auto-fill,minmax(min(160px,100%),1fr))}
+.cell .lp{flex-basis:100%;width:100%;max-width:200px;aspect-ratio:1;object-fit:cover;border-radius:12px;margin:0 auto 2px;border:2px solid #e6e8f2}
+/* bài chọn tranh A / B / C hoặc chữ cái A–H */
+.cells.chs{grid-template-columns:1fr;gap:14px}
+.cell.tk.ch{display:grid;grid-template-columns:minmax(110px,170px) 1fr;gap:12px;padding:10px 12px;align-items:center}
+.cell.tk.ch.noimg{grid-template-columns:1fr}
+.ch .chq{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px}
+.ch.noimg .chq{flex-direction:row;justify-content:flex-start;text-align:left;gap:8px}
+.ch .chq img{width:100%;max-width:150px;border-radius:12px;border:2px solid #e6e8f2}
+.ch .chq .tw{font-size:19px}
+.ch .tb{gap:8px}
+.ch .tb button{width:auto;height:auto;flex:1 1 0;min-width:0;max-width:230px;padding:5px 5px 2px;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:19px}
+.ch .tb button img{display:block;width:100%;border-radius:8px;pointer-events:none}
+.ch .tb button.on{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:none}
+.ch.gal .tb{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
+@media (max-width:820px){.ch.gal .tb{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.ch.gal .tb button{max-width:none}
+.ch .fix{grid-column:1/-1}
+@media (max-width:600px){.cell.tk.ch{grid-template-columns:1fr}.ch .chq{flex-direction:row;justify-content:flex-start;text-align:left}.ch .chq img{width:84px}}
 /* danh sách mô tả dưới tranh (bài gắn số) */
 .dlist{list-style:none;margin:0 0 6px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:4px 14px}
 .dlist li{font-size:17px;line-height:1.35;display:flex;gap:8px;align-items:baseline}
@@ -571,7 +594,7 @@ img.deco{position:absolute;top:18px;transform:translateX(-50%);width:clamp(96px,
    OPEN_WEEK_SET = tuần mở tay (như trước đây). OPEN_DATES = ngày TỰ MỞ từng tuần (0h giờ Việt Nam), VD { 3: '2026-12-01', 4: '2026-12-08' }:
    đến ngày đó tuần tự mở, không cần sửa số. Chỉ tự mở khi tuần đó đã có bài trong WEEKS. */
 const OPEN_WEEK_SET = 2;
-const OPEN_DATES = {};
+const OPEN_DATES = {3: '2026-11-30'};
 // URL Web App của Google Apps Script (dùng chung với các trang BTVN khác)
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyAom9bBpL0ms0VD7_bz5w691011llkFzttYSjKDyRyMCjLLeUZ4EZGGJLtLMFWuiV4sA/exec';
 const UNIT = 'Listening Trainer A1';
@@ -643,6 +666,36 @@ const VOCAB = {
   women:{w:'women', e:'👭', ipa:'/ˈwɪmɪn/', vi:'những người phụ nữ (1 người = woman)'},
   // tuần 2: chỉ highlight
   scrambled:{w:'mixed up', ipa:'/mɪkst ʌp/', vi:'bị xáo trộn'},
+  // tuần 3 (Mini Trainer tr.8–12, Track 08–10): ô New words
+  video:{w:'video', e:'📹', ipa:'/ˈvɪdiəʊ/', vi:'đoạn phim (make a video = quay phim)'},
+  feed:{w:'feed', e:'🥩', ipa:'/fiːd/', vi:'cho (con vật) ăn (feeding = đang cho ăn)'},
+  brave:{w:'brave', e:'🦸', ipa:'/breɪv/', vi:'dũng cảm'},
+  badminton:{w:'badminton', e:'🏸', ipa:'/ˈbædmɪntən/', vi:'cầu lông'},
+  pirate:{w:'pirate', e:'🏴‍☠️', ipa:'/ˈpaɪrət/', vi:'cướp biển'},
+  whale:{w:'whale', e:'🐋', ipa:'/weɪl/', vi:'cá voi'},
+  leaf:{w:'leaf', e:'🍃', ipa:'/liːf/', vi:'chiếc lá'},
+  ticket:{w:'ticket', e:'🎫', ipa:'/ˈtɪkɪt/', vi:'vé'},
+  grandson:{w:'grandson', e:'👦', ipa:'/ˈɡrænsʌn/', vi:'cháu trai (của ông bà)'},
+  waterfall:{w:'waterfall', e:'🏞️', ipa:'/ˈwɔːtəfɔːl/', vi:'thác nước'},
+  river:{w:'river', e:'🌊', ipa:'/ˈrɪvə/', vi:'dòng sông'},
+  practise:{w:'practise', ipa:'/ˈpræktɪs/', vi:'luyện tập'},
+  // tuần 3: từ là đáp án (hiện sau khi nộp xong)
+  pool:{w:'swimming pool', e:'🏊', ipa:'/ˈswɪmɪŋ puːl/', vi:'bể bơi'},
+  farm:{w:'farm', e:'🐄', ipa:'/fɑːm/', vi:'nông trại'},
+  library:{w:'library', e:'📚', ipa:'/ˈlaɪbrəri/', vi:'thư viện'},
+  shopcentre:{w:'shopping centre', e:'🏬', ipa:'/ˈʃɒpɪŋ ˌsentə/', vi:'trung tâm mua sắm'},
+  cinema:{w:'cinema', e:'🎬', ipa:'/ˈsɪnəmə/', vi:'rạp chiếu phim'},
+  sportscentre:{w:'sports centre', e:'🏟️', ipa:'/ˈspɔːts ˌsentə/', vi:'trung tâm thể thao'},
+  iceskating:{w:'ice skating', e:'⛸️', ipa:'/ˈaɪs ˌskeɪtɪŋ/', vi:'trượt băng'},
+  rollerskating:{w:'roller skating', e:'🛼', ipa:'/ˈrəʊlə ˌskeɪtɪŋ/', vi:'trượt patin'},
+  skateboarding:{w:'skateboarding', e:'🛹', ipa:'/ˈskeɪtbɔːdɪŋ/', vi:'trượt ván'},
+  fishing:{w:'fishing', e:'🎣', ipa:'/ˈfɪʃɪŋ/', vi:'câu cá'},
+  sailing:{w:'sailing', e:'⛵', ipa:'/ˈseɪlɪŋ/', vi:'đi thuyền buồm'},
+  // tuần 3: chỉ highlight
+  village:{w:'village', ipa:'/ˈvɪlɪdʒ/', vi:'ngôi làng'},
+  station:{w:'station', ipa:'/ˈsteɪʃn/', vi:'nhà ga (tàu hoả)'},
+  carpark:{w:'car park', ipa:'/ˈkɑː pɑːk/', vi:'bãi đỗ xe ô tô'},
+  parents:{w:'parents', ipa:'/ˈpeərənts/', vi:'bố mẹ'},
 };
 const WEEKS = {
   1: {
@@ -827,6 +880,87 @@ const WEEKS = {
         ]},
     ],
   },
+  // Tuần 3: Mini Trainer tr.8–12 (Listening Part 3 + Part 4 training), Track 08–10. Bỏ bài nói tr.12 Ex 1.
+  3: {
+    sub: 'Week 3 · Listening Part 3 & Part 4',
+    title: 'Places, hobbies & family',
+    book: 'Mini Trainer tr.8–12, Track 08–10',
+    newWords: ['video', 'feed', 'brave', 'badminton', 'pirate', 'whale', 'leaf', 'ticket', 'grandson', 'waterfall', 'river', 'practise'],
+    newWordsAfter: ['pool', 'farm', 'library', 'shopcentre', 'cinema', 'sportscentre', 'iceskating', 'rollerskating', 'skateboarding', 'fishing', 'sailing'],
+    gram: [
+      {s:'She is roller skating with her friend.', g:'is', x:['are', 'am']},
+      {s:'She doesn’t like getting wet.', g:'doesn’t', x:['don’t', 'isn’t']},
+      {s:'It’s a story about a boy who is a great dancer.', g:'who', x:['which', 'what']},
+      {s:'Lions are really scary.', g:'are', x:['is', 'am']},
+      {s:'Where did you get that?', g:'did', x:['do', 'does']},
+      {s:'They sell lots of funny things there.', g:'sell', x:['sells', 'selling']},
+      {s:'I had to walk home!', g:'had', x:['have', 'has']},
+      {s:'Can I have noodles?', g:'Can', x:['Do', 'Am']},
+      {s:'I can’t find my T-shirt.', g:'can’t', x:['don’t', 'isn’t']},
+      {s:'Mom doesn’t want to go on her bike.', g:'doesn’t', x:['don’t', 'isn’t']},
+      {s:'I want to practise jumping.', g:'jumping', x:['jump', 'jumps']},
+      {s:'She likes cooking with you.', g:'cooking', x:['cook', 'cooks']},
+      {s:'He is making a video with his best friend.', g:'making', x:['make', 'makes'], after:true},
+      {s:'He is feeding the lions.', g:'feeding', x:['feed', 'feeds'], after:true},
+      {s:'They are learning badminton with their friends.', g:'learning', x:['learn', 'learns'], after:true},
+      {s:'I got it from the shop in the train station.', g:'got', x:['get', 'gets'], after:true},
+      {s:'I bought it at the bus stop.', g:'bought', x:['buy', 'buys'], after:true},
+      {s:'She is making a cake with her dad.', g:'with', x:['on', 'at'], after:true},
+    ],
+    ex: [
+      { id:'1', type:'list', src:'Sách trang 8 · Exercise 1 (Places)',
+        title:'Vocabulary: places',
+        how:'What places can you see? Choose a word from the box and write it. Example: <b>forest</b>.',
+        hint:'Look at the picture again and choose a word from the box.',
+        bank:['cinema', 'farm', 'sports centre', 'library', 'shopping centre', 'swimming pool', 'funfair'],
+        expic:'w3/place-A.jpg', example:'forest',
+        pics:['w3/place-B.jpg', 'w3/place-C.jpg', 'w3/place-D.jpg', 'w3/place-E.jpg', 'w3/place-F.jpg', 'w3/place-G.jpg', 'w3/place-H.jpg'],
+        items:['swimming pool|pool', 'farm|countryside|field|fields', 'library', 'funfair|fun fair|fair', 'shopping centre|shopping center|shopping mall|mall',
+               'cinema|movie theatre|movie theater|movies', 'sports centre|sports center|sport centre|sport center|gym']},
+      { id:'2', type:'list', src:'Sách trang 8 · Exercise 1 (Hobbies)',
+        title:'Vocabulary: hobbies',
+        how:'What are they doing? Choose a word from the box and write it. Example: <b>dancing</b>.',
+        hint:'Look at the picture again and choose a word from the box.',
+        bank:['sailing', 'ice skating', 'drawing', 'listening to music', 'fishing', 'roller skating', 'skateboarding'],
+        expic:'w3/hobby-A.jpg', example:'dancing',
+        pics:['w3/hobby-B.jpg', 'w3/hobby-C.jpg', 'w3/hobby-D.jpg', 'w3/hobby-E.jpg', 'w3/hobby-F.jpg', 'w3/hobby-G.jpg', 'w3/hobby-H.jpg'],
+        items:['listening to music|listen to music|listening music|music', 'ice skating|skating', 'skateboarding|skateboard', 'fishing|fish',
+               'drawing|draw', 'roller skating|skating', 'sailing|sail']},
+      { id:'3', type:'choose', track:'08', src:'Sách trang 9 · Exercise 2',
+        title:'Mr Snow’s family',
+        how:'Mr Snow is talking to Sarah about his family. What are the people in his family doing now? Listen and tap <b>A</b>, <b>B</b> or <b>C</b>.',
+        hint:'Listen to all of the question before you choose.',
+        example:{q:'his daughter', img:'w3/fam0-P.jpg', opts:['w3/fam0-A.jpg', 'w3/fam0-B.jpg', 'w3/fam0-C.jpg'], key:'C'},
+        rows:[
+          {q:'his son', img:'w3/fam1-P.jpg', opts:['w3/fam1-A.jpg', 'w3/fam1-B.jpg', 'w3/fam1-C.jpg'], key:'B'},
+          {q:'his brother', img:'w3/fam2-P.jpg', opts:['w3/fam2-A.jpg', 'w3/fam2-B.jpg', 'w3/fam2-C.jpg'], key:'A'},
+          {q:'his {{parents}}', img:'w3/fam3-P.jpg', opts:['w3/fam3-A.jpg', 'w3/fam3-B.jpg', 'w3/fam3-C.jpg'], key:'C'},
+        ]},
+      { id:'4', type:'choose', track:'09', src:'Sách trang 10–11 · Listening Part 3 (Exam practice)',
+        title:'What did Mr Bath get?',
+        how:'Mr Bath is telling Jill about things he got in different places. What did he get in each place? Listen and tap a letter. Example: the village → <b>B</b>.',
+        hint:'Listen again: what did Mr Bath get in this place?',
+        gallery:{A:'w3/th-A.jpg', B:'w3/th-B.jpg', C:'w3/th-C.jpg', D:'w3/th-D.jpg', E:'w3/th-E.jpg', F:'w3/th-F.jpg', G:'w3/th-G.jpg', H:'w3/th-H.jpg'},
+        example:{q:'the {{village}}', img:'w3/pl-village.jpg', key:'B'},
+        rows:[
+          {q:'the {{station}}', img:'w3/pl-station.jpg', key:'E'},
+          {q:'the bus stop', img:'w3/pl-busstop.jpg', key:'H'},
+          {q:'the {{carpark|car park}}', img:'w3/pl-carpark.jpg', key:'G'},
+          {q:'the funfair', img:'w3/pl-funfair.jpg', key:'A'},
+          {q:'the supermarket', img:'w3/pl-supermarket.jpg', key:'F'},
+        ]},
+      { id:'5', type:'choose', track:'10', src:'Sách trang 12 · Exercise 2',
+        title:'Listen and choose',
+        how:'Look at the pictures. Then listen and tap <b>A</b>, <b>B</b> or <b>C</b>.',
+        hint:'Listen to all of the conversation. Then choose.',
+        example:{q:'What does Clare want to eat?', opts:['w3/q0-A.jpg', 'w3/q0-B.jpg', 'w3/q0-C.jpg'], key:'B'},
+        rows:[
+          {q:'Which T-shirt is Nick looking for?', opts:['w3/q1-A.jpg', 'w3/q1-B.jpg', 'w3/q1-C.jpg'], key:'A'},
+          {q:'What sport does Lily want to do at the sports centre?', opts:['w3/q2-A.jpg', 'w3/q2-B.jpg', 'w3/q2-C.jpg'], key:'C'},
+          {q:'What is Kate doing?', opts:['w3/q3-A.jpg', 'w3/q3-B.jpg', 'w3/q3-C.jpg'], key:'B'},
+        ]},
+    ],
+  },
 };
 // Tuần đang mở = số lớn nhất giữa OPEN_WEEK_SET và các mục OPEN_DATES đã tới ngày (giờ VN) + đã có bài
 const OPEN_WEEK = Object.keys(OPEN_DATES).reduce((w, k) => (+k > w && WEEKS[k] && Date.parse(OPEN_DATES[k] + 'T00:00:00+07:00') <= Date.now() ? +k : w), OPEN_WEEK_SET);
@@ -953,7 +1087,8 @@ document.addEventListener('click', e => {
 window.addEventListener('resize', hidePop);
 // Hình của từ: ảnh img/words/<khoá>.webp nếu khoá có trong WORD_PICS, không thì emoji (e) trong VOCAB
 const WORD_PICS = ['cook', 'glasses', 'drop', 'cry', 'curly', 'shorts', 'helmet', 'racket', 'towel', 'stairs', 'parrot', 'nurse',
-  'pancake', 'noodles', 'circus', 'penguin', 'funfair', 'snail', 'tractor', 'building'];
+  'pancake', 'noodles', 'circus', 'penguin', 'funfair', 'snail', 'tractor', 'building',
+  'pirate', 'whale', 'leaf', 'ticket', 'pool', 'farm', 'library', 'shopcentre', 'cinema', 'sportscentre', 'iceskating', 'rollerskating', 'skateboarding', 'fishing', 'sailing'];
 const hasPic = k => !!VOCAB[k] && (WORD_PICS.includes(k) || !!VOCAB[k].e);
 const wpic = (k, cls = '') => !hasPic(k) ? '' : `<span class="wpic ${cls}">${WORD_PICS.includes(k) ? `<img src="img/words/${k}.webp" alt="">` : `<span class="we">${VOCAB[k].e}</span>`}</span>`;
 const vRow = k => `<div class="vi" style="display:flex;align-items:center;gap:10px">${wpic(k)}<span class="vtx">${vt('{{' + k + '}}')}<span class="vipa">${esc(VOCAB[k].ipa)}</span><span class="vmean">${esc(VOCAB[k].vi)}</span></span></div>`;
@@ -1227,10 +1362,19 @@ function exHtml(e, i){
         return `<div class="cell tk"><span class="tw">${esc(w)}</span><input type="hidden" class="txt" data-k="${k}">${tb('', false)}<span class="fix" id="fix-${k}"></span></div>`; }).join('')}</div>`;
   } else if (e.type === 'list'){
     const q = j => e.qs && e.qs[j] ? `<span class="cq">${e.qs[j]} →</span>` : '';
+    const lp = src => src ? `<img class="lp" src="img/${src}" alt="" loading="lazy">` : '';
     body = (e.img ? `<div class="pic small"><img src="img/${e.img}" alt="" loading="lazy"></div>` : '') +
       (e.bank ? `<div class="bank">${e.bank.map(n => `<span>${n}</span>`).join('')}</div>` : '') +
-      `<div class="cells${e.qs ? ' tks' : ''}">${e.example ? `<div class="cell ex0"><span class="cn">0.</span>${e.exq ? `<span class="cq">${e.exq} →</span>` : ''}<span class="exv">${esc(e.example)}</span></div>` : ''}
-      ${e.items.map((_, j) => `<label class="cell"><span class="cn">${j + 1}.</span>${q(j)}${inp(e.id + '-' + (j + 1), 'Question ' + (j + 1), e.numeric ? 'inputmode="numeric" maxlength="3"' : '')}<span class="fix" id="fix-${e.id}-${j + 1}"></span></label>`).join('')}</div>`;
+      `<div class="cells${e.qs ? ' tks' : ''}${e.pics ? ' lpics' : ''}">${e.example ? `<div class="cell ex0">${lp(e.expic)}<span class="cn">0.</span>${e.exq ? `<span class="cq">${e.exq} →</span>` : ''}<span class="exv">${esc(e.example)}</span></div>` : ''}
+      ${e.items.map((_, j) => `<label class="cell">${lp(e.pics && e.pics[j])}<span class="cn">${j + 1}.</span>${q(j)}${inp(e.id + '-' + (j + 1), 'Question ' + (j + 1), e.numeric ? 'inputmode="numeric" maxlength="3"' : '')}<span class="fix" id="fix-${e.id}-${j + 1}"></span></label>`).join('')}</div>`;
+  } else if (e.type === 'choose'){
+    // chọn tranh A/B/C (r.opts) hoặc chữ cái A–H (e.gallery dùng chung): ô input ẩn giữ chữ cái, chấm như ô gõ chữ
+    const gal = e.gallery ? Object.keys(e.gallery) : null;
+    const opts = (r, ex) => `<span class="tb">${(r.opts ? r.opts.map((src, j) => ['ABC'[j], src]) : gal.map(k => [k, e.gallery[k]])).map(([v, src]) =>
+      `<button type="button" data-v="${v}"${ex ? (v === r.key ? ' class="on" disabled' : ' disabled') : ''} aria-label="${v}"><img src="img/${src}" alt="" loading="lazy"><b>${v}</b></button>`).join('')}</span>`;
+    const row = (r, n, ex) => { const k = e.id + '-' + n;
+      return `<div class="cell tk ch${ex ? ' ex0' : ''}${gal ? ' gal' : ''}${r.img ? '' : ' noimg'}"><div class="chq"><span class="cn">${n}.</span>${r.img ? `<img src="img/${r.img}" alt="" loading="lazy">` : ''}<span class="tw">${vt(r.q)}</span></div>${ex ? '' : `<input type="hidden" class="txt" data-k="${k}">`}${opts(r, ex)}${ex ? '' : `<span class="fix" id="fix-${k}"></span>`}</div>`; };
+    body = `<div class="cells chs">${row(e.example, 0, true)}${e.rows.map((r, j) => row(r, j + 1, false)).join('')}</div>`;
   } else if (e.type === 'table'){
     const row = (n, r, isEx) => {
       const [q, pre, key, post] = r, k = e.id + '-' + n;
@@ -1445,6 +1589,7 @@ function grade(){
     if (e.type === 'picWrite') e.marks.forEach(m => text(e.id, e.id + '-' + m.k, m.k, 'Tên người ' + m.k + ' trong tranh', m.key));
     else if (e.type === 'list') e.items.forEach((key, j) => text(e.id, e.id + '-' + (j + 1), j + 1, e.qs ? 'Viết lại: ' + unv(e.qs[j]).replace(/<[^>]+>/g, '') : (e.numeric ? 'Số câu ' : 'Từ câu ') + (j + 1), key));
     else if (e.type === 'tick') e.items.forEach(([w, key], j) => text(e.id, e.id + '-' + (j + 1), j + 1, 'Có thấy "' + w + '" trong tranh? (yes/no)', key));
+    else if (e.type === 'choose') e.rows.forEach((r, j) => text(e.id, e.id + '-' + (j + 1), j + 1, unv(r.q) + ' → chọn ' + (e.gallery ? 'A–H' : 'A/B/C'), r.key));
     else if (e.type === 'table') e.rows.forEach((r, j) => text(e.id, e.id + '-' + (j + 1), j + 1, unv([r[0], r[1], '_____', r[3]].filter(Boolean).join(' ')), r[2]));
     else if (isTag(e)) e.marks.filter(m => m.key).forEach(m => {
       const where = Object.keys(S.tag).find(x => x.startsWith(e.id + '-') && S.tag[x] === m.key);
